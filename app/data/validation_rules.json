@@ -1,0 +1,120 @@
+{
+  "rules_version": "1.0",
+  "last_updated": "2025-10-09",
+  "claim_categories": {
+    "OPD": {
+      "rules": {
+        "same_disease_days_limit": 7,
+        "require_different_claim_code": true,
+        "claim_frequency": "once_per_diagnosis",
+        "interdepartmental_consultation_required": true
+      },
+      "required_documents": [
+        "doctor_nmc_signature",
+        "prescription_with_recommendation"
+      ],
+      "notes": "OPD cost can be claimed only once even if chain codes differ. Interdepartmental consultation requires NMC and signed prescription."
+    },
+
+    "Emergency": {
+      "rules": {
+        "claim_time": "during_discharge",
+        "max_medicine_days": 2
+      },
+      "notes": "Medicine in emergency can be claimed up to 7 days only."
+    },
+
+    "IPD": {
+      "rules": {
+        "claim_time": "after_discharge",
+        "discharge_summary_required": true
+      },
+      "required_documents": [
+        "final_diagnosis_by_nmc_doctor",
+        "hib_standard_discharge_summary"
+      ],
+      "notes": "HIB-prepared discharge summary is compulsory for IPD claims."
+    }
+  },
+
+  "general_rules": {
+    "disease_billing": {
+      "doctor_diagnosed_only": true,
+      "unrelated_treatment_claimable": false
+    },
+
+    "transfer_conditions": {
+      "from_opd_to_ipd": {
+        "phc": "opd_charge_claimable_only",
+        "hospital": "opd_and_ipd_charge_claimable"
+      }
+    },
+
+    "multiple_disease": {
+      "priority": "high_priority_treated_disease_claimable_only"
+    },
+
+    "surgery": {
+      "claim_percentage": {
+        "first_disease": 100,
+        "second_disease": 50
+      }
+    },
+
+    "medical_management": {
+      "claim_percentage": {
+        "first_disease": 100,
+        "second_disease": 50
+      },
+      "discharge_medicine_claimable": true
+    },
+
+    "surgery_package": {
+      "includes": ["pre_operative_investigation", "operative_charges"],
+      "separate_claim_not_allowed": true,
+      "notes": "Pre-operative investigations cannot be claimed separately."
+    }
+  },
+  "co-payment_method":{ 
+    "exempt_categories": ["ultra_poor", "fchv", "hiv_aids", "severe_tb", "severe_disability", "leprosy"],
+    "exempt_age": 70,
+    "exempt_hospital_types": ["phc","government"],
+    "co_payment_percentage": 10
+  },
+  "non_covered_services": {
+    "items": [
+      {
+        "name": "Spectacles",
+        "type": "optometry",
+        "annual_cost_threshold_npr": 1000,
+        "claimable": false,
+        "notes": "Spectacles costing more than NPR 1000 per year are not covered."
+      },
+      {
+        "name": "Hearing Instruments",
+        "type": "medical_device",
+        "annual_cost_threshold_npr": 5000,
+        "claimable": false,
+        "notes": "Hearing instruments costing more than NPR 5000 per year are not covered."
+      },
+      {
+        "name": "White Stick",
+        "type": "medical_device",
+        "annual_cost_threshold_npr": 1000,
+        "claimable": false,
+        "notes": "White sticks costing more than NPR 1000 per year are not covered."
+      },
+      {
+        "name": "Crutches",
+        "type": "medical_device",
+        "annual_cost_threshold_npr": 1200,
+        "claimable": false,
+        "notes": "Crutches costing more than NPR 1200 per year are not covered."
+      }
+    ],
+    "ceiling_rule": {
+      "description": "Claims must be within the ceiling of the HIB policy irrespective of quantity capping for services and items.",
+      "enforcement": "Claims capped by remaining_balance from HIB policy, overriding max_per_visit or other quantity limits if lower."
+    }
+  }
+}
