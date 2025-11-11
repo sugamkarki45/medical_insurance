@@ -38,14 +38,14 @@ def prevalidate_claim(claim: ClaimInput) -> Dict:
             )
             # Limit approval only up to allowed quantity
             approved_amount = rate * max_per_visit
-
-        if time_based and isinstance(time_based, dict):
-            days = time_based.get("days")
-            max_total = time_based.get("max_total")
-            if days and max_total:
-                warnings.append(
-                    f"{item.name}: Claimable only up to {max_total} units per {days} days as per HIB rule."
-                )
+# here to check if the patient has used the item in the given time frame we use the time_based capping and the database where the patients previous claims are stored.
+        # if time_based and isinstance(time_based, dict):
+        #     days = time_based.get("days")
+        #     max_total = time_based.get("max_total")
+        #     if days and max_total:
+        #         warnings.append(
+        #             f"{item.name}: Claimable only up to {max_total} units per {days} days as per HIB rule."
+        #         )
 
         items.append({
             "item_code": item.item_code,

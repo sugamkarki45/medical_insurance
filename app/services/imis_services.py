@@ -12,16 +12,14 @@ REMOTE_USER = os.getenv("REMOTE_USER")
 
 
 def get_auth_header():
-    """Generate IMIS basic authentication header."""
     token = base64.b64encode(f"{IMIS_USERNAME}:{IMIS_PASSWORD}".encode()).decode()
     headers = {"Authorization": f"Basic {token}"}
-    if REMOTE_USER:  # Only include remote-user if it has a value
+    if REMOTE_USER:  
         headers["remote-user"] = REMOTE_USER
     return headers
 
 
 async def get_patient_info(patient_identifier: str):
-    """Fetch patient info from IMIS."""
     url = f"{IMIS_BASE_URL}/Patient/?identifier={ patient_identifier}"
     headers = get_auth_header()
     async with httpx.AsyncClient(timeout=20.0) as client:
@@ -31,7 +29,6 @@ async def get_patient_info(patient_identifier: str):
         return None
 
 async def check_eligibility(patient_identifier: str):
-    """Check eligibility using Patient UUID from lookup."""
     patient_data = await get_patient_info(patient_identifier)
     if not patient_data or "entry" not in patient_data or not patient_data["entry"]:
         return None
@@ -49,7 +46,6 @@ async def check_eligibility(patient_identifier: str):
         return response.json() if response.status_code in [200, 201] else None
 
 async def submit_claim(payload: dict):
-    """Submit claim to IMIS."""
     url = f"{IMIS_BASE_URL}/Claim/"
     headers = get_auth_header()
     async with httpx.AsyncClient(timeout=60.0) as client:

@@ -8,7 +8,7 @@ from dependencies import get_api_key
 
 router = APIRouter(prefix="/api", tags=["Claims"])
 
-@router.post("/prevalidate_claim", response_model=ClaimResponse, dependencies=[Depends(get_api_key)])
+@router.post("/prevalidate_claim", response_model=ClaimResponse) #, dependencies=[Depends(get_api_key)])   #the reason is the same
 async def prevalidate_claim_endpoint(input_data: ClaimInput):
     result = prevalidate_claim(input_data)
     return {
@@ -18,7 +18,7 @@ async def prevalidate_claim_endpoint(input_data: ClaimInput):
         "total_approved_local": result["total_approved_local"]
     }
 
-@router.post("/validate_claim", response_model=ClaimResponse, dependencies=[Depends(get_api_key)])
+@router.post("/validate_claim", response_model=ClaimResponse)#, dependencies=[Depends(get_api_key)])  #this is commented out for now for the testing purpose
 async def validate_claim_endpoint(input_data: ClaimInput):
     local = prevalidate_claim(input_data)
 

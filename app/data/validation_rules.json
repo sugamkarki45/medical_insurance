@@ -7,7 +7,7 @@
         "same_disease_days_limit": 7,
         "require_different_claim_code": true,
         "claim_frequency": "once_per_diagnosis",
-        "interdepartmental_consultation_required": true
+        "interdepartmental_consultation_referal_required": true
       },
       "required_documents": [
         "doctor_nmc_signature",

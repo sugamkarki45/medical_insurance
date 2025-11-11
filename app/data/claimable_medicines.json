@@ -1,5 +1,20 @@
 [
   {
+  "code": "LAB140",
+  "name": "AMMONIA",
+  "type": "lab",
+  "sub_type": null,
+  "rate_npr": 500,
+  "capping": {
+    "time_based": {
+      "days": 90,
+      "max_total": 1
+    },
+    "max_per_visit": null
+  },
+  "claimable": true
+},
+  {
     "code": "MED001IVFES",
     "name": "10% DEXTROSE 500/540ML GLASS BTL.",
     "type": "medicine",
