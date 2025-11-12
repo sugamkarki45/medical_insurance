@@ -2,51 +2,69 @@
   "rules_version": "1.0",
   "last_updated": "2025-10-09",
   "claim_categories": {
-    "OPD": {
+     "OPD": {
       "rules": {
-        "same_disease_days_limit": 7,
-        "require_different_claim_code": true,
-        "claim_frequency": "once_per_diagnosis",
-        "interdepartmental_consultation_referal_required": true
+        "ticket_valid_days": 7,
+        "different_claim_code_per_day": true,
+        "different_consultations_allowed_with_same_ticket": true,
+        "require_different_claim_code_per_consultation":true
       },
-      "required_documents": [
-        "doctor_nmc_signature",
-        "prescription_with_recommendation"
+      "required_documents_for_interdepartmental_consultation_referal": [
+        "doctor_name",
+        "doctor_nmc_number",
+        "doctor_signature",
+        "reason_for_referal"
       ],
-      "notes": "OPD cost can be claimed only once even if chain codes differ. Interdepartmental consultation requires NMC and signed prescription."
+      "notes": "Diagnosis must be according to NMC and ICD 11. Provisional, Differential and final diagnosis must be written."
     },
 
     "Emergency": {
       "rules": {
         "claim_time": "during_discharge",
-        "max_medicine_days": 2
+        "max_medicine_days": 7
       },
-      "notes": "Medicine in emergency can be claimed up to 7 days only."
+      "notes": ""
     },
 
     "IPD": {
       "rules": {
-        "claim_time": "after_discharge",
-        "discharge_summary_required": true
+        "claim_time": "during_discharge"
       },
-      "required_documents": [
-        "final_diagnosis_by_nmc_doctor",
+      "required_documents_in_imis": [
+        "final_diagnosis",
+        "doctor_nmc_number",
         "hib_standard_discharge_summary"
       ],
       "notes": "HIB-prepared discharge summary is compulsory for IPD claims."
     }
   },
+  "rules_regarding_referal":{
+    "first_service_points": [
+    "primary_health_center",
+    "basic_hospital",
+    "palika_hospital"
+  ],
+  "require_referal_slip_for_emergency_cases": false,
+  "require_referal_slip_for_non_emergency_cases": true,
+  "allowed_service_type_after_referal": [
+    "referral_hospital",
+    "specialized_hospital"
+  ],
+  "description":"Except in emergency cases, referral and specialized hospital services can only be accessed with a referral slip from designated first service points."
+  },
+  
 
   "general_rules": {
+  
     "disease_billing": {
-      "doctor_diagnosed_only": true,
+      "doctor_diagnosed_only_valid": true,
       "unrelated_treatment_claimable": false
     },
-
+    "max_bed_charge_per_day":250,
     "transfer_conditions": {
       "from_opd_to_ipd": {
         "phc": "opd_charge_claimable_only",
-        "hospital": "opd_and_ipd_charge_claimable"
+        "hospital": "opd_charge_and_bed_change_claimable"
       }
     },
 
@@ -66,13 +84,13 @@
         "first_disease": 100,
         "second_disease": 50
       },
-      "discharge_medicine_claimable": true
+      "discharge_medicine_claimable_seperately": true
     },
 
     "surgery_package": {
       "includes": ["pre_operative_investigation", "operative_charges"],
-      "separate_claim_not_allowed": true,
-      "notes": "Pre-operative investigations cannot be claimed separately."
+      "preoperative_investigation_separate_claim_not_allowed": true,
+      "notes": "Pre-operative investigations cannot be claimed separately. If patient needed ICU care post-surgery, then ICU per day package can be claimed separately."
     }
   },
   "co-payment_method":{ 
