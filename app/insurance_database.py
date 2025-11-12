@@ -2,63 +2,54 @@ from sqlalchemy import (
     create_engine, Column, Integer, String, Float, Boolean,
     Date, ForeignKey, JSON
 )
-from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+from sqlalchemy.orm import declarative_base, relationship, sessionmaker, Session
 
 Base = declarative_base()
 
-# -----------------------------
-# Hospital Table
-# -----------------------------
+#patient table
+class Patient(Base):
+    __tablename__ = "patients"
+    id = Column(Integer, primary_key=True, index=True)
+    patient_code = Column(String, unique=True, nullable=False)
+    # name = Column(String, nullable=False)
+    # dob = Column(Date)
+    # gender = Column(String)
+    # phone = Column(String)
+    # address = Column(String)
+
+    # Store IMIS fetched info
+    imis_info = Column(JSON, nullable=True)
+    eligibility = Column(JSON, nullable=True)
+
+    claims = relationship("Claim", back_populates="patient")
+    imis_responses = relationship("ImisResponse", back_populates="patient")
+
+#hospital table
 class Hospital(Base):
     __tablename__ = "hospitals"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    type = Column(String, nullable=False)  # e.g., govt/private
+    type = Column(String, nullable=False)  # 'phc', 'government', 'private'
     address = Column(String)
     contact_number = Column(String)
 
-    # Relationships
     claims = relationship("Claim", back_populates="hospital")
 
 
-# -----------------------------
-# Patient Table
-# -----------------------------
-class Patient(Base):
-    __tablename__ = "patients"
-
+# prevalidation result table
+class PrevalidationResult(Base):
+    __tablename__ = "prevalidation_results"
     id = Column(Integer, primary_key=True, index=True)
-    patient_code = Column(String, unique=True, nullable=False)
-    name = Column(String, nullable=False)
-    dob = Column(Date)
-    gender = Column(String)
-    phone = Column(String)
-    address = Column(String)
+    claim_id = Column(Integer, ForeignKey("claims.id"))
+    result = Column(JSON)
+    created_at = Column(Date, nullable=False)
 
-    # Relationships
-    claims = relationship("Claim", back_populates="patient")
+    claim = relationship("Claim")
 
 
-# -----------------------------
-# Benefit Package Table
-# -----------------------------
-class BenefitPackage(Base):
-    __tablename__ = "benefit_packages"
-
-    id = Column(Integer, primary_key=True, index=True)
-    code = Column(String, unique=True, nullable=False)
-    name = Column(String, nullable=False)
-    description = Column(String)
-    rules = Column(JSON)  # e.g., co-pay, limits, frequency
-
-    # Relationships
-    claims = relationship("Claim", back_populates="benefit_package")
-
-
-# -----------------------------
+ 
 # Claim Table
-# -----------------------------
 class Claim(Base):
     __tablename__ = "claims"
 
@@ -66,7 +57,6 @@ class Claim(Base):
     claim_code = Column(String, nullable=False)
     patient_id = Column(Integer, ForeignKey("patients.id"))
     hospital_id = Column(Integer, ForeignKey("hospitals.id"))
-    package_id = Column(Integer, ForeignKey("benefit_packages.id"))
     amount_claimed = Column(Float, nullable=False)
     status = Column(String, default="pending")  # e.g., pending/approved/rejected
     claim_date = Column(Date)
@@ -74,27 +64,31 @@ class Claim(Base):
     # Relationships
     patient = relationship("Patient", back_populates="claims")
     hospital = relationship("Hospital", back_populates="claims")
-    benefit_package = relationship("BenefitPackage", back_populates="claims")
 
 
-# -----------------------------
-# Validation Rule Table (optional, if you want separate rules)
-# -----------------------------
-class ValidationRule(Base):
-    __tablename__ = "validation_rules"
+class ImisResponse(Base):
+    __tablename__ = "imis_responses"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    description = Column(String)
-    rule_json = Column(JSON)  # Stores detailed JSON rules
-    active = Column(Boolean, default=True)
+    patient_id = Column(Integer, ForeignKey("patients.id"))
+    response_type = Column(String)  # 'info' or 'eligibility'
+    response_data = Column(JSON)
+    fetched_at = Column(Date)
 
-# -----------------------------
+    patient = relationship("Patient", back_populates="imis_responses")
+
+
+
+
 # Engine & Session
-# -----------------------------
-engine = create_engine("sqlite:///insurance_local.db", echo=True)
-SessionLocal = sessionmaker(bind=engine)
+engine = create_engine("sqlite:///insurance_database.db", echo=True)
+SessionLocal = sessionmaker(autocommit=False,autoflush=False, bind=engine)
 session = SessionLocal()
-
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 # Create all tables
 Base.metadata.create_all(engine)

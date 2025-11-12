@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional,Dict, Any
 from datetime import date
 import uuid
 from enum import Enum
@@ -55,7 +55,7 @@ class ClaimInput(BaseModel):
    # total_billed: float
     hospital_type: HospitalType = Field(..., description="Type of health facility (phc, government, private)")
     #health_record: Optional[dict] = None
-    attachments: Optional[List[str]] = None
+    #attachments: Optional[List[str]] = None
 
 
 class ClaimResponse(BaseModel):
@@ -64,5 +64,12 @@ class ClaimResponse(BaseModel):
     items: List[dict]
     total_approved_local: float
     co_payment_applied: Optional[float] = None
-    deductible_applied: Optional[float] = None
-    patient_category: Optional[PatientCategory] = None
+    # deductible_applied: Optional[float] = None
+    # patient_category: Optional[PatientCategory] = None
+
+
+
+class FullClaimValidationResponse(BaseModel):
+    local_validation: Dict[str, Any]
+    imis_patient: Dict[str, Any]
+    eligibility: Dict[str, Any]
