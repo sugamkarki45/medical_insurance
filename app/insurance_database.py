@@ -11,11 +11,7 @@ class Patient(Base):
     __tablename__ = "patients"
     id = Column(Integer, primary_key=True, index=True)
     patient_code = Column(String, unique=True, nullable=False)
-    # name = Column(String, nullable=False)
-    # dob = Column(Date)
-    # gender = Column(String)
-    # phone = Column(String)
-    # address = Column(String)
+
 
     # Store IMIS fetched info
     imis_info = Column(JSON, nullable=True)
