@@ -6,7 +6,7 @@
       "rules": {
         "ticket_valid_days": 7,
         "different_claim_code_per_day": true,
-        "different_consultations_allowed_with_same_ticket": true,
+        "different_consultations_allowed_with_same_OPD_ticket": true,
         "require_different_claim_code_per_consultation":true
       },
       "required_documents_for_interdepartmental_consultation_referal": [
@@ -96,7 +96,6 @@
   "co-payment_method":{ 
     "exempt_categories": ["ultra_poor", "fchv", "hiv_aids", "severe_tb", "severe_disability", "leprosy"],
     "exempt_age": 70,
-    "exempt_hospital_types": ["phc","government"],
     "co_payment_percentage": 10
   },
   "non_covered_services": {
