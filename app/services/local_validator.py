@@ -53,18 +53,13 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
     total_approved_local = Decimal("0")
     total_copay = Decimal("0")
 
-    # ------------------------------------------------------------------
-    # 1. Load previous claims (only if patient exists in local DB)
-    # ------------------------------------------------------------------
+#to load previous claims
     previous_claims = _get_previous_claims_for_patient(db, claim.patient_id)
 
-    # ------------------------------------------------------------------
-    # 2. Category-specific rules
-    # ------------------------------------------------------------------
+#rules according to category
     category = claim.service_type  # "OPD", "IPD", "Emergency"
     cat_rules = rules["claim_categories"].get(category, {}).get("rules", {})
 
-    # ---- OPD: ticket validity & claim code uniqueness ----
     if category == "OPD":
         ticket_days = cat_rules.get("ticket_valid_days")
         if ticket_days and claim.opd_code:
@@ -92,36 +87,32 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
                 if (prev.department, getattr(prev, "diagnosis_code", None)) == key:
                     warnings.append("Same consultation (dept + diagnosis) already claimed.")
 
-    # ---- Emergency / IPD: claim time check ----
+#IPD and emergency rules implementation
     if category in ("Emergency", "IPD"):
         allowed_time = cat_rules.get("claim_time")
         if allowed_time == "during_discharge" and claim.claim_time != "discharge":
             warnings.append(f"{category} claims can only be submitted during discharge.")
 
-    # ------------------------------------------------------------------
-    # 3. Referral logic
-    # ------------------------------------------------------------------
-    referral_rules = rules["rules_regarding_referal"]
-    is_emergency = category == "Emergency"
-    requires_referral = (
-        not is_emergency and referral_rules["require_referal_slip_for_non_emergency_cases"]
-    )
+#here referral logic is not required as local validation cannot be done for that
+    # referral_rules = rules["rules_regarding_referal"]
+    # is_emergency = category == "Emergency"
+    # requires_referral = (
+    #     not is_emergency and referral_rules["require_referal_slip_for_non_emergency_cases"]
+    # )
 
-    if requires_referral:
-        if not claim.referral_slip_code:
-            warnings.append("Referral slip required for non-emergency claim.")
-        elif claim.first_service_point not in referral_rules["first_service_points"]:
-            warnings.append(
-                f"First service point must be one of: {', '.join(referral_rules['first_service_points'])}"
-            )
-        elif claim.service_type not in referral_rules["allowed_service_type_after_referal"]:
-            warnings.append(
-                f"After referral, only {', '.join(referral_rules['allowed_service_type_after_referal'])} allowed."
-            )
+    # if requires_referral:
+    #     if not claim.referral_slip_code:
+    #         warnings.append("Referral slip required for non-emergency claim.")
+    #     elif claim.first_service_point not in referral_rules["first_service_points"]:
+    #         warnings.append(
+    #             f"First service point must be one of: {', '.join(referral_rules['first_service_points'])}"
+    #         )
+    #     elif claim.service_type not in referral_rules["allowed_service_type_after_referal"]:
+    #         warnings.append(
+    #             f"After referral, only {', '.join(referral_rules['allowed_service_type_after_referal'])} allowed."
+    #         )
 
-    # ------------------------------------------------------------------
-    # 4. Process each claimable item
-    # ------------------------------------------------------------------
+#processing of claiumable items
     seen_surgery_packages = set()
     surgery_disease_count = defaultdict(int)  # disease → count of surgery claims
 
@@ -133,6 +124,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
         item_result = {
             "item_code": item.item_code,
             "item_name": item.name,
+            "quantity": item.quantity,
             "claimable": False,
             "approved_amount": 0,
             "copay_amount": 0,
@@ -242,6 +234,8 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
         # ------------------------------------------------------------------
         item_result["claimable"] = len(item_result["warnings"]) == 0 or approved_amount > 0
         item_result["approved_amount"] = float(approved_amount.quantize(Decimal("0.01")))
+
+        
 #copayment implement garna baki chha
         # Co-payment (only if not exempt)
         # patient_imis = claim.imis_patient_info or {}  # passed from API or fetched
@@ -253,7 +247,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
         total_approved_local += approved_amount
         total_copay =0
         total_copay = Decimal(total_copay) 
-        item_result["warnings"] = item_result["warnings"] or None
+        item_result["warnings"] = item_result["warnings"] 
         items_output.append(item_result)
 
     # ------------------------------------------------------------------
@@ -263,7 +257,8 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
 
     return {
         "is_locally_valid": is_valid,
-        "warnings": warnings or None,
+        "warnings": warnings ,
+        "quantity": item.quantity,
         "items": items_output,
         "total_approved_local": float(total_approved_local.quantize(Decimal("0.01"))),
         "total_copay": float(total_copay.quantize(Decimal("0.01"))),
@@ -272,21 +267,4 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
     }
 
 
-
-
-#here time based is commented for now as the checking after the response from IMIS is not yet implemented
-        # if time_based:
-        #     days = time_based.get("days")
-        #     max_total = time_based.get("max_total")
-        #     if days and max_total:
-        #         start_date = claim.visit_date - timedelta(days=days)
-        #         total_used = sum(
-        #             c.quantity for c in previous_claims
-        #             if c.item_code == item.item_code and start_date <= c.claim_date <= claim.visit_date
-        #         )
-        #         if total_used + item.quantity > max_total:
-        #             warnings.append(
-        #                 f"{item.name}: Only {max_total} units allowed per {days} days; already claimed {total_used} units"
-        #             )
-        #             approved_amount = rate * max(0, max_total - total_used)
 

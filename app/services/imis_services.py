@@ -21,7 +21,7 @@ def get_auth_header():
     return headers
 
 
-async def get_patient_info(patient_identifier: str):
+async def  get_patient_info(patient_identifier: str):
     url = f"{IMIS_BASE_URL}/Patient/?identifier={patient_identifier}"
     headers = get_auth_header()
     async with httpx.AsyncClient(timeout=20.0) as client:

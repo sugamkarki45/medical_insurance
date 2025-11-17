@@ -28,7 +28,7 @@ class ItemType(str, Enum):
 class ClaimableItem(BaseModel):
     type: ItemType = Field(..., description="Type of item (medicine, lab_test, surgery, etc.)")
     item_code: str
-    quantity: int = 1
+    quantity: int 
     cost: float
     name: str
 
@@ -70,8 +70,8 @@ class ClaimInput(BaseModel):
     diagnosis: Diagnosis
     claimable_items: List[ClaimableItem]
     hospital_type: HospitalType = Field(..., description="Type of health facility (phc, government, private)")
-    referral_slip_code: Optional[str] = None
-    first_service_point: Optional[str] = None
+    # referral_slip_code: Optional[str] = None
+    # first_service_point: Optional[str] = None
 
     @validator("service_type", pre=True)
     def normalize_service_type(cls, v):
@@ -98,6 +98,7 @@ class FullClaimValidationResponse(BaseModel):
     local_validation: Dict[str, Any]
     imis_patient: Dict[str, Any]
     eligibility: Dict[str, Any]
+    warnings: Optional[List[str]] = []
 
 
 
