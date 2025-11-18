@@ -18,28 +18,28 @@ def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[
         .all()
     )
 
+# copayment option is removed as the copayment information is directly stored in the eligibility field of patient table and we can get that from the database
+# def _is_exempt_from_copay(patient: Dict, hospital_type: str, rules: Dict) -> bool:
+#     """Check co-payment exemption based on IMIS data."""
+#     exempt = rules["co-payment_method"]
 
-def _is_exempt_from_copay(patient: Dict, hospital_type: str, rules: Dict) -> bool:
-    """Check co-payment exemption based on IMIS data."""
-    exempt = rules["co-payment_method"]
+#     # Age exemption
+#     if patient.get("age", 0) >= exempt["exempt_age"]:
+#         return True
 
-    # Age exemption
-    if patient.get("age", 0) >= exempt["exempt_age"]:
-        return True
-
-    # Category exemption
-    family_category = patient.get("family", {}).get("category", "").lower()
-    if family_category in [c.lower() for c in exempt["exempt_categories"]]:
-        return True
-
-
-    return False
+#     # Category exemption
+#     family_category = patient.get("family", {}).get("category", "").lower()
+#     if family_category in [c.lower() for c in exempt["exempt_categories"]]:
+#         return True
 
 
-def _calculate_copay(approved_amount: Decimal, is_exempt: bool, rules: Dict) -> Decimal:
-    if is_exempt:
-        return Decimal("0")
-    return (approved_amount * Decimal(str(rules["co-payment_method"]["co_payment_percentage"]))) / 100
+#     return False
+
+
+# def _calculate_copay(approved_amount: Decimal, is_exempt: bool, rules: Dict) -> Decimal:
+#     if is_exempt:
+#         return Decimal("0")
+#     return (approved_amount * Decimal(str(rules["co-payment_method"]["co_payment_percentage"]))) / 100
 
 
 def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
@@ -61,37 +61,56 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
     cat_rules = rules["claim_categories"].get(category, {}).get("rules", {})
 
     if category == "OPD":
-        ticket_days = cat_rules.get("ticket_valid_days")
-        if ticket_days and claim.opd_code:
+
+        ticket_days = cat_rules.get("ticket_valid_days", 7)
+        use_same_claim_code = cat_rules.get("use_same_claim_code_within_validity", True)
+        require_referral = cat_rules.get("require_referral_for_interdepartmental_consultation", True)
+        require_same_day_submit = cat_rules.get("submit_daily_after_service", True)
+
+        if claim.opd_code:
             for prev in previous_claims:
                 if prev.opd_code == claim.opd_code:
                     days_diff = (claim.visit_date - prev.claim_date).days
                     if 0 < days_diff < ticket_days:
+                        # OK – within validity
+                        pass
+                    elif days_diff >= ticket_days:
                         warnings.append(
-                            f"Same diagnosis claimed {days_diff} day(s) ago. "
-                            f"Must wait {ticket_days} days."
+                            f"OPD ticket expired ({days_diff} days). New ticket required."
                         )
 
-        if cat_rules.get("different_claim_code_per_day"):
-            same_day_codes = [
-                p.claim_code for p in previous_claims
-                if p.claim_date.date() == claim.visit_date.date()
-            ]
-            if claim.claim_code in same_day_codes:
-                warnings.append("Claim code must be unique per day (OPD rule).")
 
-        if cat_rules.get("require_different_claim_code_per_consultation"):
-            # Assume consultation = department + diagnosis
-            key = (claim.department, claim.diagnosis_code)
+        if use_same_claim_code:
             for prev in previous_claims:
-                if (prev.department, getattr(prev, "diagnosis_code", None)) == key:
-                    warnings.append("Same consultation (dept + diagnosis) already claimed.")
+                days_diff = (claim.visit_date - prev.claim_date).days  #previoous claim visit date need to be taken 
+                if 0 <= days_diff < ticket_days and prev.claim_code != claim.claim_code:
+                    warnings.append(
+                        "Same OPD episode detected; claim_code MUST remain the same for all visits."
+                    )
+
+# check these three rules later when the claim object is updated to have department, referral_provided, submit_date, visit_date fields
+        # if require_referral:
+        #     for prev in previous_claims:
+        #         if prev.department != claim.department:
+        #             if not claim.referral_provided:
+        #                 warnings.append(
+        #                     f"Inter-department visit requires referral documentation."
+        #                 )
+
+
+        # if require_same_day_submit:
+        #     if claim.submit_date.date() != claim.visit_date.date():
+        #         warnings.append("OPD claims must be submitted on the same date of service.")
 
 #IPD and emergency rules implementation
     if category in ("Emergency", "IPD"):
-        allowed_time = cat_rules.get("claim_time")
-        if allowed_time == "during_discharge" and claim.claim_time != "discharge":
-            warnings.append(f"{category} claims can only be submitted during discharge.")
+        submit_at_discharge = cat_rules.get("submit_at_discharge", True)
+
+        if submit_at_discharge and claim.claim_time != "discharge":
+            warnings.append(f"{category} claims must be submitted at discharge.")
+    if category == "IPD" and cat_rules.get("package_based_claim_only", True):
+        if not claim.is_package:
+            warnings.append("IPD claims must be package based according to IMIS rules.")
 
 #here referral logic is not required as local validation cannot be done for that
     # referral_rules = rules["rules_regarding_referal"]
@@ -132,7 +151,6 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
             "type": data["type"] if data else "unknown",
         }
 
-        # ---- Item not in HIB catalog ----
         if not data:
             item_result["warnings"].append("Item not found in HIB catalog.")
             items_output.append(item_result)
@@ -142,7 +160,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
         qty = Decimal(str(item.quantity))
         raw_amount = rate * qty
 
-        # ---- Non-covered services (spectacles, hearing aid, etc.) ----
+        # Non-covered services (spectacles, hearing aid, etc.) 
         non_covered = rules["non_covered_services"]["items"]
         for nc in non_covered:
             if nc["name"].lower() in item.name.lower() and not nc["claimable"]:
@@ -163,7 +181,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
                     item_result["warnings"].append(f"{nc['name']} is not covered.")
                     raw_amount = Decimal(0)
 
-        # ---- Capping (max_per_visit, time_based) ----
+        # Capping 
         capping = data.get("capping", {})
         max_per_visit = capping.get("max_per_visit") or rules.get("max_per_visit_default")
 
@@ -174,7 +192,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
             qty = Decimal(str(max_per_visit))
             raw_amount = rate * qty
 
-        # Time-based capping (e.g., 30 units per 90 days)
+        # Time-based capping 
         time_based = capping.get("time_based")
         if time_based and time_based.get("days") and time_based.get("max_total"):
             days = time_based["days"]
@@ -194,7 +212,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
 
         approved_amount = raw_amount
 
-        # ---- Surgery & Medical Management % rules ----
+        # Surgery & Medical Management  
         if data["type"] == "surgery":
             disease = claim.diagnosis_code
             surgery_disease_count[disease] += 1
@@ -214,7 +232,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
             if multiplier < 1:
                 item_result["warnings"].append(f"Medical mgmt #{order}: {int(multiplier*100)}% claimable.")
 
-        # ---- Surgery package: block separate pre-op claims ----
+        # Surgery package
         if data.get("is_surgery_package"):
             if item.item_code in seen_surgery_packages:
                 item_result["warnings"].append("Surgery package already claimed. Pre-op not allowed separately.")
@@ -222,49 +240,52 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
             else:
                 seen_surgery_packages.add(item.item_code)
 
-        # ---- Bed charge cap ----
+        # Bed charge cap 
         if "bed" in item.name.lower():
             max_bed = rules["general_rules"]["max_bed_charge_per_day"]
             if approved_amount > max_bed:
                 item_result["warnings"].append(f"Bed charge capped at NPR {max_bed}/day.")
                 approved_amount = Decimal(str(max_bed))
 
-        # ------------------------------------------------------------------
-        # 5. Finalize item
-        # ------------------------------------------------------------------
+        patient = db.query(Patient).filter(Patient.patient_code == claim.patient_id).first()
+
+#copayment calculation from eligibility field
+        raw_copay = patient.Copayment
+
+        if raw_copay is None:# if it is null or not present
+            copayment_decimal = Decimal("0")  
+        else:
+            if isinstance(raw_copay, (int, float, Decimal)):
+                copayment_decimal = Decimal(raw_copay)
+            else:#clean if it is string
+                cleaned = str(raw_copay).replace("%", "").strip()
+                if not cleaned.replace(".", "", 1).isdigit():
+                    raise ValueError(f"Invalid eligibility value: {raw_copay}")
+                copayment_decimal = Decimal(cleaned)
+
+
         item_result["claimable"] = len(item_result["warnings"]) == 0 or approved_amount > 0
         item_result["approved_amount"] = float(approved_amount.quantize(Decimal("0.01")))
 
-        
-#copayment implement garna baki chha
-        # Co-payment (only if not exempt)
-        # patient_imis = claim.imis_patient_info or {}  # passed from API or fetched
-        # is_exempt = _is_exempt_from_copay(patient_imis, claim.hospital_type, rules)
-        #copay = _calculate_copay(approved_amount, is_exempt, rules)
-        # copay = _calculate_copay(approved_amount, rules)
-        # item_result["copay_amount"] = float(copay.quantize(Decimal("0.01")))
+        copay_amount = approved_amount * copayment_decimal
+        item_result["copay_amount"] = float(copay_amount.quantize(Decimal("0.01")))
 
+        total_copay += copay_amount
         total_approved_local += approved_amount
-        total_copay =0
-        total_copay = Decimal(total_copay) 
-        item_result["warnings"] = item_result["warnings"] 
         items_output.append(item_result)
 
-    # ------------------------------------------------------------------
-    # 6. Final response
-    # ------------------------------------------------------------------
+
+        # Final validity
     is_valid = len(warnings) == 0 and all(i["claimable"] for i in items_output)
 
-    return {
+    total_claimable = total_approved_local - total_copay
+
+    return{
         "is_locally_valid": is_valid,
-        "warnings": warnings ,
-        "quantity": item.quantity,
+        "warnings": warnings,
         "items": items_output,
         "total_approved_local": float(total_approved_local.quantize(Decimal("0.01"))),
         "total_copay": float(total_copay.quantize(Decimal("0.01"))),
-        "net_payable": float((total_approved_local - total_copay).quantize(Decimal("0.01"))),
+        "net_claimable": float(total_claimable.quantize(Decimal("0.01"))),
         "applied_rules_version": rules["rules_version"],
-    }
-
-
-
+        }

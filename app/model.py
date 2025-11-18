@@ -70,8 +70,8 @@ class ClaimInput(BaseModel):
     diagnosis: Diagnosis
     claimable_items: List[ClaimableItem]
     hospital_type: HospitalType = Field(..., description="Type of health facility (phc, government, private)")
-    # referral_slip_code: Optional[str] = None
-    # first_service_point: Optional[str] = None
+    enterer_reference: Optional[str] = None  # who is entering the claim
+    facility_reference: Optional[str] = None  # health facility code
 
     @validator("service_type", pre=True)
     def normalize_service_type(cls, v):
@@ -91,7 +91,7 @@ class ClaimResponse(BaseModel):
     warnings: List[str]
     items: List[dict]
     total_approved_local: float
-    co_payment_applied: Optional[float] = None
+    # co_payment_applied: Optional[float] = None
 
 
 class FullClaimValidationResponse(BaseModel):

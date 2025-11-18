@@ -1,12 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import Optional
-from services.imis_services import get_patient_info
-from model import ClaimInput, ClaimResponse, FullClaimValidationResponse  # <-- You'll need this
+from services.imis_services import get_patient_info, extract_copayment
+from model import ClaimInput, ClaimResponse, FullClaimValidationResponse 
 from services.local_validator import prevalidate_claim
 from services import imis_services
-from dependencies import get_api_key
-from insurance_database import Claim, Patient, get_db
+from insurance_database import Claim, Patient, get_db, EligibilityCache
 
 
 router = APIRouter(tags=["Claims"])
@@ -35,8 +34,10 @@ async def get_patient(identifier: str, db: Session = Depends(get_db)):
     if not patient:
         patient = Patient(patient_code=identifier)
 
-    patient.imis_info = resource
-    patient.eligibility = copayment
+    patient.imis_full_response = imis_response["data"]
+    patient.imis_core_resource = resource
+    patient.Copayment = copayment   #here the name of the field can be made accordingly 
+
     db.add(patient)
     db.commit()
     db.refresh(patient)
@@ -45,7 +46,7 @@ async def get_patient(identifier: str, db: Session = Depends(get_db)):
 
 
 def format_patient_response(patient: Patient):
-    resource = patient.imis_info
+    resource = patient.imis_core_resource or {}
 
     return {
         "patient_code": patient.patient_code,
@@ -53,10 +54,9 @@ def format_patient_response(patient: Patient):
         "name": " ".join(resource.get("name", [{}])[0].get("given", [])),
         "birthDate": resource.get("birthDate"),
         "gender": resource.get("gender"),
-        "copayment": patient.eligibility,
-        "raw": resource  # keep full data for debugging/frontend
+        "copayment": patient.Copayment,
+        "imis": patient.imis_full_response   # full IMIS dump
     }
-
 
 @router.post("/prevalidate_claim", response_model=ClaimResponse)
 async def prevalidate_claim_endpoint(
@@ -73,19 +73,15 @@ async def prevalidate_claim_endpoint(
          • status = "draft"
     4. Return the validation result + draft claim ID
     """
-    # --------------------------------------------------------------
-    # 1. LOCAL VALIDATION (no DB touch yet)
-    # --------------------------------------------------------------
+
     local_result = prevalidate_claim(input_data, db)
 
-    # --------------------------------------------------------------
-    # 2. PATIENT – get or create (commit so we have patient.id)
-    # --------------------------------------------------------------
+#get or to create a new patient
     patient = db.query(Patient).filter(Patient.patient_code == input_data.patient_id).first()
     if not patient:
         patient = Patient(
             patient_code=input_data.patient_id,
-            last_visit_date=input_data.visit_date,   # optional early fill
+            last_visit_date=input_data.visit_date,   
         )
         db.add(patient)
         try:
@@ -98,9 +94,7 @@ async def prevalidate_claim_endpoint(
                 detail=f"Failed to save patient: {exc}"
             ) from exc
 
-    # --------------------------------------------------------------
-    # 3. CLAIM – duplicate-check + create draft
-    # --------------------------------------------------------------
+
     existing = db.query(Claim).filter(Claim.claim_code == input_data.claim_code).first()
     if existing:
         # Allow re-prevalidate – just update the draft
@@ -109,7 +103,7 @@ async def prevalidate_claim_endpoint(
     else:
         claim = Claim(
             claim_code=input_data.claim_code,
-            patient=patient,                              # <-- relationship, patient_id is set automatically          # <-- EXACT USER INPUT
+            patient=patient,                           
             amount_claimed=sum(item.cost for item in input_data.claimable_items),
             claim_date=input_data.visit_date,
             status="draft",
@@ -127,15 +121,11 @@ async def prevalidate_claim_endpoint(
             detail=f"Failed to save claim: {exc}"
         ) from exc
 
-    # --------------------------------------------------------------
-    # 4. RETURN
-    # --------------------------------------------------------------
-    return {
+    return{
         "is_locally_valid": local_result["is_locally_valid"],
         "warnings": local_result["warnings"],
         "items": local_result["items"],
         "total_approved_local": local_result["total_approved_local"],
-        "draft_claim_id": claim.id,          # optional 
     }
 
 
@@ -171,6 +161,7 @@ async def eligibility_check_endpoint(
     else:
         patient.imis_info = patient_info
         patient.eligibility = eligibility
+        patient.patient_uuid = patient_uuid
 
     try:
         db.commit()
@@ -222,14 +213,34 @@ async def submit_claim_endpoint(
         )
 
  #to ftech patient imis info
-    patient = claim.patient
-    if not patient or not patient.imis_info:
+
+    patient=claim.patient
+    patient_response = patient.imis_full_response or {}
+
+    entries = patient_response.get("entry")
+    if not entries or not isinstance(entries, list):
         raise HTTPException(
             status_code=400,
-            detail="Missing patient IMIS info. Run full validate first."
+            detail="Patient IMIS info incomplete or malformed. Run full validate first."
         )
 
-    patient_uuid = patient.imis_info["data"]["entry"][0]["resource"]["id"]
+    patient_resource = entries[0].get("resource")
+    if not patient_resource or "id" not in patient_resource:
+        raise HTTPException(
+            status_code=400,
+            detail="Patient resource missing ID. Run full validate first."
+        )
+
+    patient_uuid = patient_resource["id"]
+
+    # patient = claim.patient
+    # if not patient or not patient.imis_full_response:
+    #     raise HTTPException(
+    #         status_code=400,
+    #         detail="Missing patient IMIS info. Run full validate first."
+    #     )
+
+    # patient_uuid = patient.imis_full_response["data"]["entry"][0]["resource"]["id"]
 
     # ---------------------------
     # BUILD FHIR CLAIM PAYLOAD
@@ -261,9 +272,10 @@ async def submit_claim_endpoint(
         "total": {"value": claim.amount_claimed},
         "careType": "O",  # or dynamically from claim.service_type
         "type": {"text": "O"},  # or dynamically
-        "enterer": {"reference": claim.enterer_reference},  # optional if available
-        "facility": {"reference": claim.facility_reference},  # optional if available
-        "diagnosis": claim.diagnoses  # optional if available
+        # here these are not availabe for now but the response from posetman has these so we will comment it out for now and after this is found we will use this again
+        "enterer": {"reference": ClaimInput.enterer_reference},  
+        "facility": {"reference": ClaimInput.facility_reference},  
+        # "diagnosis": claim.diagnoses  
     }
 
 #submit to imis
@@ -289,24 +301,25 @@ async def submit_claim_endpoint(
     }
 
 
-@router.get("/claims")
-def get_claims(
-    status: Optional[str] = None,
-    patient_code: Optional[str] = None,
-    limit: int = 50,
-    offset: int = 0,
-    db: Session = Depends(get_db),
-):
-    q = db.query(Claim)
+# 1️⃣ Get all claims
+@router.get("/claims/all")
+def get_all_claims(db: Session = Depends(get_db)):
+    claims = db.query(Claim).order_by(Claim.id.desc()).all()
+    return {
+        "count": len(claims),
+        "results": claims
+    }
 
-    if status:
-        q = q.filter(Claim.status == status)
+# Get claims by patient UUID
+@router.get("/claims/patient/{patient_uuid}")
+def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
+    # Ensure the patient exists
+    patient = db.query(Patient).filter(Patient.patient_uuid == patient_uuid).first()
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found")
 
-    if patient_code:
-        q = q.join(Claim.patient).filter(Patient.patient_code == patient_code)
-
-    claims = q.order_by(Claim.id.desc()).offset(offset).limit(limit).all()
-
+    claims = db.query(Claim).filter(Claim.patient_id == patient.id).order_by(Claim.id.desc()).all()
+    
     return {
         "count": len(claims),
         "results": claims

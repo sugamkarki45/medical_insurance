@@ -119,102 +119,26 @@ async def get_claim_by_uuid(claim_uuid: str) -> dict:
         except Exception as e:
             print(f"[IMIS] get_claim_by_uuid error: {e}")
             return {"success": False, "error": str(e)}
+        
+        
+def extract_copayment(bundle: dict):
+    """
+    Extracts copayment extension value from IMIS FHIR bundle.
+    Returns None if not found.
+    """
+    try:
+        entries = bundle.get("entry", [])
+        if not entries:
+            return None
 
-# import os
-# import base64
-# import httpx
-# from dotenv import load_dotenv
-# from typing import Optional, Dict, Any
+        resource = entries[0].get("resource", {})
+        extensions = resource.get("extension", [])
 
-# load_dotenv()
+        for ext in extensions:
+            if "Copayment" in ext.get("url", ""):
+                # Prefer decimal, fallback to string
+                return ext.get("valueDecimal") or ext.get("valueString")
 
-# IMIS_BASE_URL = "http://imislegacy.hib.gov.np/api/api_fhir"
-# IMIS_USERNAME = os.getenv("IMIS_USERNAME") or ""
-# IMIS_PASSWORD = os.getenv("IMIS_PASSWORD") or ""
-# REMOTE_USER = os.getenv("REMOTE_USER", "")
-
-# if not IMIS_USERNAME or not IMIS_PASSWORD:
-#     raise ValueError("Missing IMIS credentials in environment variables.")
-
-
-# def get_auth_header():
-#     token = base64.b64encode(f"{IMIS_USERNAME}:{IMIS_PASSWORD}".encode()).decode()
-#     headers = {"Authorization": f"Basic {token}"}
-#     if REMOTE_USER:
-#         headers["remote-user"] = REMOTE_USER
-#     return headers
-
-# #
-# # ---------------------------
-# #   PATIENT LOOKUP
-# # ---------------------------
-# #
-# async def get_patient_info(identifier: str) -> Optional[Dict[str, Any]]:
-#     url = f"{IMIS_BASE_URL}/Patient/?identifier={identifier}"
-#     headers = get_auth_header()
-
-#     try:
-#         async with httpx.AsyncClient(timeout=20.0) as client:
-#             resp = await client.get(url, headers=headers)
-#     except Exception as e:
-#         print(f"[IMIS] Patient lookup error: {e}")
-#         return None
-
-#     if resp.status_code != 200:
-#         print(f"[IMIS] Patient lookup failed ({resp.status_code}): {resp.text}")
-#         return None
-
-#     data = resp.json()
-#     if not data.get("entry"):
-#         return None
-
-#     return data
-
-
-# #
-# # ---------------------------
-# #   ELIGIBILITY CHECK
-# # ---------------------------
-# #
-# async def check_eligibility(patient_uuid: str) -> Optional[Dict[str, Any]]:
-#     url = f"{IMIS_BASE_URL}/EligibilityRequest/"
-#     headers = get_auth_header()
-#     payload = {
-#         "resourceType": "EligibilityRequest",
-#         "patient": {"reference": f"Patient/{patient_uuid}"}
-#     }
-
-#     try:
-#         async with httpx.AsyncClient(timeout=30.0) as client:
-#             resp = await client.post(url, headers=headers, json=payload)
-#     except Exception as e:
-#         print(f"[IMIS] Eligibility error: {e}")
-#         return None
-
-#     if resp.status_code // 100 != 2:
-#         print(f"[IMIS] Eligibility failed ({resp.status_code}): {resp.text}")
-#         return None
-
-#     return resp.json()
-
-
-# #
-# # ---------------------------
-# #   CLAIM SUBMISSION
-# # ---------------------------
-# #
-# async def submit_claim(payload: dict) -> dict:
-#     url = f"{IMIS_BASE_URL}/Claim/"
-#     headers = get_auth_header()
-
-#     try:
-#         async with httpx.AsyncClient(timeout=60.0) as client:
-#             resp = await client.post(url, headers=headers, json=payload)
-#     except Exception as e:
-#         return {"success": False, "error": str(e)}
-
-#     return {
-#         "success": resp.status_code // 100 == 2,
-#         "status": resp.status_code,
-#         "data": resp.json() if resp.headers.get("content-type", "").startswith("application/json") else resp.text,
-#     }
+        return None
+    except Exception:
+        return None
