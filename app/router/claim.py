@@ -5,6 +5,7 @@ from services.imis_services import get_patient_info, extract_copayment
 from model import ClaimInput, ClaimResponse, FullClaimValidationResponse 
 from services.local_validator import prevalidate_claim
 from services import imis_services
+from dependencies import get_api_key
 from insurance_database import Claim, Patient, get_db, EligibilityCache
 
 
@@ -57,142 +58,179 @@ def format_patient_response(patient: Patient):
         "copayment": patient.Copayment,
         "imis": patient.imis_full_response   # full IMIS dump
     }
+# here we are commenting this endpoint as we are combining prevalidate and eligibility check into one endpoint called Eligibility_check and we can keep this endpoint if we need to perform local validation only without imis check
+# @router.post("/prevalidate_claim", response_model=ClaimResponse)
+# async def prevalidate_claim_endpoint(
+#     input_data: ClaimInput,
+#     db: Session = Depends(get_db),
+#     # api_key: str = Depends(get_api_key),  # Uncomment when auth is ready
+# ):
+#     """
+#     1. Run local validation
+#     2. Persist a *draft* patient (if new)
+#     3. Persist a *draft* claim with:
+#          • input_snapshot  – exact JSON the user sent
+#          • prevalidation_result
+#          • status = "draft"
+#     4. Return the validation result + draft claim ID
+#     """
 
-@router.post("/prevalidate_claim", response_model=ClaimResponse)
-async def prevalidate_claim_endpoint(
-    input_data: ClaimInput,
-    db: Session = Depends(get_db),
-    # api_key: str = Depends(get_api_key),  # Uncomment when auth is ready
-):
-    """
-    1. Run local validation
-    2. Persist a *draft* patient (if new)
-    3. Persist a *draft* claim with:
-         • input_snapshot  – exact JSON the user sent
-         • prevalidation_result
-         • status = "draft"
-    4. Return the validation result + draft claim ID
-    """
+#     local_result = prevalidate_claim(input_data, db)
 
-    local_result = prevalidate_claim(input_data, db)
-
-#get or to create a new patient
-    patient = db.query(Patient).filter(Patient.patient_code == input_data.patient_id).first()
-    if not patient:
-        patient = Patient(
-            patient_code=input_data.patient_id,
-            last_visit_date=input_data.visit_date,   
-        )
-        db.add(patient)
-        try:
-            db.commit()
-            db.refresh(patient)
-        except Exception as exc:
-            db.rollback()
-            raise HTTPException(
-                status_code=500,
-                detail=f"Failed to save patient: {exc}"
-            ) from exc
+# #get or to create a new patient
+#     patient = db.query(Patient).filter(Patient.patient_code == input_data.patient_id).first()
+#     if not patient:
+#         patient = Patient(
+#             patient_code=input_data.patient_id,
+#             last_visit_date=input_data.visit_date,   
+#         )
+#         db.add(patient)
+#         try:
+#             db.commit()
+#             db.refresh(patient)
+#         except Exception as exc:
+#             db.rollback()
+#             raise HTTPException(
+#                 status_code=500,
+#                 detail=f"Failed to save patient: {exc}"
+#             ) from exc
 
 
-    existing = db.query(Claim).filter(Claim.claim_code == input_data.claim_code).first()
-    if existing:
-        # Allow re-prevalidate – just update the draft
-        claim = existing
-        claim.status = "draft"
-    else:
-        claim = Claim(
-            claim_code=input_data.claim_code,
-            patient=patient,                           
-            amount_claimed=sum(item.cost for item in input_data.claimable_items),
-            claim_date=input_data.visit_date,
-            status="draft",
-            prevalidation_result=local_result,
-        )
-        db.add(claim)
+#     existing = db.query(Claim).filter(Claim.claim_code == input_data.claim_code).first()
+#     if existing:
+#         # Allow re-prevalidate – just update the draft
+#         claim = existing
+#         claim.status = "draft"
+#     else:
+#         claim = Claim(
+#             claim_code=input_data.claim_code,
+#             patient=patient,                           
+#             amount_claimed=sum(item.cost for item in input_data.claimable_items),
+#             claim_date=input_data.visit_date,
+#             status="draft",
+#             prevalidation_result=local_result,
+#         )
+#         db.add(claim)
 
-    try:
-        db.commit()
-        db.refresh(claim)
-    except Exception as exc:
-        db.rollback()
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to save claim: {exc}"
-        ) from exc
+#     try:
+#         db.commit()
+#         db.refresh(claim)
+#     except Exception as exc:
+#         db.rollback()
+#         raise HTTPException(
+#             status_code=500,
+#             detail=f"Failed to save claim: {exc}"
+#         ) from exc
 
-    return{
-        "is_locally_valid": local_result["is_locally_valid"],
-        "warnings": local_result["warnings"],
-        "items": local_result["items"],
-        "total_approved_local": local_result["total_approved_local"],
-    }
+#     return{
+#         "is_locally_valid": local_result["is_locally_valid"],
+#         "warnings": local_result["warnings"],
+#         "items": local_result["items"],
+#         "total_approved_local": local_result["total_approved_local"],
+#     }
 
 
 @router.post("/Eligibility_check", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
     input_data: ClaimInput,
     db: Session = Depends(get_db),
-    # api_key: str = Depends(get_api_key),
+    #api_key: str = Depends(get_api_key),
 ):
+    # Local validation 
+    local = prevalidate_claim(input_data, db)
 
-    local = prevalidate_claim(input_data,db)
-
-    # --- IMIS: patient lookup ---
+    # IMIS patient lookup
     patient_info = await imis_services.get_patient_info(input_data.patient_id)
-    if not patient_info["success"] or not patient_info["data"] \
-    or "entry" not in patient_info["data"] \
-    or not patient_info["data"]["entry"]:
+    if not (patient_info.get("success") and patient_info.get("data", {}).get("entry")):
         raise HTTPException(status_code=404, detail="Patient not found in IMIS")
 
+
     patient_uuid = patient_info["data"]["entry"][0]["resource"]["id"]
+
+
     eligibility = await imis_services.check_eligibility(input_data.patient_id)
 
-
-    # --- Patient: upsert in local DB ---
+    # Patient: upsert in local DB 
     patient = db.query(Patient).filter_by(patient_code=input_data.patient_id).first()
+
     if not patient:
         patient = Patient(
             patient_code=input_data.patient_id,
+            patient_uuid=patient_uuid,
             imis_info=patient_info,
             eligibility=eligibility,
         )
         db.add(patient)
     else:
+        patient.patient_uuid = patient_uuid
         patient.imis_info = patient_info
         patient.eligibility = eligibility
-        patient.patient_uuid = patient_uuid
 
     try:
         db.commit()
         db.refresh(patient)
+    except Exception:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Failed to update patient")
+
+#use of eligibility to create eligibility cache
+    elig = eligibility or {}
+
+    category = elig.get("category")
+    allowed_money = elig.get("allowed_money")
+    used_money = elig.get("used_money")
+    policy_id = elig.get("policy_id")
+    policy_expiry = elig.get("policy_expiry")
+
+    cache_entry = EligibilityCache(
+        patient_uuid=patient_uuid,
+        category=category,
+        allowed_money=allowed_money,
+        used_money=used_money,
+        policy_id=policy_id,
+        policy_expiry=policy_expiry,
+        raw_response=eligibility,
+    )
+
+    db.add(cache_entry)
+
+    try:
+        db.commit()
+        db.refresh(cache_entry)
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=500, detail="Failed to update patient") from e
+        print("ELIG CACHE ERROR:", e)  
+        raise HTTPException(status_code=500, detail=str(e))
 
-    # --- Claim: create ---
+
     claim = Claim(
         claim_code=input_data.claim_code,
+        opd_code=input_data.opd_code,
         patient_id=patient.id,
         amount_claimed=sum(item.cost for item in input_data.claimable_items),
         claim_date=input_data.visit_date,
         status="pending",
         prevalidation_result=local,
+        enterer_reference=input_data.enterer_reference,
+        facility_reference=input_data.facility_reference,
     )
+
     db.add(claim)
+
     try:
         db.commit()
         db.refresh(claim)
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=500, detail="Failed to save claim") from e
+        print("CLAIM SAVE ERROR:", e)
+        raise HTTPException(status_code=500, detail=str(e))
 
     return {
         "local_validation": local,
         "imis_patient": patient_info,
         "eligibility": eligibility,
     }
-
+ 
 
 
 
@@ -270,7 +308,7 @@ async def submit_claim_endpoint(
             for i, item in enumerate(claim.prevalidation_result["items"])
         ],
         "total": {"value": claim.amount_claimed},
-        "careType": "O",  # or dynamically from claim.service_type
+        "careType": ClaimInput.service_type,
         "type": {"text": "O"},  # or dynamically
         # here these are not availabe for now but the response from posetman has these so we will comment it out for now and after this is found we will use this again
         "enterer": {"reference": ClaimInput.enterer_reference},  
@@ -301,7 +339,6 @@ async def submit_claim_endpoint(
     }
 
 
-# 1️⃣ Get all claims
 @router.get("/claims/all")
 def get_all_claims(db: Session = Depends(get_db)):
     claims = db.query(Claim).order_by(Claim.id.desc()).all()
