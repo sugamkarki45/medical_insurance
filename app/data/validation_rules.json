@@ -4,49 +4,81 @@
   "claim_categories": {
     "OPD": {
       "rules": {
-        "same_disease_days_limit": 7,
-        "require_different_claim_code": true,
-        "claim_frequency": "once_per_diagnosis",
-        "interdepartmental_consultation_required": true
+        "ticket_valid_days": 7,
+        "single_ticket_per_episode": true,
+        "use_same_claim_code_within_validity": true,
+        "allow_multiple_consultations": true,
+        "require_referral_for_interdepartmental_consultation": true,
+        "submit_daily_after_service": true,
+        "map_followup_to_same_claim_within_validity": true,
+        "require_nmc_and_diagnosis": true
       },
-      "required_documents": [
-        "doctor_nmc_signature",
-        "prescription_with_recommendation"
+      "required_referral_documents": [
+        "referring_doctor_name",
+        "referring_doctor_nmc_number",
+        "referral_reason",
+        "referral_signature"
       ],
-      "notes": "OPD cost can be claimed only once even if chain codes differ. Interdepartmental consultation requires NMC and signed prescription."
+      "notes": [
+        "Diagnosis must follow ICD-11.",
+        "Provisional, differential, and final diagnosis must be recorded.",
+        "All consultations within 7 days use same OPD claim code."
+      ]
     },
 
     "Emergency": {
       "rules": {
-        "claim_time": "during_discharge",
-        "max_medicine_days": 2
+        "submit_at_discharge": true,
+        "max_medicine_days": 7
       },
-      "notes": "Medicine in emergency can be claimed up to 7 days only."
+      "notes": []
     },
 
     "IPD": {
       "rules": {
-        "claim_time": "after_discharge",
-        "discharge_summary_required": true
+        "submit_at_discharge": true,
+        "package_based_claim_only": true,
+        "require_final_diagnosis": true,
+        "require_doctor_nmc": true
       },
       "required_documents": [
-        "final_diagnosis_by_nmc_doctor",
-        "hib_standard_discharge_summary"
+        "final_diagnosis",
+        "doctor_nmc_number",
+        "hib_discharge_summary"
       ],
-      "notes": "HIB-prepared discharge summary is compulsory for IPD claims."
+      "notes": [
+        "Submission must strictly follow IMIS package guidelines."
+      ]
     }
   },
 
+  "referral_rules": {
+    "first_contact_points": [
+      "primary_health_center",
+      "basic_hospital",
+      "municipality_hospital"
+    ],
+    "require_referral_for_non_emergency": true,
+    "require_referral_for_emergency": false,
+    "allowed_referred_service_levels": [
+      "referral_hospital",
+      "specialized_hospital"
+    ],
+    "description": "Only emergency cases may bypass referral rules."
+  },
+  
+
   "general_rules": {
+  
     "disease_billing": {
-      "doctor_diagnosed_only": true,
+      "doctor_diagnosed_only_valid": true,
       "unrelated_treatment_claimable": false
     },
-
+    "max_bed_charge_per_day":250,
     "transfer_conditions": {
       "from_opd_to_ipd": {
         "phc": "opd_charge_claimable_only",
-        "hospital": "opd_and_ipd_charge_claimable"
+        "hospital": "opd_charge_and_bed_change_claimable"
       }
     },
 
@@ -66,19 +98,18 @@
         "first_disease": 100,
         "second_disease": 50
       },
-      "discharge_medicine_claimable": true
+      "discharge_medicine_claimable_seperately": true
     },
 
     "surgery_package": {
       "includes": ["pre_operative_investigation", "operative_charges"],
-      "separate_claim_not_allowed": true,
-      "notes": "Pre-operative investigations cannot be claimed separately."
+      "preoperative_investigation_separate_claim_not_allowed": true,
+      "notes": "Pre-operative investigations cannot be claimed separately. If patient needed ICU care post-surgery, then ICU per day package can be claimed separately."
     }
   },
   "co-payment_method":{ 
     "exempt_categories": ["ultra_poor", "fchv", "hiv_aids", "severe_tb", "severe_disability", "leprosy"],
     "exempt_age": 70,
-    "exempt_hospital_types": ["phc","government"],
     "co_payment_percentage": 10
   },
   "non_covered_services": {
