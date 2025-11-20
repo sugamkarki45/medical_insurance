@@ -2,7 +2,7 @@ import os
 import base64
 import httpx
 from dotenv import load_dotenv
-
+from model import ClaimInput
 load_dotenv()
 
 IMIS_BASE_URL = "http://imislegacy.hib.gov.np/api/api_fhir"
@@ -32,18 +32,20 @@ async def  get_patient_info(patient_identifier: str):
         return {"success": False, "status": response.status_code, "data": None}
 
 
+
+
 async def check_eligibility(patient_identifier: str):
     patient_data = await get_patient_info(patient_identifier)
     if not patient_data["success"] or not patient_data["data"].get("entry"):
         return {"success": False, "reason": "Patient not found"}
 
-    patient_uuid = patient_data["data"]["entry"][0]["resource"]["id"]
+    patient_uuid = patient_data["data"]["entry"][0]["resource"]["identifier"]
 
     url = f"{IMIS_BASE_URL}/EligibilityRequest/"
     headers = get_auth_header()
     body = {
         "resourceType": "EligibilityRequest",
-        "patient": {"reference": f"Patient/{patient_uuid}"}
+        "patient": {"reference": f"Patient/{740500036}"},
     }
 
     async with httpx.AsyncClient(timeout=30.0) as client:

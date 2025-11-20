@@ -10,11 +10,12 @@ from collections import defaultdict
 
 
 def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[Claim]:
-    """Fetch all *persisted* claims for the patient (by IMIS ID → patient_code)."""
+#latest claims first
     return (
         db.query(Claim)
         .join(Patient)
         .filter(Patient.patient_code == patient_imis_id)
+        .order_by(Claim.claim_date.desc())
         .all()
     )
 
@@ -46,9 +47,9 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
         require_referral = cat_rules.get("require_referral_for_interdepartmental_consultation", True)
         require_same_day_submit = cat_rules.get("submit_daily_after_service", True)
 
-        if claim.opd_code:
+        if claim.service_code:
             for prev in previous_claims:
-                if prev.opd_code == claim.opd_code:
+                if prev.service_code == claim.service_code:
                     days_diff = (claim.visit_date - prev.claim_date).days
                     if 0 < days_diff < ticket_days:
                         pass
@@ -66,19 +67,19 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
                 warnings.append("Same OPD episode detected; claim_code MUST remain the same for all visits.")
 
 
-# check these three rules later when the claim object is updated to have department, referral_provided, submit_date, visit_date fields
-        # if require_referral:
-        #     for prev in previous_claims:
-        #         if prev.department != claim.department:
-        #             if not claim.referral_provided:
-        #                 warnings.append(
-        #                     f"Inter-department visit requires referral documentation."
-        #                 )
+# #check these three rules later when the claim object is updated to have department, referral_provided, submit_date, visit_date fields
+#         if require_referral:
+#             for prev in previous_claims:
+#                 if prev.department != claim.department:
+#                     if not claim.referral_provided:
+#                         warnings.append(
+#                             f"Inter-department visit requires referral documentation."
+#                         )
 
 
-        # if require_same_day_submit:
-        #     if claim.submit_date.date() != claim.visit_date.date():
-        #         warnings.append("OPD claims must be submitted on the same date of service.")
+#         if require_same_day_submit:
+#             if claim.submit_date.date() != claim.visit_date.date():
+#                 warnings.append("OPD claims must be submitted on the same date of service.")
 
 #IPD and emergency rules implementation
         if category in ("Emergency", "IPD"):
@@ -154,22 +155,26 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
             qty = Decimal(str(max_per_visit))
             raw_amount = rate * qty
 
-        # Time-based capping 
-        time_based = capping.get("time_based")
-        if time_based and time_based.get("days") and time_based.get("max_total"):
-            days = time_based["days"]
-            max_total = time_based["max_total"]
-            start = claim.visit_date - timedelta(days=days)
-            used = sum(
-                c.quantity for c in previous_claims
-                if c.item_code == item.item_code and start <= c.claim_date <= claim.visit_date
+# Time-based capping 
+        time_based = capping.get("time_based", {})
+        max_units_in_window = time_based.get("max_per_visit")  # maximum units allowed
+        window_days = time_based.get("max_days")           # rolling window in days
+
+        if window_days and max_units_in_window:
+            start_date = claim.visit_date - timedelta(days=window_days)
+            # sum all previous quantities of this item within the window
+            used_qty = sum(
+                Decimal(str(c.quantity))
+                for c in previous_claims
+                if c.item_code == item.item_code and start_date <= c.claim_date <= claim.visit_date
             )
-            available = max_total - used
-            if qty > available:
+
+            available_qty = Decimal(max_units_in_window) - used_qty
+            if qty > available_qty:
                 item_result["warnings"].append(
-                    f"Only {available} units left in {days}-day window."
+                    f"Only {available_qty} units left in the last {window_days}-day window for {item.item_code}."
                 )
-                qty = max(Decimal(0), Decimal(available))
+                qty = max(Decimal(0), available_qty)
                 raw_amount = rate * qty
 
         approved_amount = raw_amount
@@ -211,28 +216,38 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
 
 
 # Fetch latest eligibility cache entry for the patient_uuid
-    elig_cache = (db.query(EligibilityCache).filter(EligibilityCache.patient_uuid == patient.patient_uuid).order_by(EligibilityCache.id.desc()).first())
+    elig_cache = (
+        db.query(EligibilityCache)
+        .filter(EligibilityCache.patient_uuid == patient.patient_uuid)
+        .order_by(EligibilityCache.id.desc())
+        .first()
+    )
 
-
-# If no eligibility cache exists, fallback to empty dict (prevents crash)
-    elig = elig_cache.raw_response if elig_cache and elig_cache.raw_response else {}
-
-    # default to 0
-    allowed_money = Decimal("0")
-    used_money = Decimal("0")
-
-    insurance = elig.get("insurance", [])
-    if insurance:
-        benefit_balances = insurance[0].get("benefitBalance", [])
-        for balance in benefit_balances:
-            allowed_money += Decimal(str(balance.get("allowedMoney", {}).get("value", 0)))
-            used_money += Decimal(str(balance.get("usedMoney", {}).get("value", 0)))
-
+    # fallback to zero if cache doesn't exist
+    allowed_money = Decimal(str(elig_cache.allowed_money)) if elig_cache and elig_cache.allowed_money else Decimal("0")
+    used_money = Decimal(str(elig_cache.used_money)) if elig_cache and elig_cache.used_money else Decimal("0")
     available_money = allowed_money - used_money
 
     if available_money <= 0:
-        warnings.append("Patient has no remaining balance, but claim is locally valid.")
+        warnings.append(
+            f"Patient has no remaining balance (allowed: {allowed_money}, used: {used_money}), but claim is locally valid."
+        )
 
+
+# here this is to fetch the amount from raw eligibility field if elig_cache is not present
+
+   # fallback to empty dict
+    # elig = elig_cache.raw_response if elig_cache and elig_cache.raw_response else {}
+    # allowed_money = used_money = Decimal("0")
+    # insurance = elig.get("insurance", [])
+
+    # if insurance:
+    #     benefit_balances = insurance[0].get("benefitBalance", [])
+    #     if benefit_balances:
+    #         first_balance = benefit_balances[0]
+    #         first_financial = first_balance.get("financial", [{}])[0]  # first financial entry
+    #         allowed_money = Decimal(str(first_financial.get("allowedMoney", {}).get("value", 0)))
+    #         used_money = Decimal(str(first_financial.get("usedMoney", {}).get("value", 0)))
 
 
 
@@ -270,7 +285,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
 
     total_claimable = total_approved_local - total_copay
 
-    return{
+    return {
         "is_locally_valid": is_valid,
         "warnings": warnings,
         "items": items_output,
@@ -278,4 +293,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
         "total_copay": float(total_copay.quantize(Decimal("0.01"))),
         "net_claimable": float(total_claimable.quantize(Decimal("0.01"))),
         "applied_rules_version": rules["rules_version"],
-        }
+        "allowed_money": float(allowed_money),
+        "used_money": float(used_money),
+        "available_money": float(available_money),
+    }

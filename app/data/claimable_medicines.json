@@ -17311,7 +17311,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17323,7 +17323,7 @@
     "rate_npr": 180,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17335,7 +17335,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17347,7 +17347,7 @@
     "rate_npr": 180,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17359,7 +17359,7 @@
     "rate_npr": 180,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17371,7 +17371,7 @@
     "rate_npr": 180,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17383,7 +17383,7 @@
     "rate_npr": 825,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17395,7 +17395,7 @@
     "rate_npr": 30,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17407,7 +17407,7 @@
     "rate_npr": 240,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17419,7 +17419,7 @@
     "rate_npr": 360,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17431,7 +17431,7 @@
     "rate_npr": 450,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17443,7 +17443,7 @@
     "rate_npr": 500,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17455,7 +17455,7 @@
     "rate_npr": 180,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17467,7 +17467,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17479,7 +17479,7 @@
     "rate_npr": 600,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17491,7 +17491,7 @@
     "rate_npr": 1020,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17503,7 +17503,7 @@
     "rate_npr": 960,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17515,7 +17515,7 @@
     "rate_npr": 200,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17527,7 +17527,7 @@
     "rate_npr": 60,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17539,7 +17539,7 @@
     "rate_npr": 3150,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17551,7 +17551,7 @@
     "rate_npr": 600,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17563,7 +17563,7 @@
     "rate_npr": 30,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17575,7 +17575,7 @@
     "rate_npr": 30,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17587,7 +17587,7 @@
     "rate_npr": 420,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17599,7 +17599,7 @@
     "rate_npr": 220,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17611,7 +17611,7 @@
     "rate_npr": 50,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17623,7 +17623,7 @@
     "rate_npr": 150,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17635,7 +17635,7 @@
     "rate_npr": 150,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17647,7 +17647,7 @@
     "rate_npr": 2800,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17659,7 +17659,7 @@
     "rate_npr": 720,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17671,7 +17671,7 @@
     "rate_npr": 600,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17683,7 +17683,7 @@
     "rate_npr": 330,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17695,7 +17695,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17707,7 +17707,7 @@
     "rate_npr": 360,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17719,7 +17719,7 @@
     "rate_npr": 960,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17731,7 +17731,7 @@
     "rate_npr": 960,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17743,7 +17743,7 @@
     "rate_npr": 1080,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17755,7 +17755,7 @@
     "rate_npr": 600,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17767,7 +17767,7 @@
     "rate_npr": 300,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17779,7 +17779,7 @@
     "rate_npr": 300,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17791,7 +17791,7 @@
     "rate_npr": 160,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17803,7 +17803,7 @@
     "rate_npr": 116,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17815,7 +17815,7 @@
     "rate_npr": 720,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17827,7 +17827,7 @@
     "rate_npr": 480,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17839,7 +17839,7 @@
     "rate_npr": 550,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17851,7 +17851,7 @@
     "rate_npr": 605,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17863,7 +17863,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17875,7 +17875,7 @@
     "rate_npr": 220,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17887,7 +17887,7 @@
     "rate_npr": 220,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17899,7 +17899,7 @@
     "rate_npr": 230,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17911,7 +17911,7 @@
     "rate_npr": 220,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17923,7 +17923,7 @@
     "rate_npr": 1800,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17935,7 +17935,7 @@
     "rate_npr": 176,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17947,7 +17947,7 @@
     "rate_npr": 550,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17959,7 +17959,7 @@
     "rate_npr": 1750,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17971,7 +17971,7 @@
     "rate_npr": 675,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17983,7 +17983,7 @@
     "rate_npr": 341,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -17995,7 +17995,7 @@
     "rate_npr": 840,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18007,7 +18007,7 @@
     "rate_npr": 430,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18019,7 +18019,7 @@
     "rate_npr": 330,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18031,7 +18031,7 @@
     "rate_npr": 200,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18043,7 +18043,7 @@
     "rate_npr": 550,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18055,7 +18055,7 @@
     "rate_npr": 180,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18067,7 +18067,7 @@
     "rate_npr": 550,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18079,7 +18079,7 @@
     "rate_npr": 300,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18091,7 +18091,7 @@
     "rate_npr": 45,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18103,7 +18103,7 @@
     "rate_npr": 220,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18115,7 +18115,7 @@
     "rate_npr": 60,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18127,7 +18127,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18139,7 +18139,7 @@
     "rate_npr": 500,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18151,7 +18151,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18163,7 +18163,7 @@
     "rate_npr": 4600,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18175,7 +18175,7 @@
     "rate_npr": 875,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18187,7 +18187,7 @@
     "rate_npr": 4292,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18199,7 +18199,7 @@
     "rate_npr": 900,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18211,7 +18211,7 @@
     "rate_npr": 780,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18223,7 +18223,7 @@
     "rate_npr": 66,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18235,7 +18235,7 @@
     "rate_npr": 750,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18247,7 +18247,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18259,7 +18259,7 @@
     "rate_npr": 350,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18271,7 +18271,7 @@
     "rate_npr": 110,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18283,7 +18283,7 @@
     "rate_npr": 660,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18295,7 +18295,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18307,7 +18307,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18319,7 +18319,7 @@
     "rate_npr": 970,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18331,7 +18331,7 @@
     "rate_npr": 605,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18343,7 +18343,7 @@
     "rate_npr": 90,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18355,7 +18355,7 @@
     "rate_npr": 180,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18367,7 +18367,7 @@
     "rate_npr": 110,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18379,7 +18379,7 @@
     "rate_npr": 850,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18391,7 +18391,7 @@
     "rate_npr": 2000,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18403,7 +18403,7 @@
     "rate_npr": 900,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18415,7 +18415,7 @@
     "rate_npr": 264,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18427,7 +18427,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18439,7 +18439,7 @@
     "rate_npr": 90,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18451,7 +18451,7 @@
     "rate_npr": 60,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18463,7 +18463,7 @@
     "rate_npr": 45,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18475,7 +18475,7 @@
     "rate_npr": 900,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18487,7 +18487,7 @@
     "rate_npr": 2000,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18499,7 +18499,7 @@
     "rate_npr": 715,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18511,7 +18511,7 @@
     "rate_npr": 600,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18523,7 +18523,7 @@
     "rate_npr": 120,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18535,7 +18535,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18547,7 +18547,7 @@
     "rate_npr": 1010,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18559,7 +18559,7 @@
     "rate_npr": 1010,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18571,7 +18571,7 @@
     "rate_npr": 480,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18583,7 +18583,7 @@
     "rate_npr": 240,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18595,7 +18595,7 @@
     "rate_npr": 360,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18607,7 +18607,7 @@
     "rate_npr": 75,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18619,7 +18619,7 @@
     "rate_npr": 245,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18631,7 +18631,7 @@
     "rate_npr": 240,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18643,7 +18643,7 @@
     "rate_npr": 1350,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18655,7 +18655,7 @@
     "rate_npr": 1090,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18667,7 +18667,7 @@
     "rate_npr": 1650,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18679,7 +18679,7 @@
     "rate_npr": 700,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18691,7 +18691,7 @@
     "rate_npr": 550,
     "capping": {
       "max_days": 90,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18703,7 +18703,7 @@
     "rate_npr": 1155,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18715,7 +18715,7 @@
     "rate_npr": 720,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18727,7 +18727,7 @@
     "rate_npr": 480,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18739,7 +18739,7 @@
     "rate_npr": 600,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18751,7 +18751,7 @@
     "rate_npr": 600,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18763,7 +18763,7 @@
     "rate_npr": 4012,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18775,7 +18775,7 @@
     "rate_npr": 1500,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18787,7 +18787,7 @@
     "rate_npr": 3685,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18799,7 +18799,7 @@
     "rate_npr": 1500,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18811,7 +18811,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18823,7 +18823,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18835,7 +18835,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18847,7 +18847,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18859,7 +18859,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18871,7 +18871,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18883,7 +18883,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18895,7 +18895,7 @@
     "rate_npr": 4320,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18907,7 +18907,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18919,7 +18919,7 @@
     "rate_npr": 2258,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18931,7 +18931,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18943,7 +18943,7 @@
     "rate_npr": 3680,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18955,7 +18955,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18967,7 +18967,7 @@
     "rate_npr": 3071,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18979,7 +18979,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -18991,7 +18991,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19003,7 +19003,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19015,7 +19015,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19027,7 +19027,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19039,7 +19039,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19051,7 +19051,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19063,7 +19063,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19075,7 +19075,7 @@
     "rate_npr": 1200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19087,7 +19087,7 @@
     "rate_npr": 3478,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19099,7 +19099,7 @@
     "rate_npr": 750,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19111,7 +19111,7 @@
     "rate_npr": 4500,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19123,7 +19123,7 @@
     "rate_npr": 2258,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19135,7 +19135,7 @@
     "rate_npr": 5600,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19147,7 +19147,7 @@
     "rate_npr": 3523,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19159,7 +19159,7 @@
     "rate_npr": 3685,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19171,7 +19171,7 @@
     "rate_npr": 2040,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19183,7 +19183,7 @@
     "rate_npr": 2160,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19195,7 +19195,7 @@
     "rate_npr": 3000,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19207,7 +19207,7 @@
     "rate_npr": 2665,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19219,7 +19219,7 @@
     "rate_npr": 3343,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19231,7 +19231,7 @@
     "rate_npr": 4800,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19243,7 +19243,7 @@
     "rate_npr": 2665,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19255,7 +19255,7 @@
     "rate_npr": 2040,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19267,7 +19267,7 @@
     "rate_npr": 2936,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19279,7 +19279,7 @@
     "rate_npr": 3070,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19291,7 +19291,7 @@
     "rate_npr": 4320,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19303,7 +19303,7 @@
     "rate_npr": 11050,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19315,7 +19315,7 @@
     "rate_npr": 2258,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19327,7 +19327,7 @@
     "rate_npr": 2200,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19339,7 +19339,7 @@
     "rate_npr": 3885,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19351,7 +19351,7 @@
     "rate_npr": 9600,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19363,7 +19363,7 @@
     "rate_npr": 1440,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19375,7 +19375,7 @@
     "rate_npr": 2000,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19387,7 +19387,7 @@
     "rate_npr": 4330,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19399,7 +19399,7 @@
     "rate_npr": 1800,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },
@@ -19411,7 +19411,7 @@
     "rate_npr": 1800,
     "capping": {
       "max_days": 365,
-      "max_per_visit": null
+      "max_per_visit": 1
     },
     "claimable": true
   },

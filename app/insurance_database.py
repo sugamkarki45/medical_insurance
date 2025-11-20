@@ -75,14 +75,13 @@ class Claim(Base):
     __tablename__ = "claims"
 
     id = Column(Integer, primary_key=True, index=True)
-    opd_code = Column(String, nullable=True)  # for OPD claims need to save this as well from previous calims
+    service_code = Column(String, nullable=True)  # for OPD claims need to save this as well from previous calims
     claim_code = Column(String, nullable=False)
     patient_id = Column(Integer,ForeignKey("patients.id"), nullable=False)  # store IMIS patient ID
     amount_claimed = Column(Float, nullable=False)
     claim_date = Column(Date)
     status = Column(String, default="draft")  # draft, pending, approved, rejected
-    prevalidation_result = Column(JSON, nullable=True)  # warnings, approved items
-    # imis_validation_result = Column(JSON, nullable=True)  # full IMIS response
+    prevalidation_result = Column(JSON, nullable=True) 
     enterer_reference = Column(String, nullable=True)  # who entered the claim
     facility_reference = Column(String, nullable=True)  # health facility code
     

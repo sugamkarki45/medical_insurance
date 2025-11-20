@@ -63,7 +63,7 @@ class ClaimInput(BaseModel):
     patient_id: str
     visit_date: date
     service_type: str  # e.g., 'OPD', 'ER', 'IPD'
-    opd_code: Optional[str] = None
+    service_code: Optional[str] = None
     claim_code: str = Field(default_factory=lambda: str(uuid.uuid4()))
     doctor_nmc: Optional[str] = None
     diagnosis: Diagnosis
