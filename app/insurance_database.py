@@ -2,9 +2,14 @@ from sqlalchemy import (
     create_engine, Column, Integer, String, Float,
     Date, ForeignKey, JSON
 )
+from model import ClaimInput
 from sqlalchemy.types import DateTime
 from datetime import datetime
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+import string
+import secrets
+from datetime import timedelta
+from sqlalchemy.orm import Session  
 
 Base = declarative_base()
 
@@ -23,24 +28,13 @@ class Patient(Base):
     imis_core_resource = Column(JSON, nullable=True)
 
     # Copayment
-    Copayment=Column(JSON, nullable=True)
+    copayment=Column(JSON, nullable=True)
 
     # Relationships
     claims = relationship("Claim", back_populates="patient")
     imis_responses = relationship("ImisResponse", back_populates="patient")
     eligibility_cache = relationship("EligibilityCache", uselist=False, back_populates="patient")
 
-
-
-class PrevalidationResult(Base):
-    __tablename__ = "prevalidation_results"
-    id = Column(Integer, primary_key=True, index=True)
-    claim_id = Column(Integer, ForeignKey("claims.id"))
-    result = Column(JSON)
-    created_at = Column(Date, nullable=False)
-
-#relationship
-    claim = relationship("Claim")
 
 
 class EligibilityCache(Base):
@@ -50,7 +44,7 @@ class EligibilityCache(Base):
     id = Column(Integer, primary_key=True, index=True)
 
     # Link to patient (via UUID because IMIS uses UUID)
-    patient_uuid = Column(String, ForeignKey("patients.patient_uuid"), index=True)
+    patient_uuid = Column(String, ForeignKey("patients.patient_uuid", ondelete="CASCADE"), index=True)
 
     # Extracted values
     category = Column(String, nullable=True)  # e.g., "OPD", "IPD"
@@ -73,34 +67,43 @@ class EligibilityCache(Base):
 
 class Claim(Base):
     __tablename__ = "claims"
-
-    id = Column(Integer, primary_key=True, index=True)
-    service_code = Column(String, nullable=True)  # for OPD claims need to save this as well from previous calims
-    claim_code = Column(String, nullable=False)
-    patient_id = Column(Integer,ForeignKey("patients.id"), nullable=False)  # store IMIS patient ID
+    claim_id = Column(Integer, primary_key=True, index=True)
+    claim_code = Column(String(11),nullable=False,index=True)
+    service_type = Column(String, nullable=False)
+    service_code = Column(String, nullable=True)
+    patient_id = Column(Integer, ForeignKey("patients.id", ondelete="CASCADE"), nullable=False)
     amount_claimed = Column(Float, nullable=False)
     claim_date = Column(Date)
-    status = Column(String, default="draft")  # draft, pending, approved, rejected
-    prevalidation_result = Column(JSON, nullable=True) 
-    enterer_reference = Column(String, nullable=True)  # who entered the claim
-    facility_reference = Column(String, nullable=True)  # health facility code
+    status = Column(String, default="draft")
+    prevalidation_result = Column(JSON, nullable=True)
+    enterer_reference = Column(String, nullable=True)
+    facility_reference = Column(String, nullable=True)
     
     # Relationships
     patient = relationship("Patient", back_populates="claims")
-
-
 
 class ImisResponse(Base):
     __tablename__ = "imis_responses"
 
     id = Column(Integer, primary_key=True, index=True)
-    patient_id = Column(Integer, ForeignKey("patients.id"))
+    patient_id = Column(Integer, ForeignKey("patients.id", ondelete="CASCADE"))
     raw_response = Column(JSON)
     fetched_at = Column(DateTime, default=datetime.utcnow)
 
 
 #relationship
     patient = relationship("Patient", back_populates="imis_responses")
+
+class IMISSession(Base):
+    __tablename__ = "imis_sessions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, nullable=False)  
+    session_cookie = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    expires_at = Column(DateTime, nullable=True)
+
+
 
 
 #engine and sessions

@@ -2,7 +2,10 @@ import os
 import base64
 import httpx
 from dotenv import load_dotenv
-from model import ClaimInput
+from sqlalchemy.orm import Session
+from datetime import datetime
+import requests
+from insurance_database import IMISSession
 load_dotenv()
 
 IMIS_BASE_URL = "http://imislegacy.hib.gov.np/api/api_fhir"
@@ -21,7 +24,7 @@ def get_auth_header():
     return headers
 
 
-async def  get_patient_info(patient_identifier: str):
+async def  get_patient_info(patient_identifier: str ,session: requests.Session):
     url = f"{IMIS_BASE_URL}/Patient/?identifier={patient_identifier}"
     headers = get_auth_header()
     async with httpx.AsyncClient(timeout=20.0) as client:
@@ -34,8 +37,8 @@ async def  get_patient_info(patient_identifier: str):
 
 
 
-async def check_eligibility(patient_identifier: str):
-    patient_data = await get_patient_info(patient_identifier)
+async def check_eligibility(patient_identifier: str,session: requests.Session):
+    patient_data = await get_patient_info(patient_identifier,session)
     if not patient_data["success"] or not patient_data["data"].get("entry"):
         return {"success": False, "reason": "Patient not found"}
 
@@ -56,7 +59,7 @@ async def check_eligibility(patient_identifier: str):
         return {"success": False, "status": response.status_code, "data": None}
 
 
-async def submit_claim(payload: dict):
+async def submit_claim(payload: dict,session: requests.Session):
     url = f"{IMIS_BASE_URL}/Claim/"
     headers = get_auth_header()
     async with httpx.AsyncClient(timeout=60.0) as client:
@@ -144,3 +147,17 @@ def extract_copayment(bundle: dict):
         return None
     except Exception:
         return None
+
+
+def get_imis_session(db: Session, username: str):
+    sess = db.query(IMISSession).filter(IMISSession.username == username).first()
+
+    if not sess:
+        raise Exception("User not logged into IMIS")
+
+    if sess.expires_at < datetime.utcnow():
+        raise Exception("IMIS session expired. Please login again.")
+
+    session = requests.Session()
+    session.cookies.update(eval(sess.session_cookie))
+    return session

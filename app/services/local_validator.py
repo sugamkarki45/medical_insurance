@@ -7,7 +7,7 @@ from rule_loader import get_rules, get_med, get_package
 from sqlalchemy.orm import Session
 from insurance_database import Claim, Patient, EligibilityCache
 from collections import defaultdict
-
+from insurance_database import Claim
 
 def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[Claim]:
 #latest claims first
@@ -20,7 +20,43 @@ def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[
     )
 
 
-def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
+from datetime import date, timedelta
+from datetime import datetime, timedelta
+import string, secrets
+
+_ALPHABET = string.ascii_uppercase + string.digits
+
+def _generate_claim_code() -> str:
+    return "CLM" + "".join(secrets.choice(_ALPHABET) for _ in range(8))
+
+def _generate_or_reuse_claim_code(patient, claim_date, service_type, db):
+    if service_type in {"IPD", "Emergency"}:
+        return _generate_claim_code()
+
+    # For OPD:
+    seven_days_ago = claim_date - timedelta(days=7)
+
+    last_claim = (
+        db.query(Claim)
+        .filter(
+            Claim.patient_id == patient.id,
+            Claim.service_type == "OPD",
+            Claim.claim_date >= seven_days_ago,
+            Claim.claim_date <= claim_date,
+            Claim.status.in_(["pending", "submitted", "approved"])
+        )
+        .order_by(Claim.claim_date.desc())
+        .first()
+    )
+
+    if last_claim:
+        return last_claim.claim_code
+    
+    return _generate_claim_code()
+
+
+
+def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None, used_money:Decimal= None, claim_code:str=None) -> Dict[str, Any]:
     """
     Fully validate a claim against the HIB rule JSON.
     Returns a rich validation dict.
@@ -35,7 +71,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
     previous_claims = _get_previous_claims_for_patient(db, claim.patient_id)
 
     patient = db.query(Patient).filter(Patient.patient_code == claim.patient_id).first()
-
+    Claims=db.query(Claim).filter(Claim.claim_code==claim_code).first() if claim_code else None
 #rules according to category
     category = claim.service_type  # "OPD", "IPD", "Emergency"
     cat_rules = rules["claim_categories"].get(category, {}).get("rules", {})
@@ -44,27 +80,66 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
 
         ticket_days = cat_rules.get("ticket_valid_days", 7)
         use_same_claim_code = cat_rules.get("use_same_claim_code_within_validity", True)
-        require_referral = cat_rules.get("require_referral_for_interdepartmental_consultation", True)
         require_same_day_submit = cat_rules.get("submit_daily_after_service", True)
 
-        if claim.service_code:
-            for prev in previous_claims:
-                if prev.service_code == claim.service_code:
-                    days_diff = (claim.visit_date - prev.claim_date).days
-                    if 0 < days_diff < ticket_days:
-                        pass
-                    elif days_diff >= ticket_days:
-                        warnings.append(f"OPD ticket expired . New ticket required.") #({(date.today() - claim.visit_date).days} days) calculate the days and add if you want
+        # Get the latest previous OPD claim if exists
+        last_opd_claim = next((c for c in previous_claims if c.service_type == "OPD"), None)
 
+        # Check if a new ticket is required
+        new_ticket_required = True
+        if last_opd_claim and claim.service_code:
+            days_diff = (claim.visit_date - last_opd_claim.claim_date).days
 
+            # Same ticket still valid (within ticket_days)
+            if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_code:
+                new_ticket_required = False
 
-        if use_same_claim_code:
-            same_episode_detected = any(
-                0 <= (claim.visit_date - prev.claim_date).days < ticket_days and prev.claim_code != claim.claim_code
-                for prev in previous_claims
-            )
-            if same_episode_detected:
+            # Ticket expired but service code is different — still considered a valid new service, no new ticket warning
+            elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
+                new_ticket_required = False
+
+            if new_ticket_required:
+                warnings.append(f"OPD ticket expired. New ticket required.")
+
+        # Check for same episode detection (claim_code consistency within validity)
+        if use_same_claim_code and claim_code and last_opd_claim:
+            if 0 <= (claim.visit_date - last_opd_claim.claim_date).days < ticket_days and last_opd_claim.claim_code != claim_code:
                 warnings.append("Same OPD episode detected; claim_code MUST remain the same for all visits.")
+
+
+    # if category == "OPD":
+
+    #     ticket_days = cat_rules.get("ticket_valid_days", 7)
+    #     use_same_claim_code = cat_rules.get("use_same_claim_code_within_validity", True)
+    #     require_referral = cat_rules.get("require_referral_for_interdepartmental_consultation", True)
+
+
+    #     if claim.service_code:
+    #         new_ticket_required = True
+
+    #         for prev in previous_claims:
+    #             days_diff = (claim.visit_date - prev.claim_date).days
+
+    #             if 0 < days_diff < ticket_days and claim.service_code == prev.service_code:
+    #                 new_ticket_required = False
+    #                 break
+
+    #             if days_diff >= ticket_days and claim.service_code != prev.service_code:
+    #                 new_ticket_required = False
+    #                 break
+
+    #         if new_ticket_required:
+    #             warnings.append(f"OPD ticket expired. New ticket required.")
+
+
+
+    #     if use_same_claim_code and claim_code:
+    #         same_episode_detected = any(
+    #             0 <= (claim.visit_date - prev.claim_date).days < ticket_days and prev.claim_code != claim_code
+    #             for prev in previous_claims
+    #         )
+    #         if same_episode_detected:
+    #             warnings.append("Same OPD episode detected; claim_code MUST remain the same for all visits.")
 
 
 # #check these three rules later when the claim object is updated to have department, referral_provided, submit_date, visit_date fields
@@ -77,9 +152,9 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
 #                         )
 
 
-#         if require_same_day_submit:
-#             if claim.submit_date.date() != claim.visit_date.date():
-#                 warnings.append("OPD claims must be submitted on the same date of service.")
+        # if require_same_day_submit:
+        #     if claim.visit_date != Claims.claim_date:
+        #         warnings.append("OPD claims must be submitted on the same date of service.")
 
 #IPD and emergency rules implementation
         if category in ("Emergency", "IPD"):
@@ -216,68 +291,50 @@ def prevalidate_claim(claim: ClaimInput, db: Session) -> Dict[str, Any]:
 
 
 # Fetch latest eligibility cache entry for the patient_uuid
-    elig_cache = (
-        db.query(EligibilityCache)
-        .filter(EligibilityCache.patient_uuid == patient.patient_uuid)
-        .order_by(EligibilityCache.id.desc())
-        .first()
-    )
-
-    # fallback to zero if cache doesn't exist
-    allowed_money = Decimal(str(elig_cache.allowed_money)) if elig_cache and elig_cache.allowed_money else Decimal("0")
-    used_money = Decimal(str(elig_cache.used_money)) if elig_cache and elig_cache.used_money else Decimal("0")
-    available_money = allowed_money - used_money
-
-    if available_money <= 0:
-        warnings.append(
-            f"Patient has no remaining balance (allowed: {allowed_money}, used: {used_money}), but claim is locally valid."
+        if allowed_money is None or used_money is None:
+            elig_cache = (
+                db.query(EligibilityCache)
+                .filter(EligibilityCache.patient_uuid == patient.patient_uuid)
+                .order_by(EligibilityCache.id.desc())
+                .first()
         )
 
+        # fallback to zero if cache doesn't exist
+            allowed_money = Decimal(str(elig_cache.allowed_money)) if elig_cache and elig_cache.allowed_money else Decimal("0")
+            used_money = Decimal(str(elig_cache.used_money)) if elig_cache and elig_cache.used_money else Decimal("0")
+        available_money = allowed_money - used_money
 
-# here this is to fetch the amount from raw eligibility field if elig_cache is not present
-
-   # fallback to empty dict
-    # elig = elig_cache.raw_response if elig_cache and elig_cache.raw_response else {}
-    # allowed_money = used_money = Decimal("0")
-    # insurance = elig.get("insurance", [])
-
-    # if insurance:
-    #     benefit_balances = insurance[0].get("benefitBalance", [])
-    #     if benefit_balances:
-    #         first_balance = benefit_balances[0]
-    #         first_financial = first_balance.get("financial", [{}])[0]  # first financial entry
-    #         allowed_money = Decimal(str(first_financial.get("allowedMoney", {}).get("value", 0)))
-    #         used_money = Decimal(str(first_financial.get("usedMoney", {}).get("value", 0)))
-
-
-
+        if available_money <= 0:
+            warnings.append(
+                f"Patient has no remaining balance (allowed: {allowed_money}, used: {used_money}), but claim is locally valid."
+            )
 
 
 
 #copayment calculation from eligibility field
-    raw_copay = patient.Copayment
+        raw_copay = patient.copayment
 
-    if raw_copay is None:# if it is null or not present
-        copayment_decimal = Decimal("0")  
-    else:
-        if isinstance(raw_copay, (int, float, Decimal)):
-            copayment_decimal = Decimal(raw_copay)
-        else:#clean if it is string
-            cleaned = str(raw_copay).replace("%", "").strip()
-            if not cleaned.replace(".", "", 1).isdigit():
-                raise ValueError(f"Invalid eligibility value: {raw_copay}")
-            copayment_decimal = Decimal(cleaned)
+        if raw_copay is None:# if it is null or not present
+            copayment_decimal = Decimal("0")  
+        else:
+            if isinstance(raw_copay, (int, float, Decimal)):
+                copayment_decimal = Decimal(raw_copay)
+            else:#clean if it is string
+                cleaned = str(raw_copay).replace("%", "").strip()
+                if not cleaned.replace(".", "", 1).isdigit():
+                    raise ValueError(f"Invalid eligibility value: {raw_copay}")
+                copayment_decimal = Decimal(cleaned)
 
 
-    item_result["claimable"] = len(item_result["warnings"]) == 0 or approved_amount > 0
-    item_result["approved_amount"] = float(approved_amount.quantize(Decimal("0.01")))
+        item_result["claimable"] = len(item_result["warnings"]) == 0 or approved_amount > 0
+        item_result["approved_amount"] = float(approved_amount.quantize(Decimal("0.01")))
 
-    copay_amount = approved_amount * copayment_decimal
-    item_result["copay_amount"] = float(copay_amount.quantize(Decimal("0.01")))
+        copay_amount = approved_amount * copayment_decimal
+        item_result["copay_amount"] = float(copay_amount.quantize(Decimal("0.01")))
 
-    total_copay += copay_amount
-    total_approved_local += approved_amount
-    items_output.append(item_result)
+        total_copay += copay_amount
+        total_approved_local += approved_amount
+        items_output.append(item_result)
 
 
         # Final validity

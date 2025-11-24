@@ -64,7 +64,6 @@ class ClaimInput(BaseModel):
     visit_date: date
     service_type: str  # e.g., 'OPD', 'ER', 'IPD'
     service_code: Optional[str] = None
-    claim_code: str = Field(default_factory=lambda: str(uuid.uuid4()))
     doctor_nmc: Optional[str] = None
     diagnosis: Diagnosis
     claimable_items: List[ClaimableItem]
@@ -99,4 +98,9 @@ class FullClaimValidationResponse(BaseModel):
     eligibility: Dict[str, Any]
     warnings: Optional[List[str]] = []
 
+
+
+class LoginInput(BaseModel):
+    username: str
+    password: str
 
