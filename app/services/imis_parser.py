@@ -54,35 +54,3 @@ def parse_eligibility_response(raw):
 
 
 
-# def get_or_generate_claim_code(input_data: ClaimInput, db: Session, patient_id: int) -> str:
-#     """
-#     Generates a new claim code or reuses existing OPD claim code according
-#     to ticket validity rules.
-#     """
-# #here we have used rules loader as we can keep this dyanmic for future changes
-#     rules = get_rules() 
-#     category = input_data.service_type  # "OPD", "IPD", "Emergency"
-#     cat_rules = rules["claim_categories"].get(category, {}).get("rules", {})
-
-#     if category == "OPD":
-#         ticket_days = cat_rules.get("ticket_valid_days", 7)
-#         use_same_claim_code = cat_rules.get("use_same_claim_code_within_validity", True)
-
-#         if use_same_claim_code:
-#             seven_days_ago = datetime.utcnow() - timedelta(days=ticket_days)
-#             recent_claim = (
-#                 db.query(Claim)
-#                 .filter(
-#                     Claim.patient_id == patient_id,
-#                     Claim.service_type == "OPD",
-#                     Claim.claim_date >= seven_days_ago
-#                 )
-#                 .order_by(Claim.claim_date.desc())
-#                 .first()
-#             )
-#             if recent_claim:
-#                 return recent_claim.claim_code  # reuse code within ticket validity
-
-#     # Non-OPD or no recent claim: generate new
-#     return _generate_claim_code()
-

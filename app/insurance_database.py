@@ -40,25 +40,15 @@ class Patient(Base):
 class EligibilityCache(Base):
     __tablename__ = "eligibility_cache"
 
-
     id = Column(Integer, primary_key=True, index=True)
-
-    # Link to patient (via UUID because IMIS uses UUID)
     patient_uuid = Column(String, ForeignKey("patients.patient_uuid", ondelete="CASCADE"), index=True)
-
-    # Extracted values
     category = Column(String, nullable=True)  # e.g., "OPD", "IPD"
     allowed_money = Column(Float, nullable=True)
     used_money = Column(Float, nullable=True)
-
     policy_id = Column(String, nullable=True)
     policy_expiry = Column(Date, nullable=True)
-
-    # Full raw IMIS response for future audits
     raw_response = Column(JSON, nullable=False)
-
     checked_at = Column(DateTime, default=datetime.utcnow)
-
     patient = relationship("Patient", back_populates="eligibility_cache")
 
 

@@ -29,11 +29,12 @@ _ALPHABET = string.ascii_uppercase + string.digits
 def _generate_claim_code() -> str:
     return "CLM" + "".join(secrets.choice(_ALPHABET) for _ in range(8))
 
-def _generate_or_reuse_claim_code(patient, claim_date, service_type, db):
-    if service_type in {"IPD", "Emergency"}:
+def _generate_or_reuse_claim_code(patient, claim_date, service_type, service_code, db):
+    # Always generate new code for IPD/Emergency
+    if service_type in {"IPD", "Emergency", "ER"}:
         return _generate_claim_code()
 
-    # For OPD:
+    # OPD logic
     seven_days_ago = claim_date - timedelta(days=7)
 
     last_claim = (
@@ -49,9 +50,18 @@ def _generate_or_reuse_claim_code(patient, claim_date, service_type, db):
         .first()
     )
 
-    if last_claim:
+
+    if not last_claim:
+        return _generate_claim_code()
+
+    same_service = last_claim.service_code == service_code
+    ticket_valid = (claim_date - last_claim.claim_date).days < 7
+
+
+    if same_service and ticket_valid:
         return last_claim.claim_code
-    
+
+
     return _generate_claim_code()
 
 
