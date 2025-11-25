@@ -24,10 +24,43 @@ from datetime import date, timedelta
 from datetime import datetime, timedelta
 import string, secrets
 
-_ALPHABET = string.ascii_uppercase + string.digits
+# _ALPHABET = string.ascii_uppercase + string.digits
 
-def _generate_claim_code() -> str:
-    return "CLM" + "".join(secrets.choice(_ALPHABET) for _ in range(8))
+# def _generate_claim_code() -> str:
+#     return "CLM" + "".join(secrets.choice(_ALPHABET) for _ in range(8))
+# _ALPHABET = string.ascii_uppercase + string.digits
+
+# def _generate_claim_code(patient_id):
+#     timestamp = datetime.utcnow().strftime("%y%m%d%H%M%S")  # e.g., '2511250637'
+#     random_part = "".join(secrets.choice(_ALPHABET) for _ in range(4))  # shorter random
+#     return f"CLM{patient_id % 1000}{timestamp}{random_part}"
+
+# _ALPHABET = string.ascii_uppercase + string.digits
+
+# def _generate_claim_code(patient_id: int) -> str:
+#     """
+#     Generates a claim code with:
+#       - CLM prefix
+#       - last 3 digits of patient_id
+#       - timestamp down to microseconds
+#       - 6-character random alphanumeric string
+#     Example: CLM1232511250637123456ABCD12
+#     """
+#     # Use last 3 digits of patient_id for readability
+#     patient_part = f"{patient_id % 1000:03d}"
+
+#     # Timestamp with microseconds for high-precision uniqueness
+#     timestamp_part = datetime.utcnow().strftime("%y%m%d%H%M%S%f")  # adds microseconds
+
+#     # Random 6-character alphanumeric part
+#     random_part = "".join(secrets.choice(_ALPHABET) for _ in range(6))
+
+    # return f"CLM{patient_part}{timestamp_part}{random_part}"
+
+import uuid
+
+def _generate_claim_code():
+    return str(uuid.uuid4())
 
 def _generate_or_reuse_claim_code(patient, claim_date, service_type, service_code, db):
     # Always generate new code for IPD/Emergency

@@ -18,7 +18,7 @@ class PatientCategory(str, Enum):
 
 class ItemType(str, Enum):
     medicine = "medicine"
-    lab_test = "lab_test"
+    lab_test = "lab"
     surgery = "surgery"  
     procedure = "procedure"
     diagnostic_imaging = "diagnostic_imaging"
@@ -62,10 +62,11 @@ class HospitalType(str, Enum):
 class ClaimInput(BaseModel):
     patient_id: str
     visit_date: date
-    service_type: str  # e.g., 'OPD', 'ER', 'IPD'
+    service_type: str  # e.g., 'OPD', 'ER', 'IPD', "referral"
     service_code: Optional[str] = None
     doctor_nmc: Optional[str] = None
     diagnosis: Diagnosis
+    icd_codes: List[str] = []
     claimable_items: List[ClaimableItem]
     hospital_type: HospitalType = Field(..., description="Type of health facility (phc, government, private)")
     enterer_reference: Optional[str] = None  # who is entering the claim
@@ -84,12 +85,21 @@ class ClaimInput(BaseModel):
         return v
 
 
-class ClaimResponse(BaseModel):
+class LocalValidation(BaseModel):
     is_locally_valid: bool
-    warnings: List[str]
-    items: List[dict]
+    warnings: list
+    items: list
     total_approved_local: float
-    # co_payment_applied: Optional[float] = None
+    total_copay: float
+    net_claimable: float
+    allowed_money: float
+    used_money: float
+    available_money: float
+
+class ClaimResponse(BaseModel):
+    claim_code: str
+    status: str
+    local_validation: LocalValidation
 
 
 class FullClaimValidationResponse(BaseModel):

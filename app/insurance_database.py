@@ -59,6 +59,8 @@ class Claim(Base):
     __tablename__ = "claims"
     claim_id = Column(Integer, primary_key=True, index=True)
     claim_code = Column(String(11),nullable=False,index=True)
+    icd_codes = Column(String, nullable=False)
+    doctor_nmc = Column(String, nullable=True)
     service_type = Column(String, nullable=False)
     service_code = Column(String, nullable=True)
     patient_id = Column(Integer, ForeignKey("patients.id", ondelete="CASCADE"), nullable=False)
