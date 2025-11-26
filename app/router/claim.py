@@ -1,25 +1,67 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, File, UploadFile
 from sqlalchemy.orm import Session
 from services.imis_services import get_patient_info, extract_copayment
 from model import ClaimInput, FullClaimValidationResponse , LoginInput
 from services.local_validator import prevalidate_claim
 from services import imis_services
 from services.imis_services import get_imis_session
-from insurance_database import Claim, Patient, get_db, EligibilityCache, ImisResponse,IMISSession
+from insurance_database import Claim, Patient, get_db, EligibilityCache, ImisResponse,IMISSession,ClaimDocument
 from services.imis_parser import parse_eligibility_response
 from bs4 import BeautifulSoup
 from decimal import Decimal 
 from services.local_validator import _generate_or_reuse_claim_code
 from sqlalchemy.orm import joinedload
 from datetime import datetime,timedelta
-import logging,json,requests,uuid
+import logging,json,requests,uuid,os
 
 
 router = APIRouter(tags=["Claims"])
 
+
+
+UPLOAD_DIR = "uploads/claim_upload/"
+BASE_URL = "https://ourdomaintostorethefiles.com/uploads/claims/"
+
+
+@router.post("/upload_document/{claim_id}")
+async def upload_document(claim_id: str, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    claim = db.query(Claim).filter(Claim.claim_id == claim_id).first()
+    if not claim:
+        raise HTTPException(status_code=404, detail="Claim not found")
+
+    claim_folder = os.path.join(UPLOAD_DIR, claim_id)
+    os.makedirs(claim_folder, exist_ok=True)
+
+    ext = file.filename.split(".")[-1]
+    filename = f"{uuid.uuid4()}.{ext}"
+    file_path = os.path.join(claim_folder, filename)
+
+    with open(file_path, "wb") as f:
+        f.write(await file.read())
+
+    # URL accessible via your server
+    file_url = f"{BASE_URL}{claim_id}/{filename}"
+
+    doc = ClaimDocument(
+        claim_id=claim_id,
+        file_url=file_url,
+        document_type="general"
+    )
+    db.add(doc)
+    db.commit()
+    db.refresh(doc)
+
+    return {
+        "message": "File uploaded and saved",
+        "file_url": file_url,
+        "document_id": doc.id
+    }
+
+
+
 IMIS_LOGIN_URL = "http://imislegacy.hib.gov.np"
 
-#here we have to check the login details with imis and store the token or encrypted password in our db
+#here we have to check the login details with imis and store in our db
 @router.post("/imis/login")
 async def imis_login(input: LoginInput, db: Session = Depends(get_db)):
     session = requests.Session()
@@ -300,7 +342,6 @@ async def eligibility_check_endpoint(
         raw_response=eligibility_raw,
     )
 
-    #patient.eligibility_cache = cache_entry
 
 
     db.add(cache_entry)
@@ -351,13 +392,13 @@ async def submit_claim_endpoint(
     username: str,
     db: Session = Depends(get_db),
 ):
-    # --- Session check ---
+    
     session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
     if not session_obj:
         raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
     session = get_imis_session(db, username)
 
-    # --- Fetch claim ---
+# yesma claim id rakhni ki claim code rakhni ho vanni kura sochera garnu 
     claim = (
         db.query(Claim)
         .options(joinedload(Claim.patient))
@@ -380,12 +421,10 @@ async def submit_claim_endpoint(
 
     patient_uuid = patient.patient_uuid
 
-    # --- Prevalidation check ---
     prevalidated_items = claim.prevalidation_result.get("items") if claim.prevalidation_result else None
     if not prevalidated_items:
         raise HTTPException(status_code=400, detail="Claim not prevalidated or has no items")
 
-    # --- Get latest eligibility cache ---
     cache_entry = (
         db.query(EligibilityCache)
         .filter(EligibilityCache.patient_uuid == patient_uuid)
@@ -400,12 +439,15 @@ async def submit_claim_endpoint(
         raise HTTPException(status_code=400, detail="No contract/coverage found in eligibility cache")
 
     coverage_reference = insurance_entries[0]["contract"]["reference"]
-
-    # --- Generate IMIS claim code ---
     imis_claim_code = uuid.uuid4().hex
+    guarantee_id={"reference": "Contract/HIB-3500/2026-11-16 00:00:00"}
+    care_type_map = {"OPD": "O", "IPD": "I", "ER": "O","Ref":"O"}
+    service_type_mapped = {"OPD": "O", "ER": "E", "IPD": "O", "Ref": "R"}
+    if claim.service_type in ["OPD", "ER"]:
+        type_field = [{"text": service_type_mapped.get(claim.service_type, "O")}]
+    else:  # for IPD, Referral, etc.
+        type_field = {"text": service_type_mapped.get(claim.service_type, "O")}
 
-    # --- Build FHIR claim payload ---
-    care_type_map = {"OPD": "O", "IPD": "I", "Emergency": "O", "ER": "O"}
     icd_codes = json.loads(claim.icd_codes) if isinstance(claim.icd_codes, str) else claim.icd_codes
 
     fhir_claim_payload = {
@@ -416,54 +458,64 @@ async def submit_claim_endpoint(
         },
         "created": datetime.utcnow().isoformat(),
         "patient": {"reference": f"Patient/{patient_uuid}"},
-        "insurance": [
-            {"coverage": {"reference": coverage_reference}, "sequence": 1}
+        "information": [
+            {
+                "category": { "text": "guarantee_id" },
+                "sequence": 1,
+                "valueString": guarantee_id  
+            }
         ],
         "identifier": [
             {
                 "type": {"coding": [{"code": "ACSN", "system": "https://hl7.org/fhir/valueset-identifier-type.html"}]},
                 "use": "usual",
-                "value": patient.patient_code
+                "value": patient_uuid
             },
             {
                 "type": {"coding": [{"code": "MR", "system": "https://hl7.org/fhir/valueset-identifier-type.html"}]},
                 "use": "usual",
-                "value": imis_claim_code
+                "value": claim.claim_code
             }
         ],
         "item": [
             {
                 "category": {"text": "service"},
-                "quantity": {"value": float(item["quantity"])},
+                "quantity": {"value":2.00 },#float(item["quantity"])
                 "sequence": i + 1,
-                "service": {"text": item.get("item_code", "UNKNOWN")},
-                "unitPrice": {"value": round(float(item["approved_amount"]), 2)},
+                "service": {"text": "OPD01"},#item.get("item_code", "UNKNOWN")
+                "unitPrice": {"value": 500.00},#round(float(item["approved_amount"]), 2)
             }
             for i, item in enumerate(prevalidated_items)
         ],
         "total": {"value": claim.amount_claimed},
-        "careType": care_type_map.get(claim.service_type, "O"),
-        "type": {"text": "O"},
+        "careType": care_type_map.get(claim.service_type,"O"),#care type shall be I and O only
+        "type": {"text":service_type_mapped.get(claim.service_type,"O")},
+# visit type shall be O R and E only Others Referral and Emergency     
         "enterer": {"reference": "Practitioner/7aa79c53-057e-4e77-8576-dfcfb03584a8"},
         "facility": {"reference": "Location/1ac457d3-efd3-4a67-89b3-bf8cbe18045d"},
+        #here for testing this is commented out above is the hardcoded value for now
+        #"enterer": {"reference": f"Practitioner/{claim.enterer_reference}"},
+        #"facility": {"reference": f"Location/{claim.facility_reference}"},
         "diagnosis": [
-            {"sequence": i + 1, "type": [{"text": "icd_0"}], "diagnosisCodeableConcept": {"coding": [{"code": code}]}}
+            {"sequence": i + 1, 
+             "type": {"coding": [{"code": "icd_0"}], "text": "icd_0"},
+             "diagnosisCodeableConcept": {"coding": [{"code": code}]}}
             for i, code in enumerate(icd_codes or [])
         ],
         "nmc": ",".join(claim.doctor_nmc)
     }
 
-    # --- Submit claim to IMIS ---
+
     try:
         imis_response = await imis_services.submit_claim(fhir_claim_payload, session)
     except Exception as exc:
         logging.error(f"IMIS submission failed for claim {claim_code}: {exc}")
         raise HTTPException(status_code=500, detail=f"IMIS submission failed: {str(exc)}") from exc
 
-    # --- Update claim status ---
+
     claim.status = "submitted"
 
-    # --- Store IMIS response ---
+
     imis_record = ImisResponse(
         patient_id=claim.patient_id,
         raw_response=json.loads(json.dumps(imis_response, default=str)),
@@ -487,6 +539,28 @@ async def submit_claim_endpoint(
     }
 
 
+# Get all claims
+@router.get("/claims/all")
+def get_all_claims(db: Session = Depends(get_db)):
+    claims = db.query(Claim).order_by(Claim.claim_code.desc()).all()
+    return {
+        "count": len(claims),
+        "results": claims
+    }
+
+# Get claims by patient UUID
+@router.get("/claims/patient/{patient_uuid}")
+def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
+    patient = db.query(Patient).filter(Patient.patient_uuid == patient_uuid).first()
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    claims = db.query(Claim).filter(Claim.patient_id == patient.id).order_by(Claim.claim_code.desc()).all()
+    
+    return {
+        "count": len(claims),
+        "results": claims
+    }
 
 # @router.post("/submit_claim/{claim_code}")
 # async def submit_claim_endpoint(
@@ -643,26 +717,3 @@ async def submit_claim_endpoint(
 #         "imis_response": imis_response
 #     }
 
-
-# Get all claims
-@router.get("/claims/all")
-def get_all_claims(db: Session = Depends(get_db)):
-    claims = db.query(Claim).order_by(Claim.claim_code.desc()).all()
-    return {
-        "count": len(claims),
-        "results": claims
-    }
-
-# Get claims by patient UUID
-@router.get("/claims/patient/{patient_uuid}")
-def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
-    patient = db.query(Patient).filter(Patient.patient_uuid == patient_uuid).first()
-    if not patient:
-        raise HTTPException(status_code=404, detail="Patient not found")
-
-    claims = db.query(Claim).filter(Claim.patient_id == patient.id).order_by(Claim.claim_code.desc()).all()
-    
-    return {
-        "count": len(claims),
-        "results": claims
-    }

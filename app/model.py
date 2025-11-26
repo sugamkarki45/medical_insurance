@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, validator
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any,Literal
 from datetime import date
 import uuid
 from enum import Enum
@@ -46,7 +46,6 @@ class ClaimableItem(BaseModel):
 
 
 class Diagnosis(BaseModel):
-    icd_code: str
     provisional: Optional[str] = None
     differential: Optional[str] = None
     final: Optional[str] = None
@@ -55,14 +54,14 @@ class Diagnosis(BaseModel):
 
 class HospitalType(str, Enum):
     phc = "phc"
-    government = "government"
-    private = "private"
+    government = "Government"
+    private = "Private"
 
 
 class ClaimInput(BaseModel):
     patient_id: str
     visit_date: date
-    service_type: str  # e.g., 'OPD', 'ER', 'IPD', "referral"
+    service_type: Literal['OPD','IPD','ER','Ref']
     service_code: Optional[str] = None
     doctor_nmc: Optional[str] = None
     diagnosis: Diagnosis
@@ -71,6 +70,7 @@ class ClaimInput(BaseModel):
     hospital_type: HospitalType = Field(..., description="Type of health facility (phc, government, private)")
     enterer_reference: Optional[str] = None  # who is entering the claim
     facility_reference: Optional[str] = None  # health facility code
+    claim_time: Optional[str] = Field(..., description="Enter the time of claim: discharge,same day")# e.g., 'discharge', 'same_day', etc.
 
     @validator("service_type", pre=True)
     def normalize_service_type(cls, v):
