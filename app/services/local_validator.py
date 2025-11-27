@@ -125,7 +125,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
         last_opd_claim = next((c for c in previous_claims if c.service_type == "OPD"), None)
 
         # Check if a new ticket is required
-        new_ticket_required = True
+        new_ticket_required = False
         if last_opd_claim and claim.service_code:
             days_diff = (claim.visit_date - last_opd_claim.claim_date).days
 
@@ -136,8 +136,11 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
             # Ticket expired but service code is different — still considered a valid new service, no new ticket warning
             elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
                 new_ticket_required = False
+            
+            if days_diff<=ticket_days and claim.service_code!=last_opd_claim.service_code:
+                warnings.append(f"the previous code has not expired yet. No need of new OPD ticket")
 
-            if new_ticket_required:
+        if new_ticket_required:
                 warnings.append(f"OPD ticket expired. New ticket required.")
 
         # Check for same episode detection (claim_code consistency within validity)
@@ -161,16 +164,35 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
 
 
 #IPD and emergency rules implementation
-        if category in ("Emergency", "IPD"):
-            submit_at_discharge = cat_rules.get("submit_at_discharge", True)
+    if category in ("Emergency", "IPD"):
+        submit_at_discharge = cat_rules.get("submit_at_discharge", True)
 # claim time maybe included in the input to determine the claim has been submitted at discharge or not
-            if submit_at_discharge and claim.claim_time != "discharge":
-                warnings.append(f"{category} claims must be submitted at discharge.")
-        if category == "IPD" and cat_rules.get("package_based_claim_only", True):
-            if not claim.is_package:
-                warnings.append("IPD claims must be package based according to IMIS rules.")
+        if submit_at_discharge and claim.claim_time != "discharge":
+            warnings.append(f"{category} claims must be submitted at discharge.")
+    # if category == "IPD" and cat_rules.get("package_based_claim_only", True):
+    #     if not claim.is_package:
+    #             warnings.append("IPD claims must be package based according to IMIS rules.")
 
-
+        # Fetch latest eligibility cache entry for the patient_uuid
+    if allowed_money is None or used_money is None:
+        elig_cache = (
+                db.query(EligibilityCache)
+                .filter(EligibilityCache.patient_uuid == patient.patient_uuid)
+                .order_by(EligibilityCache.id.desc())
+                .first()
+        )
+        available_money = Decimal("0")
+        # fallback to zero if cache doesn't exist
+        allowed_money = Decimal(str(elig_cache.allowed_money)) if elig_cache and elig_cache.allowed_money else Decimal("0")
+        used_money = Decimal(str(elig_cache.used_money)) if elig_cache and elig_cache.used_money else Decimal("0")
+    available_money = allowed_money - used_money
+# now we will stop the claim if this condition is met instead of just giving a warning.
+    if available_money <= 0:
+            raise HTTPException(
+                status_code=400, detail="This patient has no remaining balance")
+            # warnings.append(
+            #     f"Patient has no remaining balance (allowed: {allowed_money}, used: {used_money}), but claim is locally valid."
+            # )
 #processing of claiumable items
     seen_surgery_packages = set()
     surgery_disease_count = defaultdict(int)  # disease → count of surgery claims
@@ -194,7 +216,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
         }
 
         if not data:
-            item_result["warnings"].append("Item not found in HIB catalog.")
+            item_result["warnings"].append("{item not found in HIB catalog.")
             items_output.append(item_result)
             continue
 
@@ -234,42 +256,53 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
             raw_amount = rate * qty
 
 # Time-based capping 
-
-
-
-
         max_units_in_window = capping.get("max_per_visit")  # maximum units allowed
-        window_days = capping.get("max_days")# time window in days
+        window_days = capping.get("max_days")  # time window in days
 
         if window_days and max_units_in_window:
+
             visit_date = claim.visit_date
             start_date = visit_date - timedelta(days=window_days)
 
+            # total used quantity for THIS item_code in the time window
             used_qty = Decimal("0")
-        for prev_claim in previous_claims:
-            prev_date = prev_claim.claim_date.date()
-            if not (start_date <= prev_date <= visit_date):
-                continue
 
-            for prev_item in Claim.prevalidation_results.get("items", []):
-                if prev_item["item_code"] != item.item_code:
+            # 1. SUM all previous quantities for this item in the window
+            for prev_claim in previous_claims:
+                prev_date = prev_claim.claim_date
+
+                # skip if outside the window
+                if not (start_date <= prev_date <= visit_date):
                     continue
-                used_qty += Decimal(str(prev_item["quantity"]))            
+
+                prev_items = prev_claim.item_code or []
+                for x in prev_items:
+                    if x["item_code"] == item.item_code:
+                        used_qty += Decimal(str(x["qty"]))
+
+            # remaining units available
             available_qty = Decimal(str(max_units_in_window)) - used_qty
+
             if available_qty <= 0:
                 raise HTTPException(
                     status_code=400,
-                    detail=f"No remaining units for {item.item_code}. Already fully used in the {window_days}-day window."
+                    detail=f"No remaining units for {item.item_code}. "
+                        f"Already fully used in the last {window_days}-day window."
                 )
- 
+
+            # requested quantity
+            qty = Decimal(str(item.quantity))
+
             if qty > available_qty:
                 item_result["warnings"].append(
-                    f"Only {available_qty} units left in the last {window_days}-day window for {item.item_code}."
+                    f"Only {available_qty} units can be claimed in {window_days}-day window for {item.item_code}. Remaining {qty-available_qty} number of {item.item_code} cannot be claimed."
                 )
-                qty = available_qty
-                raw_amount = rate * qty
+                qty = available_qty  # cap quantity
 
-        approved_amount = raw_amount
+            # calculate amount
+            raw_amount = rate * qty
+            approved_amount = raw_amount
+
 
 
 
@@ -307,26 +340,6 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
             if approved_amount > max_bed:
                 item_result["warnings"].append(f"Bed charge capped at NPR {max_bed}/day.")
                 approved_amount = Decimal(str(max_bed))
-
-
-# Fetch latest eligibility cache entry for the patient_uuid
-        if allowed_money is None or used_money is None:
-            elig_cache = (
-                db.query(EligibilityCache)
-                .filter(EligibilityCache.patient_uuid == patient.patient_uuid)
-                .order_by(EligibilityCache.id.desc())
-                .first()
-        )
-
-        # fallback to zero if cache doesn't exist
-            allowed_money = Decimal(str(elig_cache.allowed_money)) if elig_cache and elig_cache.allowed_money else Decimal("0")
-            used_money = Decimal(str(elig_cache.used_money)) if elig_cache and elig_cache.used_money else Decimal("0")
-        available_money = allowed_money - used_money
-
-        if available_money <= 0:
-            warnings.append(
-                f"Patient has no remaining balance (allowed: {allowed_money}, used: {used_money}), but claim is locally valid."
-            )
 
 
 

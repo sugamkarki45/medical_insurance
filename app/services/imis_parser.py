@@ -33,7 +33,6 @@ def parse_eligibility_response(raw):
                 policy_id = parts[1]
                 expiry_raw = parts[2].strip()
 
-                # correct format for "2026-11-16 00:00:00"
                 try:
                     policy_expiry = datetime.strptime(expiry_raw, "%Y-%m-%d %H:%M:%S").date()
                 except Exception:

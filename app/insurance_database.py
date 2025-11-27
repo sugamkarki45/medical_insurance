@@ -66,7 +66,7 @@ class Claim(Base):
     patient_id = Column(Integer, ForeignKey("patients.id", ondelete="CASCADE"), nullable=False)
     amount_claimed = Column(Float, nullable=False)
     claim_date = Column(Date)
-    item_code=Column(String)
+    item_code=Column(JSON)
     status = Column(String, default="draft")
     prevalidation_result = Column(JSON, nullable=True)
     enterer_reference = Column(String, nullable=True)

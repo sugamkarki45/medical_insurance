@@ -290,6 +290,7 @@ async def eligibility_check_endpoint(
 
     allowed_money = Decimal(str(parsed.get("allowed_money") or "0"))
     used_money = Decimal(str(parsed.get("used_money") or "0"))
+    item_code=parsed.get("item_code")
 
 
     patient = (
@@ -355,13 +356,18 @@ async def eligibility_check_endpoint(
 
 
     # 7. Save claim
+    items = [
+    {"item_code": item.item_code, "qty": item.quantity}
+    for item in input_data.claimable_items
+    ]
     claim = Claim(
         claim_code=claim_code,
         service_code=input_data.service_code,
         service_type=input_data.service_type,
         icd_codes=json.dumps(input_data.icd_codes or []),
         patient=patient,
-        amount_claimed=sum(item.cost for item in input_data.claimable_items),  # rename this as amount claimable 
+        item_code=items,
+        amount_claimed=sum(item.cost for item in input_data.claimable_items),
         claim_date=input_data.visit_date,
         status="pending",
         prevalidation_result=local,
@@ -459,12 +465,13 @@ async def submit_claim_endpoint(
         "created": datetime.utcnow().isoformat(),
         "patient": {"reference": f"Patient/{patient_uuid}"},
         "information": [
-            {
-                "category": { "text": "guarantee_id" },
-                "sequence": 1,
-                "valueString": guarantee_id  
-            }
-        ],
+    {
+        "category": { "text": "guarantee_id" },
+        "sequence": 1,
+        "valueString": "Contract/HIB-8D/2026-11-16 00:00:00"
+    }
+]
+,
         "identifier": [
             {
                 "type": {"coding": [{"code": "ACSN", "system": "https://hl7.org/fhir/valueset-identifier-type.html"}]},
@@ -480,17 +487,16 @@ async def submit_claim_endpoint(
         "item": [
             {
                 "category": {"text": "service"},
-                "quantity": {"value":2.00 },#float(item["quantity"])
+                "quantity": {"value":float(item["quantity"]) },#float(item["quantity"])
                 "sequence": i + 1,
                 "service": {"text": "OPD01"},#item.get("item_code", "UNKNOWN")
-                "unitPrice": {"value": 500.00},#round(float(item["approved_amount"]), 2)
+                "unitPrice": {"value": round(float(item["approved_amount"]), 2)},#round(float(item["approved_amount"]), 2)
             }
             for i, item in enumerate(prevalidated_items)
         ],
         "total": {"value": claim.amount_claimed},
-        "careType": care_type_map.get(claim.service_type,"O"),#care type shall be I and O only
-        "type": {"text":service_type_mapped.get(claim.service_type,"O")},
-# visit type shall be O R and E only Others Referral and Emergency     
+        "careType":"O",#care type shall be I and O only care_type_map.get(claim.service_type,
+  
         "enterer": {"reference": "Practitioner/7aa79c53-057e-4e77-8576-dfcfb03584a8"},
         "facility": {"reference": "Location/1ac457d3-efd3-4a67-89b3-bf8cbe18045d"},
         #here for testing this is commented out above is the hardcoded value for now
@@ -498,11 +504,12 @@ async def submit_claim_endpoint(
         #"facility": {"reference": f"Location/{claim.facility_reference}"},
         "diagnosis": [
             {"sequence": i + 1, 
-             "type": {"coding": [{"code": "icd_0"}], "text": "icd_0"},
+             "type": [{"coding": [{"code": "icd_0"}], "text": "icd_0"}],
              "diagnosisCodeableConcept": {"coding": [{"code": code}]}}
             for i, code in enumerate(icd_codes or [])
         ],
-        "nmc": ",".join(claim.doctor_nmc)
+        "nmc": ",".join(claim.doctor_nmc) if isinstance(claim.doctor_nmc, list) else claim.doctor_nmc,
+        "type": {"text":service_type_mapped.get(claim.service_type,"O")},#service_type_mapped.get(claim.service_type, # visit type shall be O R and E only Others Referral and Emergency   
     }
 
 
