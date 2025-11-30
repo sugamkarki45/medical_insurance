@@ -2,15 +2,10 @@ from sqlalchemy import (
     create_engine, Column, Integer, String, Float,
     Date, ForeignKey, JSON
 )
-from model import ClaimInput
+import uuid
 from sqlalchemy.types import DateTime
 from datetime import datetime
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
-import string
-import secrets
-from datetime import timedelta
-from sqlalchemy.orm import Session  
-
 Base = declarative_base()
 
 

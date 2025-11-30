@@ -392,9 +392,9 @@ async def eligibility_check_endpoint(
         "eligibility": eligibility_raw,
     }
 
-@router.post("/submit_claim/{claim_code}")
+@router.post("/submit_claim/{claim_id}")
 async def submit_claim_endpoint(
-    claim_code: str,
+    claim_id: str,
     username: str,
     db: Session = Depends(get_db),
 ):
@@ -407,8 +407,7 @@ async def submit_claim_endpoint(
 # yesma claim id rakhni ki claim code rakhni ho vanni kura sochera garnu 
     claim = (
         db.query(Claim)
-        .options(joinedload(Claim.patient))
-        .filter(Claim.claim_code == claim_code)
+        .filter(Claim.claim_id == claim_id)
         .first()
     )
     if not claim:
@@ -464,19 +463,21 @@ async def submit_claim_endpoint(
         },
         "created": datetime.utcnow().isoformat(),
         "patient": {"reference": f"Patient/{patient_uuid}"},
-        "information": [
-    {
-        "category": { "text": "guarantee_id" },
-        "sequence": 1,
-        "valueString": "Contract/HIB-8D/2026-11-16 00:00:00"
-    }
-]
-,
+        "id":imis_claim_code,
+#         "information": [
+# #     {
+# #         "category": { "text": "guarantee_id" },
+# #         "sequence": 1,
+# #         "valueString": "Contract/HIB-8D/2026-11-16"#Contract/HIB-8D/2026-11-16 00:00:00
+# #     }
+# # 
+# ]
+
         "identifier": [
             {
                 "type": {"coding": [{"code": "ACSN", "system": "https://hl7.org/fhir/valueset-identifier-type.html"}]},
                 "use": "usual",
-                "value": patient_uuid
+                "value": imis_claim_code
             },
             {
                 "type": {"coding": [{"code": "MR", "system": "https://hl7.org/fhir/valueset-identifier-type.html"}]},
@@ -516,7 +517,7 @@ async def submit_claim_endpoint(
     try:
         imis_response = await imis_services.submit_claim(fhir_claim_payload, session)
     except Exception as exc:
-        logging.error(f"IMIS submission failed for claim {claim_code}: {exc}")
+        logging.error(f"IMIS submission failed for claim {claim_id}: {exc}")
         raise HTTPException(status_code=500, detail=f"IMIS submission failed: {str(exc)}") from exc
 
 

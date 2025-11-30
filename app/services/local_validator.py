@@ -9,6 +9,7 @@ from insurance_database import Claim, Patient, EligibilityCache
 from collections import defaultdict
 from insurance_database import Claim
 from fastapi import HTTPException
+import uuid
 
 def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[Claim]:
 #latest claims first
@@ -20,40 +21,6 @@ def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[
         .all()
     )
 
-# _ALPHABET = string.ascii_uppercase + string.digits
-
-# def _generate_claim_code() -> str:
-#     return "CLM" + "".join(secrets.choice(_ALPHABET) for _ in range(8))
-# _ALPHABET = string.ascii_uppercase + string.digits
-
-# def _generate_claim_code(patient_id):
-#     timestamp = datetime.utcnow().strftime("%y%m%d%H%M%S")  # e.g., '2511250637'
-#     random_part = "".join(secrets.choice(_ALPHABET) for _ in range(4))  # shorter random
-#     return f"CLM{patient_id % 1000}{timestamp}{random_part}"
-
-# _ALPHABET = string.ascii_uppercase + string.digits
-
-# def _generate_claim_code(patient_id: int) -> str:
-#     """
-#     Generates a claim code with:
-#       - CLM prefix
-#       - last 3 digits of patient_id
-#       - timestamp down to microseconds
-#       - 6-character random alphanumeric string
-#     Example: CLM1232511250637123456ABCD12
-#     """
-#     # Use last 3 digits of patient_id for readability
-#     patient_part = f"{patient_id % 1000:03d}"
-
-#     # Timestamp with microseconds for high-precision uniqueness
-#     timestamp_part = datetime.utcnow().strftime("%y%m%d%H%M%S%f")  # adds microseconds
-
-#     # Random 6-character alphanumeric part
-#     random_part = "".join(secrets.choice(_ALPHABET) for _ in range(6))
-
-    # return f"CLM{patient_part}{timestamp_part}{random_part}"
-
-import uuid
 
 def _generate_claim_code():
     return str(uuid.uuid4())
@@ -110,7 +77,6 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
     previous_claims = _get_previous_claims_for_patient(db, claim.patient_id)
 
     patient = db.query(Patient).filter(Patient.patient_code == claim.patient_id).first()
-    Claims=db.query(Claim).filter(Claim.claim_code==claim_code).first() if claim_code else None
 #rules according to category
     category = claim.service_type  # "OPD", "IPD", "Emergency"
     cat_rules = rules["claim_categories"].get(category, {}).get("rules", {})
@@ -120,33 +86,52 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
         ticket_days = cat_rules.get("ticket_valid_days", 7)
         use_same_claim_code = cat_rules.get("use_same_claim_code_within_validity", True)
         require_same_day_submit = cat_rules.get("submit_daily_after_service", True)
+        cutoff = claim.visit_date - timedelta(days=ticket_days)
 
-        # Get the latest previous OPD claim if exists
-        last_opd_claim = next((c for c in previous_claims if c.service_type == "OPD"), None)
+        last_opd_claim = (
+            db.query(Claim)
+            .join(Patient)
+            .filter(Patient.patient_code == claim.patient_id)
+            .filter(Claim.service_type == "OPD")
+            .filter(Claim.claim_date >= cutoff)
+            .order_by(Claim.claim_date.asc())
+            .first()
+        )
+
 
         # Check if a new ticket is required
-        new_ticket_required = False
-        if last_opd_claim and claim.service_code:
-            days_diff = (claim.visit_date - last_opd_claim.claim_date).days
+        new_ticket_required = True
+        if not last_opd_claim:
+            new_ticket_required=False
+        else:
+            if last_opd_claim and claim.service_code:
+                days_diff = (claim.visit_date - last_opd_claim.claim_date).days
 
-            # Same ticket still valid (within ticket_days)
-            if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_code:
-                new_ticket_required = False
+                # Case 1: Same ticket still valid
+                if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_code:
+                    new_ticket_required = False
 
-            # Ticket expired but service code is different — still considered a valid new service, no new ticket warning
-            elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
-                new_ticket_required = False
-            
-            if days_diff<=ticket_days and claim.service_code!=last_opd_claim.service_code:
-                warnings.append(f"the previous code has not expired yet. No need of new OPD ticket")
+                # Case 2: Different service code within validity → valid ticket, but warn
+                elif 0 <= days_diff < ticket_days and claim.service_code != last_opd_claim.service_code:
+                    new_ticket_required = False
+                    warnings.append("The previous OPD ticket is still valid. No new ticket needed even for a different service. The claim code shall also be the same")
 
-        if new_ticket_required:
-                warnings.append(f"OPD ticket expired. New ticket required.")
+                # Case 3: Different service code + ticket expired → valid new service, no warning
+                elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
+                    new_ticket_required = False
 
-        # Check for same episode detection (claim_code consistency within validity)
-        if use_same_claim_code and claim_code and last_opd_claim:
-            if 0 <= (claim.visit_date - last_opd_claim.claim_date).days < ticket_days and last_opd_claim.claim_code != claim_code:
-                warnings.append("Same OPD episode detected; claim_code MUST remain the same for all visits.")
+                # Case 4: Same service code + ticket expired → new ticket required
+                elif days_diff >= ticket_days and claim.service_code == last_opd_claim.service_code:
+                    new_ticket_required = True
+
+                # case 5: When the claim code is different within valid period
+                # elif 0 <= days_diff < ticket_days and claim.service_code != last_opd_claim.service_code and claim_code!=last_opd_claim.claim_code:
+                #     warnings.append("The claim code shall be the same within the valid periods.")
+
+        # Append warning only if a new ticket is actually required
+            if new_ticket_required:
+                warnings.append("OPD ticket expired. New ticket required.")
+
 # check these three rules later when the claim object is updated to have department, referral_provided, submit_date, visit_date fields
 #         if require_referral:
 #             for prev in previous_claims:
