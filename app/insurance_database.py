@@ -52,7 +52,7 @@ class EligibilityCache(Base):
 
 class Claim(Base):
     __tablename__ = "claims"
-    claim_id = Column(Integer, primary_key=True, index=True)
+    claim_id = Column(String, primary_key=True, index=True)
     claim_code = Column(String(11),nullable=False,index=True)
     icd_codes = Column(String, nullable=False)
     doctor_nmc = Column(String, nullable=True)

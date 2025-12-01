@@ -65,7 +65,7 @@ class ClaimInput(BaseModel):
     service_code: Optional[str] = None
     doctor_nmc: Optional[str] = None
     diagnosis: Diagnosis
-    icd_codes: List[str] = []
+    icd_codes: List[str] = Field(default_factory=list,min_length=1)
     claimable_items: List[ClaimableItem]
     hospital_type: HospitalType = Field(..., description="Type of health facility (phc, government, private)")
     enterer_reference: Optional[str] = None  # who is entering the claim
@@ -75,7 +75,7 @@ class ClaimInput(BaseModel):
     @validator("service_type", pre=True)
     def normalize_service_type(cls, v):
         if isinstance(v, str):
-            return v.upper().strip()  # service types appear coded, so using upper
+            return v.upper().strip() 
         return v
 
     @validator("hospital_type", pre=True)
@@ -106,7 +106,8 @@ class FullClaimValidationResponse(BaseModel):
     local_validation: Dict[str, Any]
     imis_patient: Dict[str, Any]
     eligibility: Dict[str, Any]
-    warnings: Optional[List[str]] = []
+    claim_id:str
+    claim_code:str
 
 
 

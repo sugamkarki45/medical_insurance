@@ -13,53 +13,13 @@ from services.local_validator import _generate_or_reuse_claim_code
 from sqlalchemy.orm import joinedload
 from datetime import datetime,timedelta
 import logging,json,requests,uuid,os
+from typing import List
 
 
 router = APIRouter(tags=["Claims"])
-
-
-
+IMIS_LOGIN_URL = "http://imislegacy.hib.gov.np"
 UPLOAD_DIR = "uploads/claim_upload/"
 BASE_URL = "https://ourdomaintostorethefiles.com/uploads/claims/"
-
-
-@router.post("/upload_document/{claim_id}")
-async def upload_document(claim_id: str, file: UploadFile = File(...), db: Session = Depends(get_db)):
-    claim = db.query(Claim).filter(Claim.claim_id == claim_id).first()
-    if not claim:
-        raise HTTPException(status_code=404, detail="Claim not found")
-
-    claim_folder = os.path.join(UPLOAD_DIR, claim_id)
-    os.makedirs(claim_folder, exist_ok=True)
-
-    ext = file.filename.split(".")[-1]
-    filename = f"{uuid.uuid4()}.{ext}"
-    file_path = os.path.join(claim_folder, filename)
-
-    with open(file_path, "wb") as f:
-        f.write(await file.read())
-
-    # URL accessible via your server
-    file_url = f"{BASE_URL}{claim_id}/{filename}"
-
-    doc = ClaimDocument(
-        claim_id=claim_id,
-        file_url=file_url,
-        document_type="general"
-    )
-    db.add(doc)
-    db.commit()
-    db.refresh(doc)
-
-    return {
-        "message": "File uploaded and saved",
-        "file_url": file_url,
-        "document_id": doc.id
-    }
-
-
-
-IMIS_LOGIN_URL = "http://imislegacy.hib.gov.np"
 
 #here we have to check the login details with imis and store in our db
 @router.post("/imis/login")
@@ -117,17 +77,17 @@ async def imis_login(input: LoginInput, db: Session = Depends(get_db)):
 
 
 @router.get("/{identifier}")
-async def get_patient(identifier: str, username: str, db: Session = Depends(get_db)):
+async def get_patient(identifier: str, username: str, session: requests.Session = Depends(get_imis_session),db: Session = Depends(get_db)):
     Session
 
 
-    session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
+    # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
     
-    if not session_obj:
-        raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
+    # if not session_obj:
+    #     raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
     
 
-    session= get_imis_session(db, username)
+    # session= get_imis_session(db, username)
     # 1. Try local DB
     patient = db.query(Patient).filter(Patient.patient_code == identifier).first()
 
@@ -168,7 +128,7 @@ def format_patient_response(patient: Patient):
         "birthDate": resource.get("birthDate"),
         "gender": resource.get("gender"),
         "copayment": patient.copayment,
-        "imis": patient.imis_full_response   # full IMIS dump
+        "imis": patient.imis_full_response  
     }
 
 
@@ -247,16 +207,17 @@ def format_patient_response(patient: Patient):
 @router.post("/Eligibility_check", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
     input_data: ClaimInput, username: str,
+    session: requests.Session = Depends(get_imis_session),
     db: Session = Depends(get_db), 
     #api_key: str = Depends(get_api_key),
 ):
-    session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
+    # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
     
-    if not session_obj:
-        raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
+    # if not session_obj:
+    #     raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
     
 
-    session = get_imis_session(db, username)
+    # session = get_imis_session(db, username)
 
     patient_info = await imis_services.get_patient_info(input_data.patient_id, session)
 
@@ -360,7 +321,9 @@ async def eligibility_check_endpoint(
     {"item_code": item.item_code, "qty": item.quantity}
     for item in input_data.claimable_items
     ]
+    claim_id = str(uuid.uuid4())
     claim = Claim(
+        claim_id=claim_id,
         claim_code=claim_code,
         service_code=input_data.service_code,
         service_type=input_data.service_type,
@@ -385,12 +348,112 @@ async def eligibility_check_endpoint(
         print("CLAIM SAVE ERROR:", e)
         raise HTTPException(status_code=500, detail=str(e))
 
-    # 8. Final output
+
     return {
         "local_validation": local,
         "imis_patient": patient_info,
         "eligibility": eligibility_raw,
+        "claim_id":claim_id,
+        "claim_code":claim_code
     }
+
+
+@router.post("/upload_documents/{claim_id}")
+async def upload_multiple_documents(
+    claim_id: str,
+    files: List[UploadFile] = File(..., description="Multiple files allowed (max 10)"),
+    db: Session = Depends(get_db)
+):
+    if len(files) > 10:
+        raise HTTPException(status_code=400, detail="Maximum 10 files allowed at once")
+
+    claim = db.query(Claim).filter(Claim.claim_id == claim_id).first()
+    if not claim:
+        raise HTTPException(status_code=404, detail="Claim not found")
+
+    claim_folder = os.path.join(UPLOAD_DIR, claim_id)
+    os.makedirs(claim_folder, exist_ok=True)
+
+    uploaded_docs = []
+
+    for file in files:
+        if file.size == 0:
+            continue  # skip empty files
+
+        # Secure filename
+        ext = file.filename.rsplit(".", 1)[-1].lower() if "." in file.filename else "file"
+        if ext not in {"pdf", "jpg", "jpeg", "png", "doc", "docx"}:
+            raise HTTPException(status_code=400, detail=f"File type not allowed: {file.filename}")
+
+        filename = f"{uuid.uuid4()}.{ext}"
+        file_path = os.path.join(claim_folder, filename)
+
+        contents = await file.read()
+        with open(file_path, "wb") as f:
+            f.write(contents)
+
+        file_url = f"{BASE_URL}/uploads/{claim_id}/{filename}"
+
+        doc = ClaimDocument(
+            claim_id=claim_id,
+            file_url=file_url,
+            original_filename=file.filename,
+            document_type="general",
+            file_size=len(contents)
+        )
+        db.add(doc)
+        uploaded_docs.append({
+            "document_id": doc.id,
+            "file_url": file.filename,
+            "file_url": file_url
+        })
+
+    db.commit()
+
+    for doc in uploaded_docs:
+        db.refresh(db.query(ClaimDocument).filter(ClaimDocument.id == doc["document_id"]).first())
+
+    return {
+        "message": f"{len(uploaded_docs)} document(s) uploaded successfully",
+        "claim_id": claim_id,
+        "documents": uploaded_docs
+    }
+
+#endpoint to delete the uploaded files
+# @router.delete("/document/{document_id}")
+# async def delete_document(
+#     document_id: int,
+#     current_user: User = Depends(get_current_user), 
+#     db: Session = Depends(get_db)
+# ):
+#     doc = db.query(ClaimDocument).filter(ClaimDocument.id == document_id).first()
+#     if not doc:
+#         raise HTTPException(status_code=404, detail="Document not found")
+
+#     # Optional: restrict deletion to same hospital/user
+#     # claim = doc.claim
+#     # if claim.facility_id != current_user.facility_id:
+#     #     raise HTTPException(status_code=403, detail="Not authorized")
+
+#     try:
+#         # Delete file from disk
+#         file_path = doc.file_url.replace(f"{BASE_URL}/uploads/", os.path.join(UPLOAD_DIR, ""))
+#         if os.path.exists(file_path):
+#             os.remove(file_path)
+#     except Exception as e:
+#         print(f"Failed to delete file from disk: {e}")
+#         # Continue — we still want to remove from DB
+
+#     # Delete from database
+#     db.delete(doc)
+#     db.commit()
+
+#     return {
+#         "message": "Document deleted successfully",
+#         "document_id": document_id,
+#         "file_url": doc.file_url
+#     }
+
 
 @router.post("/submit_claim/{claim_id}")
 async def submit_claim_endpoint(
@@ -463,7 +526,7 @@ async def submit_claim_endpoint(
         },
         "created": datetime.utcnow().isoformat(),
         "patient": {"reference": f"Patient/{patient_uuid}"},
-        "id":imis_claim_code,
+        #"id":imis_claim_code, # works fine without id as well, will uncomment when required
 #         "information": [
 # #     {
 # #         "category": { "text": "guarantee_id" },
@@ -488,15 +551,15 @@ async def submit_claim_endpoint(
         "item": [
             {
                 "category": {"text": "service"},
-                "quantity": {"value":float(item["quantity"]) },#float(item["quantity"])
+                "quantity": {"value":float(item["quantity"]) },
                 "sequence": i + 1,
-                "service": {"text": "OPD01"},#item.get("item_code", "UNKNOWN")
-                "unitPrice": {"value": round(float(item["approved_amount"]), 2)},#round(float(item["approved_amount"]), 2)
+                "service": {"text": "OPD01"},#item.get("item_code", "UNKNOWN")#here the service_code is a bit confusing as to enter the item_code or to enter the OPD01 and all opd and ER accordingly.
+                "unitPrice": {"value": round(float(item["approved_amount"]), 2)},
             }
             for i, item in enumerate(prevalidated_items)
         ],
         "total": {"value": claim.amount_claimed},
-        "careType":"O",#care type shall be I and O only care_type_map.get(claim.service_type,
+        "careType":care_type_map.get(claim.service_type),#care type shall be I and O 
   
         "enterer": {"reference": "Practitioner/7aa79c53-057e-4e77-8576-dfcfb03584a8"},
         "facility": {"reference": "Location/1ac457d3-efd3-4a67-89b3-bf8cbe18045d"},
@@ -569,6 +632,8 @@ def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
         "count": len(claims),
         "results": claims
     }
+
+
 
 # @router.post("/submit_claim/{claim_code}")
 # async def submit_claim_endpoint(
