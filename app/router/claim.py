@@ -1,322 +1,246 @@
-from fastapi import APIRouter, Depends, HTTPException, File, UploadFile
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from services.imis_services import get_patient_info, extract_copayment
-from model import ClaimInput, FullClaimValidationResponse , LoginInput
+from model import ClaimInput, FullClaimValidationResponse 
 from services.local_validator import prevalidate_claim
 from services import imis_services
-from services.imis_services import get_imis_session
-from insurance_database import Claim, Patient, get_db, EligibilityCache, ImisResponse,IMISSession,ClaimDocument
+from insurance_database import get_db, ImisResponse, PatientInformation,Claim
 from services.imis_parser import parse_eligibility_response
 from bs4 import BeautifulSoup
 from decimal import Decimal 
 from services.local_validator import _generate_or_reuse_claim_code
-from sqlalchemy.orm import joinedload
-from datetime import datetime,timedelta
-import logging,json,requests,uuid,os
-from typing import List
+from datetime import datetime
+import logging,uuid,json
+
 
 
 router = APIRouter(tags=["Claims"])
 IMIS_LOGIN_URL = "http://imislegacy.hib.gov.np"
-UPLOAD_DIR = "uploads/claim_upload/"
 BASE_URL = "https://ourdomaintostorethefiles.com/uploads/claims/"
 
-#here we have to check the login details with imis and store in our db
-@router.post("/imis/login")
-async def imis_login(input: LoginInput, db: Session = Depends(get_db)):
-    session = requests.Session()
 
 
-    try:
-        login_page = session.get(IMIS_LOGIN_URL)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch IMIS login page: {e}")
+# @router.get("/{identifier}")
+# async def get_patient(identifier: str, username: str,password:str,db: Session = Depends(get_db)): 
+#     # session= get_imis_session(db, username)
+#     patient = db.query(Patient).filter(Patient.patient_code == identifier).first()
+#     imis_response = await get_patient_info(identifier,username,password)
 
-    soup = BeautifulSoup(login_page.text, "html.parser")
-    try:
-        viewstate = soup.find("input", {"name": "__VIEWSTATE"})["value"]
-        eventvalidation = soup.find("input", {"name": "__EVENTVALIDATION"})["value"]
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to parse login form: {e}")
+#     if not imis_response["success"] or not imis_response["data"].get("entry"):
+#         raise HTTPException(status_code=404, detail="Patient not found")
 
-
-    payload = {
-        "__VIEWSTATE": viewstate,
-        "__EVENTVALIDATION": eventvalidation,
-        "txtUserName": input.username,
-        "txtPassword": input.password,
-        "btnLogin": "Login"
-    }
-
-    try:
-        response = session.post(IMIS_LOGIN_URL, data=payload, allow_redirects=True)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to submit login form: {e}")
-
-    if "Home.aspx" not in response.url or "ASP.NET_SessionId" not in session.cookies.get_dict():
-        raise HTTPException(status_code=401, detail="IMIS login failed")
-
-    cookie = session.cookies.get_dict()
-
-    existing = db.query(IMISSession).filter(IMISSession.username == input.username).first()
-    if existing:
-        db.delete(existing)
-        db.commit()
-
-    new_sess = IMISSession(
-        username=input.username,
-        session_cookie=str(cookie),
-        expires_at=datetime.utcnow() + timedelta(hours=8)
-    )
-
-    db.add(new_sess)
-    db.commit()
-    db.refresh(new_sess)
-
-    return {"message": "IMIS login successful", "session": cookie}
-
-
-@router.get("/{identifier}")
-async def get_patient(identifier: str, username: str, session: requests.Session = Depends(get_imis_session),db: Session = Depends(get_db)):
-    Session
-
-
-    # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
-    
-    # if not session_obj:
-    #     raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
-    
-
-    # session= get_imis_session(db, username)
-    # 1. Try local DB
-    patient = db.query(Patient).filter(Patient.patient_code == identifier).first()
-
-
-    # 3. Fetch from IMIS if not found or no data
-    imis_response = await get_patient_info(identifier,session)
-
-    if not imis_response["success"] or not imis_response["data"].get("entry"):
-        raise HTTPException(status_code=404, detail="Patient not found")
-
-    resource = imis_response["data"]["entry"][0]["resource"]
-
-    # 4. Extract copayment
-    copayment = extract_copayment(imis_response["data"])
-
-    # 5. Upsert into DB
-    if not patient:
-        patient = Patient(patient_code=identifier)
-
-    patient.imis_full_response = imis_response["data"]
-    patient.imis_core_resource = resource
-    patient.copayment = copayment  #here the name of the field can be made accordingly 
-
-    db.add(patient)
-    db.commit()
-    db.refresh(patient)
-
-    return format_patient_response(patient)
-
-
-def format_patient_response(patient: Patient):
-    resource = patient.imis_core_resource or {}
-
-    return {
-        "patient_code": patient.patient_code,
-        "uuid": resource.get("id"),
-        "name": " ".join(resource.get("name", [{}])[0].get("given", [])),
-        "birthDate": resource.get("birthDate"),
-        "gender": resource.get("gender"),
-        "copayment": patient.copayment,
-        "imis": patient.imis_full_response  
-    }
-
-
-# here we are commenting this endpoint as we are combining prevalidate and eligibility check into one endpoint called Eligibility_check and we can keep this endpoint if we need to perform local validation only without imis check
-# @router.post("/prevalidate_claim", response_model=ClaimResponse)
-# async def prevalidate_claim_endpoint(
-#     input_data: ClaimInput,
-#     db: Session = Depends(get_db),
-#     # api_key: str = Depends(get_api_key),  # Uncomment when auth is ready
-# ):
-#     """
-#     1. Run local validation
-#     2. Persist a *draft* patient (if new)
-#     3. Persist a *draft* claim with:
-#          • input_snapshot  – exact JSON the user sent
-#          • prevalidation_result
-#          • status = "draft"
-#     4. Return the validation result + draft claim ID
-#     """
-
-#     local_result = prevalidate_claim(input_data, db)
-
-# #get or to create a new patient
-#     patient = db.query(Patient).filter(Patient.patient_code == input_data.patient_id).first()
+#     resource = imis_response["data"]["entry"][0]["resource"]
+#     copayment = extract_copayment(imis_response["data"])
 #     if not patient:
-#         patient = Patient(
-#             patient_code=input_data.patient_id,
-#             last_visit_date=input_data.visit_date,   
-#         )
-#         db.add(patient)
-#         try:
-#             db.commit()
-#             db.refresh(patient)
-#         except Exception as exc:
-#             db.rollback()
-#             raise HTTPException(
-#                 status_code=500,
-#                 detail=f"Failed to save patient: {exc}"
-#             ) from exc
+#         patient = Patient(patient_code=identifier)
+
+#     patient.imis_full_response = imis_response["data"]
+#     patient.imis_core_resource = resource
+#     patient.copayment = copayment  #here the name of the field can be made accordingly 
+
+#     db.add(patient)
+#     db.commit()
+#     db.refresh(patient)
+
+#     return format_patient_response(patient)
 
 
-#     existing = db.query(Claim).filter(Claim.claim_code == input_data.claim_code).first()
-#     if existing:
-#         # Allow re-prevalidate – just update the draft
-#         claim = existing
-#         claim.status = "draft"
-#     else:
-#         claim = Claim(
-#             claim_code=input_data.claim_code,
-#             patient=patient,                           
-#             amount_claimed=sum(item.cost for item in input_data.claimable_items),
-#             claim_date=input_data.visit_date,
-#             status="draft",
-#             prevalidation_result=local_result,
-#         )
-#         db.add(claim)
+# def format_patient_response(patient: Patient):
+#     resource = patient.imis_core_resource or {}
 
-#     try:
-#         db.commit()
-#         db.refresh(claim)
-#     except Exception as exc:
-#         db.rollback()
-#         raise HTTPException(
-#             status_code=500,
-#             detail=f"Failed to save claim: {exc}"
-#         ) from exc
-
-#     return{
-#         "is_locally_valid": local_result["is_locally_valid"],
-#         "warnings": local_result["warnings"],
-#         "items": local_result["items"],
-#         "total_approved_local": local_result["total_approved_local"],
+#     return {
+#         "patient_code": patient.patient_code,
+#         "uuid": resource.get("id"),
+#         "name": " ".join(resource.get("name", [{}])[0].get("given", [])),
+#         "birthDate": resource.get("birthDate"),
+#         "gender": resource.get("gender"),
+#         "copayment": patient.copayment,
+#         "imis": patient.imis_full_response  
 #     }
 
 
-@router.post("/Eligibility_check", response_model=FullClaimValidationResponse)
-async def eligibility_check_endpoint(
-    input_data: ClaimInput, username: str,
-    session: requests.Session = Depends(get_imis_session),
-    db: Session = Depends(get_db), 
-    #api_key: str = Depends(get_api_key),
+
+@router.post("/patient/full-info")
+async def get_patient_and_eligibility(
+    identifier: str,
+    username: str,
+    password: str,
+    db: Session = Depends(get_db)
 ):
-    # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
-    
-    # if not session_obj:
-    #     raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
-    
 
-    # session = get_imis_session(db, username)
-
-    patient_info = await imis_services.get_patient_info(input_data.patient_id, session)
-
+    patient_info = await imis_services.get_patient_info(identifier, username, password)
     data = patient_info.get("data") or {}
     entries = data.get("entry") or []
 
     if not (patient_info.get("success") and len(entries) > 0):
         raise HTTPException(status_code=404, detail="Patient not found in IMIS")
 
-    patient_uuid = entries[0]["resource"]["id"]
+    resource = entries[0]["resource"]
+    patient_uuid = resource.get("id")
 
-    #Look up patient
-    # patient_info = await imis_services.get_patient_info(input_data.patient_id, session)
-
-    # if not (patient_info.get("success") and patient_info["data"].get("entry")):
-    #     raise HTTPException(status_code=404, detail="Patient not found in IMIS")
-
-    # patient_uuid = patient_info["data"]["entry"][0]["resource"]["id"]
-
-    # 3. Eligibility check
-    eligibility_raw = await imis_services.check_eligibility(input_data.patient_id, session)
-
+    eligibility_raw = await imis_services.check_eligibility(identifier, username, password)
     if not eligibility_raw.get("success"):
-        raise HTTPException(
-            status_code=eligibility_raw.get("status", 500),
-            detail="Eligibility request failed in IMIS"
-        )
+        raise HTTPException(status_code=eligibility_raw.get("status", 500),
+                            detail="Eligibility request failed in IMIS")
 
-
+    copayment = extract_copayment(patient_info.get("data"))
     parsed = parse_eligibility_response(eligibility_raw) or {}
-
     allowed_money = Decimal(str(parsed.get("allowed_money") or "0"))
     used_money = Decimal(str(parsed.get("used_money") or "0"))
-    item_code=parsed.get("item_code")
+
+    birth_date_str = resource.get("birthDate")  # e.g., '2016-04-07'
+    birth_date_obj = None
+
+    if birth_date_str:
+        birth_date_obj = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
+
+    record = db.query(PatientInformation).filter_by(patient_code=identifier).first()
+    if not record:
+        record = PatientInformation(
+            patient_code=identifier,
+            patient_uuid=patient_uuid,
+            name=" ".join(resource.get("name", [{}])[0].get("given", [])),
+            birth_date=birth_date_obj,
+            gender=resource.get("gender"),
+            copayment=copayment,
+            allowed_money=allowed_money,
+            used_money=used_money,
+            category=parsed.get("category"),
+            policy_id=parsed.get("policy_id"),
+            policy_expiry=parsed.get("policy_expiry"),
+            imis_full_response=patient_info.get("data"),
+            eligibility_raw=eligibility_raw
+        )
+        db.add(record)
+    else:
+        record.patient_uuid = patient_uuid
+        record.name = " ".join(resource.get("name", [{}])[0].get("given", []))
+        record.birth_date = resource.get("birthDate")
+        record.gender = resource.get("gender")
+        record.copayment = copayment
+        record.allowed_money = allowed_money
+        record.used_money = used_money
+        record.category = parsed.get("category")
+        record.policy_id = parsed.get("policy_id")
+        record.policy_expiry = parsed.get("policy_expiry")
+        record.imis_full_response = patient_info.get("data")
+        record.eligibility_raw = eligibility_raw
+
+    try:
+        db.commit()
+        db.refresh(record)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to save patient eligibility: {str(e)}")
+
+    return {
+        "patient_code": record.patient_code,
+        "uuid": record.patient_uuid,
+        "name": record.name,
+        "birthDate": record.birth_date,
+        "gender": record.gender,
+        "copayment": str(record.copayment),
+        "allowed_money": str(record.allowed_money),
+        "used_money": str(record.used_money),
+        "category": record.category,
+        "policy_id": record.policy_id,
+        "policy_expiry": record.policy_expiry,
+        "imis": record.imis_full_response,
+        "eligibility": record.eligibility_raw
+    }
+
+@router.post("/Prevalidation", response_model=FullClaimValidationResponse)
+async def eligibility_check_endpoint(
+    input_data: ClaimInput, username: str,password:str,
+    db: Session = Depends(get_db), 
+    #api_key: str = Depends(get_api_key),
+):
+    #here this it to maintain the session if required or else we use basic auth
+    # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
+    # if not session_obj:
+    #     raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
+    # session = get_imis_session(db, username)
+
+    # patient_info = await imis_services.get_patient_info(input_data.patient_id, username,password)
+    # data = patient_info.get("data") or {}
+    # entries = data.get("entry") or []
+
+    # if not (patient_info.get("success") and len(entries) > 0):
+    #     raise HTTPException(status_code=404, detail="Patient not found in IMIS")
+
+    # resource = entries[0]["resource"]
+    # patient_uuid = resource.get("id")
+    # eligibility_raw = await imis_services.check_eligibility(input_data.patient_id, username,password)
+
+    # if not eligibility_raw.get("success"):
+    #     raise HTTPException(
+    #         status_code=eligibility_raw.get("status", 500),
+    #         detail="Eligibility request failed in IMIS"
+    #     )
+
+    # parsed = parse_eligibility_response(eligibility_raw) or {}
+    # allowed_money = Decimal(str(parsed.get("allowed_money") or "0"))
+    # used_money = Decimal(str(parsed.get("used_money") or "0"))
+    # item_code=parsed.get("item_code")
 
 
-    patient = (
-        db.query(Patient).filter(Patient.patient_code == input_data.patient_id).first()
-    )
+    # patient = (
+    #     db.query(Patient).filter(Patient.patient_code == input_data.patient_id).first()
+    # )
 
+    # if not patient:
+    #     patient = Patient(
+    #         patient_code=input_data.patient_id,
+    #         patient_uuid=patient_uuid,
+    #         imis_info=patient_info,
+    #         eligibility=eligibility_raw,
+    #     )
+    #     db.add(patient)
+    # else:
+    #     patient.patient_uuid = patient_uuid
+    #     patient.imis_full_response = patient_info["data"]
+
+
+    # try:
+    #     db.commit()
+    #     db.refresh(patient)
+    # except Exception:
+    #     db.rollback()
+    #     raise HTTPException(status_code=500, detail="Failed to update patient")
+
+    # cache_entry = EligibilityCache(
+
+    #     patient_uuid=patient_uuid,
+    #     category=parsed.get("category"),
+    #     allowed_money=allowed_money,
+    #     used_money=used_money,
+    #     policy_id=parsed.get("policy_id"),
+    #     policy_expiry=parsed.get("policy_expiry"),
+    #     raw_response=eligibility_raw,
+    # )
+
+    # db.add(cache_entry)
+    # try:
+    #     db.commit()
+    #     db.refresh(cache_entry)
+    # except Exception as e:
+    #     db.rollback()
+    #     print("ELIG CACHE ERROR:", e)  
+    #     raise HTTPException(status_code=500, detail=str(e))
+
+    patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input_data.patient_id).first())
+    allowed_money=patient.allowed_money
+    used_money=patient.used_money    
     claim_code = _generate_or_reuse_claim_code(
         patient=patient,
         claim_date=input_data.visit_date,
         service_type=input_data.service_type,
         service_code=input_data.service_code,
         db=db)
-
-        # Local prevalidation
     local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money, claim_code=claim_code)
 
 
-    if not patient:
-        patient = Patient(
-            patient_code=input_data.patient_id,
-            patient_uuid=patient_uuid,
-            imis_info=patient_info,
-            eligibility=eligibility_raw,
-        )
-        db.add(patient)
-    else:
-        patient.patient_uuid = patient_uuid
-        patient.imis_full_response = patient_info["data"]
 
-
-    try:
-        db.commit()
-        db.refresh(patient)
-    except Exception:
-        db.rollback()
-        raise HTTPException(status_code=500, detail="Failed to update patient")
-
-
-
-
-
-    cache_entry = EligibilityCache(
-
-        patient_uuid=patient_uuid,
-        category=parsed.get("category"),
-        allowed_money=allowed_money,
-        used_money=used_money,
-        policy_id=parsed.get("policy_id"),
-        policy_expiry=parsed.get("policy_expiry"),
-        raw_response=eligibility_raw,
-    )
-
-
-
-    db.add(cache_entry)
-    try:
-        db.commit()
-        db.refresh(cache_entry)
-    except Exception as e:
-        db.rollback()
-        print("ELIG CACHE ERROR:", e)  
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-    # 7. Save claim
     items = [
     {"item_code": item.item_code, "qty": item.quantity}
     for item in input_data.claimable_items
@@ -351,123 +275,29 @@ async def eligibility_check_endpoint(
 
     return {
         "local_validation": local,
-        "imis_patient": patient_info,
-        "eligibility": eligibility_raw,
+        "claim_code":claim_code,
         "claim_id":claim_id,
-        "claim_code":claim_code
+        "imis_patient": patient.imis_full_response,
+        "eligibility":patient.eligibility_raw
+
     }
 
-
-@router.post("/upload_documents/{claim_id}")
-async def upload_multiple_documents(
-    claim_id: str,
-    files: List[UploadFile] = File(..., description="Multiple files allowed (max 10)"),
-    db: Session = Depends(get_db)
-):
-    if len(files) > 10:
-        raise HTTPException(status_code=400, detail="Maximum 10 files allowed at once")
-
-    claim = db.query(Claim).filter(Claim.claim_id == claim_id).first()
-    if not claim:
-        raise HTTPException(status_code=404, detail="Claim not found")
-
-    claim_folder = os.path.join(UPLOAD_DIR, claim_id)
-    os.makedirs(claim_folder, exist_ok=True)
-
-    uploaded_docs = []
-
-    for file in files:
-        if file.size == 0:
-            continue  # skip empty files
-
-        # Secure filename
-        ext = file.filename.rsplit(".", 1)[-1].lower() if "." in file.filename else "file"
-        if ext not in {"pdf", "jpg", "jpeg", "png", "doc", "docx"}:
-            raise HTTPException(status_code=400, detail=f"File type not allowed: {file.filename}")
-
-        filename = f"{uuid.uuid4()}.{ext}"
-        file_path = os.path.join(claim_folder, filename)
-
-        contents = await file.read()
-        with open(file_path, "wb") as f:
-            f.write(contents)
-
-        file_url = f"{BASE_URL}/uploads/{claim_id}/{filename}"
-
-        doc = ClaimDocument(
-            claim_id=claim_id,
-            file_url=file_url,
-            original_filename=file.filename,
-            document_type="general",
-            file_size=len(contents)
-        )
-        db.add(doc)
-        uploaded_docs.append({
-            "document_id": doc.id,
-            "file_url": file.filename,
-            "file_url": file_url
-        })
-
-    db.commit()
-
-    for doc in uploaded_docs:
-        db.refresh(db.query(ClaimDocument).filter(ClaimDocument.id == doc["document_id"]).first())
-
-    return {
-        "message": f"{len(uploaded_docs)} document(s) uploaded successfully",
-        "claim_id": claim_id,
-        "documents": uploaded_docs
-    }
-
-#endpoint to delete the uploaded files
-# @router.delete("/document/{document_id}")
-# async def delete_document(
-#     document_id: int,
-#     current_user: User = Depends(get_current_user), 
-#     db: Session = Depends(get_db)
-# ):
-#     doc = db.query(ClaimDocument).filter(ClaimDocument.id == document_id).first()
-#     if not doc:
-#         raise HTTPException(status_code=404, detail="Document not found")
-
-#     # Optional: restrict deletion to same hospital/user
-#     # claim = doc.claim
-#     # if claim.facility_id != current_user.facility_id:
-#     #     raise HTTPException(status_code=403, detail="Not authorized")
-
-#     try:
-#         # Delete file from disk
-#         file_path = doc.file_url.replace(f"{BASE_URL}/uploads/", os.path.join(UPLOAD_DIR, ""))
-#         if os.path.exists(file_path):
-#             os.remove(file_path)
-#     except Exception as e:
-#         print(f"Failed to delete file from disk: {e}")
-#         # Continue — we still want to remove from DB
-
-#     # Delete from database
-#     db.delete(doc)
-#     db.commit()
-
-#     return {
-#         "message": "Document deleted successfully",
-#         "document_id": document_id,
-#         "file_url": doc.file_url
-#     }
 
 
 @router.post("/submit_claim/{claim_id}")
 async def submit_claim_endpoint(
     claim_id: str,
     username: str,
+    password:str,
     db: Session = Depends(get_db),
-):
+):#    session: requests.Session = Depends(get_imis_session), #here we have discarded the use of session 
     
-    session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
-    if not session_obj:
-        raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
-    session = get_imis_session(db, username)
+    # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
+    # if not session_obj:
+    #     raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
+    # session = get_imis_session(db, username)
 
-# yesma claim id rakhni ki claim code rakhni ho vanni kura sochera garnu 
+
     claim = (
         db.query(Claim)
         .filter(Claim.claim_id == claim_id)
@@ -483,7 +313,7 @@ async def submit_claim_endpoint(
             detail=f"Only 'pending' claims can be submitted. Current status: {claim.status}"
         )
 
-    patient = db.query(Patient).filter(Patient.id == claim.patient_id).first()
+    patient = db.query(PatientInformation).filter(PatientInformation.id == claim.patient_id).first()
     if not patient:
         raise HTTPException(status_code=500, detail="Claim has no linked patient")
 
@@ -578,7 +408,7 @@ async def submit_claim_endpoint(
 
 
     try:
-        imis_response = await imis_services.submit_claim(fhir_claim_payload, session)
+        imis_response = await imis_services.submit_claim(fhir_claim_payload, username,password)
     except Exception as exc:
         logging.error(f"IMIS submission failed for claim {claim_id}: {exc}")
         raise HTTPException(status_code=500, detail=f"IMIS submission failed: {str(exc)}") from exc
@@ -622,7 +452,7 @@ def get_all_claims(db: Session = Depends(get_db)):
 # Get claims by patient UUID
 @router.get("/claims/patient/{patient_uuid}")
 def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
-    patient = db.query(Patient).filter(Patient.patient_uuid == patient_uuid).first()
+    patient = db.query(PatientInformation).filter(PatientInformation.patient_uuid == patient_uuid).first()
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
 
@@ -635,158 +465,130 @@ def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
 
 
 
-# @router.post("/submit_claim/{claim_code}")
-# async def submit_claim_endpoint(
-#     claim_code: str,
-#     username: str,
-#     db: Session = Depends(get_db),
-# ):
-    
-            
-#     session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
-
-#     if not session_obj:
-#             raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
-        
-#     session= get_imis_session(db, username)
-
-#     claim = (
-#         db.query(Claim)
-#         .options(joinedload(Claim.patient))
-#         .filter(Claim.claim_code == claim_code)
-#         .first()
-#     )
-    
-#     if not claim:
-#         raise HTTPException(status_code=404, detail="Claim not found")
-
-#     if not claim.patient:
-#         raise HTTPException(status_code=404, detail="Patient not found for this claim")
-
-#     if claim.status != "pending":
-#         raise HTTPException(
-#             status_code=400,
-#             detail=f"Only 'pending' claims can be submitted. Current status: {claim.status}"
-#         )
-
-#     patient=db.query(Patient).filter(Patient.id==claim.patient_id).first()
-
-#     patient_uuid = patient.patient_uuid 
-#     imis_claim_code = uuid.uuid4().hex
-#     # Prevalidation check
-#     if not claim.prevalidation_result or not claim.prevalidation_result.get("items"):
-#         raise HTTPException(status_code=400, detail="Claim not prevalidated or has no items")
-
-#     care_type_map = {"OPD": "O", "IPD": "I", "Emergency": "O","ER":"O"}
-#     icd_codes = json.loads(claim.icd_codes) if isinstance(claim.icd_codes, str) else claim.icd_codes
-
-#     cache_entry = (
-#         db.query(EligibilityCache)
-#         .filter(EligibilityCache.patient_uuid == patient.patient_uuid)
-#         .order_by(EligibilityCache.checked_at.desc())
-#         .first()
-#     )
-
-#     if not cache_entry or not cache_entry.raw_response.get("data", {}).get("insurance"):
-#         raise HTTPException(status_code=400, detail="No insurance found in eligibility cache")
-
-#     insurance_entries = cache_entry.raw_response["data"]["insurance"]
-#     guarantee_id = insurance_entries[0]["contract"]["reference"]
+#here we have to check the login details with imis and store in our db
+# this is commented out for now as session is not being used and we are directly using the basic auth
+# @router.post("/imis/login")
+# async def imis_login(input: LoginInput, db: Session = Depends(get_db)):
+#     session = requests.Session()
 
 
-#     fhir_claim_payload = {
-#         "resourceType": "Claim",
-#         "billablePeriod": {
-#             "start": claim.claim_date.isoformat(),
-#             "end": claim.claim_date.isoformat()
-#         },
-#         "created": datetime.utcnow().isoformat(),  
-#         "patient": {"reference": f"Patient/{patient_uuid}"},
-#         "identifier": [
-#             {
-#                 "type": {
-#                     "coding": [{"code": "ACSN", "system": "https://hl7.org/fhir/valueset-identifier-type.html"}]
-#                 },
-#                 "use": "usual",
-#                 "value": uuid.uuid4().hex 
-#             },
-#             {
-#                 "type": {
-#                     "coding": [{"code": "MR", "system": "https://hl7.org/fhir/valueset-identifier-type.html"}]
-#                 },
-#                 "use": "usual",
-#                 "value": claim.claim_code  
-#             }
-#         ],
+#     try:
+#         login_page = session.get(IMIS_LOGIN_URL)
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Failed to fetch IMIS login page: {e}")
 
-#         "item": [
-#             {
-#                 "category": {"text": "service"},# service or item
-#                 "quantity": {"value": float(item["quantity"])},
-#                 "sequence": i+1,
-#                 "service": {"text": "MED002IVF"},#item["item_code"]
-#                 "unitPrice": {"value": round(float(item["approved_amount"]),2)},
-#             }
-#             for i, item in enumerate(claim.prevalidation_result.get("items", []))
-#         ],
-#         "total": {"value": claim.amount_claimed},
-#         "careType": care_type_map.get(claim.service_type, "O"),#care type shall be I and O only
-#         "type": {"text": "O"},  # visit type shall be O R and E only OPD Referral and Emergency     care_type_map.get(claim.service_type, "O")
-#         "enterer": {"reference": "Practitioner/7aa79c53-057e-4e77-8576-dfcfb03584a8"},
-#         "facility": {"reference": "Location/1ac457d3-efd3-4a67-89b3-bf8cbe18045d"},
-#         #here for testing this is commented out above is the hardcoded value for now
-#         # "enterer": {"reference": f"Practitioner/{claim.enterer_reference}"},
-#         # "facility": {"reference": f"Location/{claim.facility_reference}"},
-#         "diagnosis": [
-#             {
-#                 "sequence": i + 1,
-#                 "type": [{"text": "icd_0"}],
-#                 "diagnosisCodeableConcept": {
-#                     "coding": [{"code": code}]
-#                 }
-#             }
-#             for i, code in enumerate(icd_codes or [])
-#         ],
-#         "nmc": ",".join(claim.doctor_nmc)  
+#     soup = BeautifulSoup(login_page.text, "html.parser")
+#     try:
+#         viewstate = soup.find("input", {"name": "__VIEWSTATE"})["value"]
+#         eventvalidation = soup.find("input", {"name": "__EVENTVALIDATION"})["value"]
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Failed to parse login form: {e}")
 
 
+#     payload = {
+#         "__VIEWSTATE": viewstate,
+#         "__EVENTVALIDATION": eventvalidation,
+#         "txtUserName": input.username,
+#         "txtPassword": input.password,
+#         "btnLogin": "Login"
 #     }
 
-#     # Submit to IMIS
 #     try:
-#         imis_response = await imis_services.submit_claim(fhir_claim_payload, session)
-#     except Exception as exc:
-#         logging.error(f"IMIS submission failed for claim {claim_code}: {exc}")
-#         raise HTTPException(status_code=500, detail=f"IMIS submission failed: {str(exc)}") from exc
+#         response = session.post(IMIS_LOGIN_URL, data=payload, allow_redirects=True)
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Failed to submit login form: {e}")
 
-#     # Update status and save response
-#     claim.status = "submitted"
-#     if not claim.patient_id:
-#         raise HTTPException(status_code=500, detail="Claim.patient_id is missing; cannot save IMIS response")
+#     if "Home.aspx" not in response.url or "ASP.NET_SessionId" not in session.cookies.get_dict():
+#         raise HTTPException(status_code=401, detail="IMIS login failed")
 
+#     cookie = session.cookies.get_dict()
+#     session_cookie = json.dumps(cookie)
 
-#     raw_response_serializable = json.loads(json.dumps(imis_response, default=str))
+#     existing = db.query(IMISSession).filter(IMISSession.username == input.username).first()
+#     if existing:
+#         db.delete(existing)
+#         db.commit()
 
-#     imis_record = ImisResponse(
-#         patient_id=claim.patient_id,
-#         raw_response=raw_response_serializable,
-#         fetched_at=datetime.utcnow()
+#     new_sess = IMISSession(
+#         username=input.username,
+#         session_cookie=session_cookie,
+#         expires_at=datetime.utcnow() + timedelta(hours=8)
 #     )
 
-#     db.add(imis_record)
+#     db.add(new_sess)
+#     db.commit()
+#     db.refresh(new_sess)
+
+#     return {"message": "IMIS login successful", "session": cookie}
+
+
+# here we are commenting this endpoint as we are combining prevalidate and eligibility check into one endpoint called Eligibility_check and we can keep this endpoint if we need to perform local validation only without imis check
+# @router.post("/prevalidate_claim", response_model=ClaimResponse)
+# async def prevalidate_claim_endpoint(
+#     input_data: ClaimInput,
+#     db: Session = Depends(get_db),
+#     # api_key: str = Depends(get_api_key),  # Uncomment when auth is ready
+# ):
+#     """
+#     1. Run local validation
+#     2. Persist a *draft* patient (if new)
+#     3. Persist a *draft* claim with:
+#          • input_snapshot  – exact JSON the user sent
+#          • prevalidation_result
+#          • status = "draft"
+#     4. Return the validation result + draft claim ID
+#     """
+
+#     local_result = prevalidate_claim(input_data, db)
+
+# #get or to create a new patient
+#     patient = db.query(Patient).filter(Patient.patient_code == input_data.patient_id).first()
+#     if not patient:
+#         patient = Patient(
+#             patient_code=input_data.patient_id,
+#             last_visit_date=input_data.visit_date,   
+#         )
+#         db.add(patient)
+#         try:
+#             db.commit()
+#             db.refresh(patient)
+#         except Exception as exc:
+#             db.rollback()
+#             raise HTTPException(
+#                 status_code=500,
+#                 detail=f"Failed to save patient: {exc}"
+#             ) from exc
+
+
+#     existing = db.query(Claim).filter(Claim.claim_code == input_data.claim_code).first()
+#     if existing:
+#         # Allow re-prevalidate – just update the draft
+#         claim = existing
+#         claim.status = "draft"
+#     else:
+#         claim = Claim(
+#             claim_code=input_data.claim_code,
+#             patient=patient,                           
+#             amount_claimed=sum(item.cost for item in input_data.claimable_items),
+#             claim_date=input_data.visit_date,
+#             status="draft",
+#             prevalidation_result=local_result,
+#         )
+#         db.add(claim)
 
 #     try:
 #         db.commit()
 #         db.refresh(claim)
 #     except Exception as exc:
 #         db.rollback()
-#         logging.error(f"Failed to commit claim {claim.claim_code} or IMIS record: {exc}")
-#         raise HTTPException(status_code=500, detail=f"Failed to save submission record: {exc}")
+#         raise HTTPException(
+#             status_code=500,
+#             detail=f"Failed to save claim: {exc}"
+#         ) from exc
 
-#     return {
-#         "message": "Claim successfully submitted to IMIS",
-#         "claim_code": claim.claim_code,
-#         "submitted_at": datetime.utcnow().isoformat(),
-#         "imis_response": imis_response
+#     return{
+#         "is_locally_valid": local_result["is_locally_valid"],
+#         "warnings": local_result["warnings"],
+#         "items": local_result["items"],
+#         "total_approved_local": local_result["total_approved_local"],
 #     }
-

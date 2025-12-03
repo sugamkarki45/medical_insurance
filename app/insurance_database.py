@@ -1,53 +1,29 @@
-from sqlalchemy import (
-    create_engine, Column, Integer, String, Float,
-    Date, ForeignKey, JSON
-)
-import uuid
+from sqlalchemy import (create_engine, Column, Integer, String, Float,Date, ForeignKey, JSON,Numeric)
 from sqlalchemy.types import DateTime
 from datetime import datetime
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 Base = declarative_base()
 
+class PatientInformation(Base):
+    __tablename__ = "patient_information"
 
-class Patient(Base):
-    __tablename__ = "patients"
-    id = Column(Integer, primary_key=True, index=True)
-    patient_code = Column(String, unique=True, nullable=False)
-    last_visit_date = Column(Date, nullable=True)
-    patient_uuid = Column(String, unique=True, nullable=True)
-
-    # Full IMIS Bundle (JSON)
-    imis_full_response = Column(JSON, nullable=True)
-
-    # Extracted patient resource from IMIS
-    imis_core_resource = Column(JSON, nullable=True)
-
-    # Copayment
-    copayment=Column(JSON, nullable=True)
-
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    patient_code = Column(String(20), unique=True, nullable=False)
+    patient_uuid = Column(String(50), nullable=False)
+    name = Column(String(100))
+    birth_date = Column(Date)
+    gender = Column(String(10))
+    copayment = Column(Numeric(10, 2), default=0)
+    allowed_money = Column(Numeric(12, 2), default=0)
+    used_money = Column(Numeric(12, 2), default=0)
+    category = Column(String(50))
+    policy_id = Column(String(50))
+    policy_expiry = Column(String(20))
+    imis_full_response = Column(JSON)
+    eligibility_raw = Column(JSON)
     # Relationships
     claims = relationship("Claim", back_populates="patient")
     imis_responses = relationship("ImisResponse", back_populates="patient")
-    eligibility_cache = relationship("EligibilityCache", uselist=False, back_populates="patient")
-
-
-
-class EligibilityCache(Base):
-    __tablename__ = "eligibility_cache"
-
-    id = Column(Integer, primary_key=True, index=True)
-    patient_uuid = Column(String, ForeignKey("patients.patient_uuid", ondelete="CASCADE"), index=True)
-    category = Column(String, nullable=True)  # e.g., "OPD", "IPD"
-    allowed_money = Column(Float, nullable=True)
-    used_money = Column(Float, nullable=True)
-    policy_id = Column(String, nullable=True)
-    policy_expiry = Column(Date, nullable=True)
-    raw_response = Column(JSON, nullable=False)
-    checked_at = Column(DateTime, default=datetime.utcnow)
-    patient = relationship("Patient", back_populates="eligibility_cache")
-
-
-
 
 
 class Claim(Base):
@@ -58,7 +34,7 @@ class Claim(Base):
     doctor_nmc = Column(String, nullable=True)
     service_type = Column(String, nullable=False)
     service_code = Column(String, nullable=True)
-    patient_id = Column(Integer, ForeignKey("patients.id", ondelete="CASCADE"), nullable=False)
+    patient_id = Column(Integer, ForeignKey("patient_information.id", ondelete="CASCADE"), nullable=False)
     amount_claimed = Column(Float, nullable=False)
     claim_date = Column(Date)
     item_code=Column(JSON)
@@ -66,30 +42,19 @@ class Claim(Base):
     prevalidation_result = Column(JSON, nullable=True)
     enterer_reference = Column(String, nullable=True)
     facility_reference = Column(String, nullable=True)
-    
-    # Relationships
-    patient = relationship("Patient", back_populates="claims")
+    #Relationships
+    patient = relationship("PatientInformation", back_populates="claims")
+
 
 class ImisResponse(Base):
     __tablename__ = "imis_responses"
 
     id = Column(Integer, primary_key=True, index=True)
-    patient_id = Column(Integer, ForeignKey("patients.id", ondelete="CASCADE"))
+    patient_id = Column(Integer, ForeignKey("patient_information.id", ondelete="CASCADE"))
     raw_response = Column(JSON)
     fetched_at = Column(DateTime, default=datetime.utcnow)
-
-
-#relationship
-    patient = relationship("Patient", back_populates="imis_responses")
-
-class IMISSession(Base):
-    __tablename__ = "imis_sessions"
-
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, nullable=False)  
-    session_cookie = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    expires_at = Column(DateTime, nullable=True)
+    #relationship
+    patient = relationship("PatientInformation", back_populates="imis_responses")
 
 
 class ClaimDocument(Base):
@@ -99,6 +64,7 @@ class ClaimDocument(Base):
     claim_id = Column(String, index=True)
     file_url = Column(String)
     document_type = Column(String) 
+
 
 #engine and sessions
 engine = create_engine("sqlite:///insurance_database.db", echo=True)
@@ -110,7 +76,18 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
 #to create tables
 Base.metadata.create_all(engine)
+
+
+
+# class IMISSession(Base):
+#     __tablename__ = "imis_sessions"
+
+#     id = Column(Integer, primary_key=True, index=True)
+#     username = Column(String, unique=True, nullable=False)  
+#     session_cookie = Column(String, nullable=False)
+#     created_at = Column(DateTime, default=datetime.utcnow)
+#     expires_at = Column(DateTime, nullable=True)
+
+# # 

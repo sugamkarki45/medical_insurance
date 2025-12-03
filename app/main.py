@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from router.claim import router as claim_router
+from router.documents import router as documents
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -8,6 +9,7 @@ import re
 app = FastAPI(title="Insurance Claim Validation API")
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 app.include_router(claim_router, prefix="/api")
+app.include_router(documents,prefix="/docs")
 
 #to handle invalid backslashes in JSON input
 @app.middleware("http")

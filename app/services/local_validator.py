@@ -5,29 +5,31 @@ from decimal import Decimal
 from model import ClaimInput
 from rule_loader import get_rules, get_med, get_package
 from sqlalchemy.orm import Session
-from insurance_database import Claim, Patient, EligibilityCache
+from insurance_database import Claim, PatientInformation
 from collections import defaultdict
 from insurance_database import Claim
 from fastapi import HTTPException
-import uuid
+import random
+import string
 
 def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[Claim]:
 #latest claims first
     return (
         db.query(Claim)
-        .join(Patient)
-        .filter(Patient.patient_code == patient_imis_id)
+        .join(PatientInformation)
+        .filter(PatientInformation.patient_code == patient_imis_id)
         .order_by(Claim.claim_date.desc())
         .all()
     )
 
 
 def _generate_claim_code():
-    return str(uuid.uuid4())
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+
 
 def _generate_or_reuse_claim_code(patient, claim_date, service_type, service_code, db):
     # Always generate new code for IPD/Emergency
-    if service_type in {"IPD", "Emergency", "ER"}:
+    if service_type in {"IPD", "ER"}:
         return _generate_claim_code()
 
     # OPD logic
@@ -56,8 +58,6 @@ def _generate_or_reuse_claim_code(patient, claim_date, service_type, service_cod
 
     if same_service and ticket_valid:
         return last_claim.claim_code
-
-
     return _generate_claim_code()
 
 
@@ -76,7 +76,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
 #to load previous claims
     previous_claims = _get_previous_claims_for_patient(db, claim.patient_id)
 
-    patient = db.query(Patient).filter(Patient.patient_code == claim.patient_id).first()
+    patient = db.query(PatientInformation).filter(PatientInformation.patient_code == claim.patient_id).first()
 #rules according to category
     category = claim.service_type  # "OPD", "IPD", "Emergency"
     cat_rules = rules["claim_categories"].get(category, {}).get("rules", {})
@@ -90,8 +90,8 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
 
         last_opd_claim = (
             db.query(Claim)
-            .join(Patient)
-            .filter(Patient.patient_code == claim.patient_id)
+            .join(PatientInformation)
+            .filter(PatientInformation.patient_code == claim.patient_id)
             .filter(Claim.service_type == "OPD")
             .filter(Claim.claim_date >= cutoff)
             .order_by(Claim.claim_date.asc())

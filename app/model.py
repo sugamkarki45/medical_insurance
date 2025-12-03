@@ -110,6 +110,12 @@ class FullClaimValidationResponse(BaseModel):
     claim_code:str
 
 
+class PatientInfo(BaseModel):
+    imis_patient: Dict[str, Any]
+    eligibility: Dict[str, Any]
+
+
+
 
 class LoginInput(BaseModel):
     username: str
