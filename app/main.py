@@ -4,7 +4,10 @@ from router.documents import router as documents
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-import re
+from tasks import prune_old_patients
+from insurance_database import SessionLocal
+import asyncio,re
+
 
 app = FastAPI(title="Insurance Claim Validation API")
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
@@ -28,3 +31,11 @@ async def fix_invalid_json_backslashes(request: Request, call_next):
         return JSONResponse({"error": "Failed to repair JSON", "details": str(e)}, status_code=400)
 
     return await call_next(request)
+
+
+
+
+@app.on_event("startup")
+async def startup_event():
+    db = SessionLocal()
+    asyncio.create_task(prune_old_patients(db))

@@ -124,9 +124,6 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
                 elif days_diff >= ticket_days and claim.service_code == last_opd_claim.service_code:
                     new_ticket_required = True
 
-                # case 5: When the claim code is different within valid period
-                # elif 0 <= days_diff < ticket_days and claim.service_code != last_opd_claim.service_code and claim_code!=last_opd_claim.claim_code:
-                #     warnings.append("The claim code shall be the same within the valid periods.")
 
         # Append warning only if a new ticket is actually required
             if new_ticket_required:
@@ -161,9 +158,9 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
         # Fetch latest eligibility cache entry for the patient_uuid
     if allowed_money is None or used_money is None:
         elig_cache = (
-                db.query(EligibilityCache)
-                .filter(EligibilityCache.patient_uuid == patient.patient_uuid)
-                .order_by(EligibilityCache.id.desc())
+                db.query(PatientInformation)
+                .filter(PatientInformation.patient_uuid == patient.patient_uuid)
+                .order_by(PatientInformation.id.desc())
                 .first()
         )
         available_money = Decimal("0")

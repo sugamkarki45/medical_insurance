@@ -71,6 +71,7 @@ class ClaimInput(BaseModel):
     enterer_reference: Optional[str] = None  # who is entering the claim
     facility_reference: Optional[str] = None  # health facility code
     claim_time: Optional[str] = Field(..., description="Enter the time of claim: discharge,same day")# e.g., 'discharge', 'same_day', etc.
+    claim_code:Optional[str]
 
     @validator("service_type", pre=True)
     def normalize_service_type(cls, v):

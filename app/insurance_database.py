@@ -21,6 +21,7 @@ class PatientInformation(Base):
     policy_expiry = Column(String(20))
     imis_full_response = Column(JSON)
     eligibility_raw = Column(JSON)
+    created_at = Column(DateTime, default=datetime.utcnow)
     # Relationships
     claims = relationship("Claim", back_populates="patient")
     imis_responses = relationship("ImisResponse", back_populates="patient")
