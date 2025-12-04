@@ -22,39 +22,30 @@ class PatientInformation(Base):
     imis_full_response = Column(JSON)
     eligibility_raw = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
-    # Relationships
-    claims = relationship("Claim", back_populates="patient")
+
+   # claims = relationship("Claim", back_populates="patient")
     imis_responses = relationship("ImisResponse", back_populates="patient")
 
 
-class Claim(Base):
-    __tablename__ = "claims"
-    claim_id = Column(String, primary_key=True, index=True)
-    claim_code = Column(String(11),nullable=False,index=True)
-    icd_codes = Column(String, nullable=False)
-    doctor_nmc = Column(String, nullable=True)
-    service_type = Column(String, nullable=False)
-    service_code = Column(String, nullable=True)
-    patient_id = Column(Integer, ForeignKey("patient_information.id", ondelete="CASCADE"), nullable=False)
-    amount_claimed = Column(Float, nullable=False)
-    claim_date = Column(Date)
-    item_code=Column(JSON)
-    status = Column(String, default="draft")
-    prevalidation_result = Column(JSON, nullable=True)
-    enterer_reference = Column(String, nullable=True)
-    facility_reference = Column(String, nullable=True)
-    #Relationships
-    patient = relationship("PatientInformation", back_populates="claims")
+
+
 
 
 class ImisResponse(Base):
     __tablename__ = "imis_responses"
 
-    id = Column(Integer, primary_key=True, index=True)
-    patient_id = Column(Integer, ForeignKey("patient_information.id", ondelete="CASCADE"))
-    raw_response = Column(JSON)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    patient_id = Column(String(50), ForeignKey("patient_information.patient_code"), nullable=False)
+
+    claim_code = Column(String(50), nullable=False)  
+    status = Column(String(50))                   
+    created_at = Column(DateTime)              
+    items = Column(JSON)                        
+    raw_response = Column(JSON)                     
     fetched_at = Column(DateTime, default=datetime.utcnow)
-    #relationship
+    service_type = Column(String) 
+    service_code= Column(String)
+
     patient = relationship("PatientInformation", back_populates="imis_responses")
 
 
@@ -91,4 +82,21 @@ Base.metadata.create_all(engine)
 #     created_at = Column(DateTime, default=datetime.utcnow)
 #     expires_at = Column(DateTime, nullable=True)
 
-# # 
+# class Claim(Base):
+#     __tablename__ = "claims"
+#     claim_id = Column(String, primary_key=True, index=True)
+#     claim_code = Column(String(11),nullable=False,index=True)
+#     icd_codes = Column(String, nullable=False)
+#     doctor_nmc = Column(String, nullable=True)
+#     service_type = Column(String, nullable=False)
+#     service_code = Column(String, nullable=True)
+#     patient_id = Column(Integer, ForeignKey("patient_information.id", ondelete="CASCADE"), nullable=False)
+#     amount_claimed = Column(Float, nullable=False)
+#     claim_date = Column(Date)
+#     item_code=Column(JSON)
+#     status = Column(String, default="draft")
+#     prevalidation_result = Column(JSON, nullable=True)
+#     enterer_reference = Column(String, nullable=True)
+#     facility_reference = Column(String, nullable=True)
+#     #Relationships
+#     patient = relationship("PatientInformation", back_populates="claims")

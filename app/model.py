@@ -31,6 +31,7 @@ class ClaimableItem(BaseModel):
     quantity: int 
     cost: float
     name: str
+    category:str=Field(..., description="Enter the category of the item i.e item or service")
 
     @validator("type", pre=True)
     def normalize_item_type(cls, v):
@@ -42,6 +43,11 @@ class ClaimableItem(BaseModel):
     def normalize_strings(cls, v):
         if isinstance(v, str):
             return v.upper().strip()
+        return v
+    @validator("category", pre=True)
+    def normalize_category(cls, v):
+        if isinstance(v, str):
+            return v.lower().strip()
         return v
 
 
@@ -61,7 +67,7 @@ class HospitalType(str, Enum):
 class ClaimInput(BaseModel):
     patient_id: str
     visit_date: date
-    service_type: Literal['OPD','IPD','ER','Ref']
+    service_type: Literal['OPD','IPD','ER','Referral']
     service_code: Optional[str] = None
     doctor_nmc: Optional[str] = None
     diagnosis: Diagnosis
@@ -107,8 +113,8 @@ class FullClaimValidationResponse(BaseModel):
     local_validation: Dict[str, Any]
     imis_patient: Dict[str, Any]
     eligibility: Dict[str, Any]
-    claim_id:str
-    claim_code:str
+    # claim_id:str
+    # claim_code:str
 
 
 class PatientInfo(BaseModel):

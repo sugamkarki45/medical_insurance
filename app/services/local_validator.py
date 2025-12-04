@@ -5,64 +5,61 @@ from decimal import Decimal
 from model import ClaimInput
 from rule_loader import get_rules, get_med, get_package
 from sqlalchemy.orm import Session
-from insurance_database import Claim, PatientInformation
+from insurance_database import  PatientInformation,ImisResponse
 from collections import defaultdict
-from insurance_database import Claim
 from fastapi import HTTPException
 import random
 import string
 
-def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[Claim]:
+def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[ImisResponse]:
 #latest claims first
     return (
-        db.query(Claim)
+        db.query(ImisResponse)
         .join(PatientInformation)
         .filter(PatientInformation.patient_code == patient_imis_id)
-        .order_by(Claim.claim_date.desc())
+        .order_by(ImisResponse.fetched_at.desc())
         .all()
     )
 
-
-def _generate_claim_code():
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-
-
-def _generate_or_reuse_claim_code(patient, claim_date, service_type, service_code, db):
-    # Always generate new code for IPD/Emergency
-    if service_type in {"IPD", "ER"}:
-        return _generate_claim_code()
-
-    # OPD logic
-    seven_days_ago = claim_date - timedelta(days=7)
-
-    last_claim = (
-        db.query(Claim)
-        .filter(
-            Claim.patient_id == patient.id,
-            Claim.service_type == "OPD",
-            Claim.claim_date >= seven_days_ago,
-            Claim.claim_date <= claim_date,
-            Claim.status.in_(["pending", "submitted", "approved"])
-        )
-        .order_by(Claim.claim_date.desc())
-        .first()
-    )
+#claim code generation
+# def _generate_claim_code():
+#     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
 
 
-    if not last_claim:
-        return _generate_claim_code()
+# def _generate_or_reuse_claim_code(patient, claim_date, service_type, service_code, db):
+#     # Always generate new code for IPD/Emergency
+#     if service_type in {"IPD", "ER"}:
+#         return _generate_claim_code()
 
-    same_service = last_claim.service_code == service_code
-    ticket_valid = (claim_date - last_claim.claim_date).days < 7
+#     # OPD logic
+#     seven_days_ago = claim_date - timedelta(days=7)
+
+#     last_claim = (
+#         db.query(ImisResponse)
+#         .filter(
+#             ImisResponse.patient_id == patient.id,
+#             ImisResponse.created_at >= seven_days_ago,
+#             ImisResponse.created_at <= claim_date,
+#         )# ImisResponse.service_type == "OPD",
+#         .order_by(ImisResponse.created_at.desc())
+#         .first()
+#     )
 
 
-    if same_service and ticket_valid:
-        return last_claim.claim_code
-    return _generate_claim_code()
+#     if not last_claim:
+#         return _generate_claim_code()
+
+#     same_service = last_claim.service_code == service_code
+#     ticket_valid = (claim_date - last_claim.claim_date).days < 7
+
+
+#     if same_service and ticket_valid:
+#         return last_claim.claim_code
+#     return _generate_claim_code()
 
 
 
-def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None, used_money:Decimal= None, claim_code:str=None) -> Dict[str, Any]:
+def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None, used_money:Decimal= None) -> Dict[str, Any]:#, claim_code:str=None
     """
     Fully validate a claim against the HIB rule JSON.
     Returns a rich validation dict.
@@ -89,14 +86,13 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
         cutoff = claim.visit_date - timedelta(days=ticket_days)
 
         last_opd_claim = (
-            db.query(Claim)
+            db.query(ImisResponse)
             .join(PatientInformation)
             .filter(PatientInformation.patient_code == claim.patient_id)
-            .filter(Claim.service_type == "OPD")
-            .filter(Claim.claim_date >= cutoff)
-            .order_by(Claim.claim_date.asc())
+            .filter(ImisResponse.fetched_at >= cutoff)
+            .order_by(ImisResponse.fetched_at.asc())
             .first()
-        )
+        )#            .filter(ImisResponse.service_type == "OPD")
 
 
         # Check if a new ticket is required
@@ -105,10 +101,11 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
             new_ticket_required=False
         else:
             if last_opd_claim and claim.service_code:
-                days_diff = (claim.visit_date - last_opd_claim.claim_date).days
+                days_diff = (claim.visit_date - last_opd_claim.fetched_at.date()).days
+
 
                 # Case 1: Same ticket still valid
-                if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_code:
+                if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_type:
                     new_ticket_required = False
 
                 # Case 2: Different service code within validity → valid ticket, but warn
@@ -229,7 +226,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
 
         # Capping 
         capping = data.get("capping", {})
-        max_per_visit = capping.get("max_per_visit") or rules.get("max_per_visit_default")
+        max_per_visit = capping.get("max_per_visit")
         qty = Decimal(str(max_per_visit))
         if max_per_visit is not None and qty > max_per_visit:
             item_result["warnings"].append(
@@ -251,7 +248,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
 
             # 1. SUM all previous quantities for this item in the window
             for prev_claim in previous_claims:
-                prev_date = prev_claim.claim_date
+                prev_date = prev_claim.fetched_at.date()
 
                 # skip if outside the window
                 if not (start_date <= prev_date <= visit_date):
@@ -307,6 +304,9 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
             approved_amount = raw_amount * multiplier
             if multiplier < 1:
                 item_result["warnings"].append(f"Medical mgmt #{order}: {int(multiplier*100)}% claimable.")
+        else:
+        # medicine, lab, urology, etc.
+            approved_amount = raw_amount
 
         # Surgery package
         if data.get("is_surgery_package"):

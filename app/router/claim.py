@@ -1,14 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException,Request
 from sqlalchemy.orm import Session
 from services.imis_services import get_patient_info, extract_copayment
 from model import ClaimInput, FullClaimValidationResponse 
 from services.local_validator import prevalidate_claim
 from services import imis_services
-from insurance_database import get_db, ImisResponse, PatientInformation,Claim
+from insurance_database import get_db, ImisResponse, PatientInformation
 from services.imis_parser import parse_eligibility_response
 from bs4 import BeautifulSoup
 from decimal import Decimal 
-from services.local_validator import _generate_or_reuse_claim_code
 from datetime import datetime
 import logging,uuid,json
 
@@ -115,6 +114,27 @@ async def eligibility_check_endpoint(
     db: Session = Depends(get_db), 
     #api_key: str = Depends(get_api_key),
 ):
+    patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input_data.patient_id).first())
+    allowed_money=patient.allowed_money
+    used_money=patient.used_money    
+    # claim_code = _generate_or_reuse_claim_code(
+    #     patient=patient,
+    #     claim_date=input_data.visit_date,
+    #     service_type=input_data.service_type,
+    #     service_code=input_data.service_code,
+    #     db=db)
+    local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)#, claim_code=claim_code
+
+    return {
+        "local_validation": local,
+        "imis_patient": patient.imis_full_response,
+        "eligibility":patient.eligibility_raw
+        # "claim_code":claim_code,
+        # "claim_id":claim_id,
+    }
+
+
+
     #here this it to maintain the session if required or else we use basic auth
     # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
     # if not session_obj:
@@ -188,58 +208,42 @@ async def eligibility_check_endpoint(
     #     print("ELIG CACHE ERROR:", e)  
     #     raise HTTPException(status_code=500, detail=str(e))
 
-    patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input_data.patient_id).first())
-    allowed_money=patient.allowed_money
-    used_money=patient.used_money    
-    claim_code = _generate_or_reuse_claim_code(
-        patient=patient,
-        claim_date=input_data.visit_date,
-        service_type=input_data.service_type,
-        service_code=input_data.service_code,
-        db=db)
-    local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money, claim_code=claim_code)
 
 
 
-    items = [
-    {"item_code": item.item_code, "qty": item.quantity}
-    for item in input_data.claimable_items
-    ]
-    claim_id = str(uuid.uuid4())
-    claim = Claim(
-        claim_id=claim_id,
-        claim_code=claim_code,
-        service_code=input_data.service_code,
-        service_type=input_data.service_type,
-        icd_codes=json.dumps(input_data.icd_codes or []),
-        patient=patient,
-        item_code=items,
-        amount_claimed=sum(item.cost for item in input_data.claimable_items),
-        claim_date=input_data.visit_date,
-        status="pending",
-        prevalidation_result=local,
-        enterer_reference=input_data.enterer_reference,
-        facility_reference=input_data.facility_reference,
-        doctor_nmc=input_data.doctor_nmc,
-    )
 
-    db.add(claim)
-    try:
-        db.commit()
-        db.refresh(claim)
-    except Exception as e:
-        db.rollback()
-        print("CLAIM SAVE ERROR:", e)
-        raise HTTPException(status_code=500, detail=str(e))
+    # items = [
+    # {"item_code": item.item_code, "qty": item.quantity}
+    # for item in input_data.claimable_items
+    # ]
+    # claim_id = str(uuid.uuid4())
+    # claim = Claim(
+    #     claim_id=claim_id,
+    #     claim_code=claim_code,
+    #     service_code=input_data.service_code,
+    #     service_type=input_data.service_type,
+    #     icd_codes=json.dumps(input_data.icd_codes or []),
+    #     patient=patient,
+    #     item_code=items,
+    #     amount_claimed=sum(item.cost for item in input_data.claimable_items),
+    #     claim_date=input_data.visit_date,
+    #     status="pending",
+    #     prevalidation_result=local,
+    #     enterer_reference=input_data.enterer_reference,
+    #     facility_reference=input_data.facility_reference,
+    #     doctor_nmc=input_data.doctor_nmc,
+    # )
+
+    # db.add(claim)
+    # try:
+    #     db.commit()
+    #     db.refresh(claim)
+    # except Exception as e:
+    #     db.rollback()
+    #     print("CLAIM SAVE ERROR:", e)
+    #     raise HTTPException(status_code=500, detail=str(e))
 
 
-    return {
-        "local_validation": local,
-        "claim_code":claim_code,
-        "claim_id":claim_id,
-        "imis_patient": patient.imis_full_response,
-        "eligibility":patient.eligibility_raw
-    }
 
 
 
@@ -249,6 +253,7 @@ async def submit_claim_endpoint(
     claim_id: str,
     username: str,
     password:str,
+    request:Request,
     db: Session = Depends(get_db),
 ):#    session: requests.Session = Depends(get_imis_session), #here we have discarded the use of session 
     
@@ -302,15 +307,14 @@ async def submit_claim_endpoint(
     imis_claim_code = uuid.uuid4().hex
 
 
-    care_type_map = {"OPD": "O", "IPD": "I", "ER": "O","Ref":"O"}
-    service_type_mapped = {"OPD": "O", "ER": "E", "IPD": "O", "Ref": "R"}
+    care_type_map = {"OPD": "O", "IPD": "I", "ER": "O","Referral":"O"}
+    service_type_mapped = {"OPD": "O", "ER": "E", "IPD": "O", "Referral": "R"}
     if input.service_type in ["OPD", "ER"]:
         type_field = [{"text": service_type_mapped.get(input.service_type, "O")}]
     else:  # for IPD, Referral, etc.
         type_field = {"text": service_type_mapped.get(input.service_type, "O")}
 
     icd_codes = json.loads(input.icd_codes) if isinstance(input.icd_codes, str) else input.icd_codes
-
     fhir_claim_payload = {
         "resourceType": "Claim",
         "billablePeriod": {
@@ -335,22 +339,23 @@ async def submit_claim_endpoint(
         ],
         "item": [
             {
-                "category": {"text": "service"},
-                "quantity": {"value":1 },
-                "sequence": 1,
-                "service": {"text": "OPD01"},#item.get("item_code", "UNKNOWN")#here the service_code is a bit confusing as to enter the item_code or to enter the OPD01 and all opd and ER accordingly.
-                "unitPrice": {"value": 10},#round(float(item["approved_amount"]), 2)
+                "sequence": i + 1,
+                "category": {"text": item.category},         
+                "quantity": {"value": item.quantity},         
+                "service": {"text": item.item_code},         
+                "unitPrice": {"value": item.cost},  
             }
-            for i, item in enumerate(input)
+            for i, item in enumerate(input.claimable_items)
         ],
-        "total": {"value": 10},#claim.amount_claimed}
+        "total":{"value": sum(round(item.cost * item.quantity, 2) 
+        for item in input.claimable_items
+        )},
         "careType":care_type_map.get(input.service_type),#care type shall be I and O 
-  
-        "enterer": {"reference": "Practitioner/7aa79c53-057e-4e77-8576-dfcfb03584a8"},
-        "facility": {"reference": "Location/1ac457d3-efd3-4a67-89b3-bf8cbe18045d"},
+        # "enterer": {"reference": "Practitioner/7aa79c53-057e-4e77-8576-dfcfb03584a8"},
+        # "facility": {"reference": "Location/1ac457d3-efd3-4a67-89b3-bf8cbe18045d"},
         #here for testing this is commented out above is the hardcoded value for now
-        #"enterer": {"reference": f"Practitioner/{claim.enterer_reference}"},
-        #"facility": {"reference": f"Location/{claim.facility_reference}"},
+        "enterer": {"reference": f"Practitioner/{input.enterer_reference}"},
+        "facility": {"reference": f"Location/{input.facility_reference}"},
         "diagnosis": [
             {"sequence": i + 1, 
              "type": [{"coding": [{"code": "icd_0"}], "text": "icd_0"}],
@@ -358,7 +363,7 @@ async def submit_claim_endpoint(
             for i, code in enumerate(icd_codes or [])
         ],
         "nmc": ",".join(input.doctor_nmc) if isinstance(input.doctor_nmc, list) else input.doctor_nmc,
-        "type": {"text":"O"},#service_type_mapped.get(claim.service_type, # visit type shall be O R and E only Others Referral and Emergency   
+        "type": {"text":service_type_mapped.get(input.service_type,"E")},#service_type_mapped.get(claim.service_type, # visit type shall be O R and E only Others Referral and Emergency   
     }
 
 
@@ -372,33 +377,108 @@ async def submit_claim_endpoint(
     # claim.status = "submitted"
 
 
+    imis_json_str = imis_response.get("response")
+    imis_json = json.loads(imis_json_str) if imis_json_str else {}
+
+
+    claim_code = "UNKNOWN_CLAIM_CODE"
+    for ident in imis_json.get("identifier", []):
+        codings = ident.get("type", {}).get("coding", [])
+        if any(c.get("code") == "MR" for c in codings):
+            claim_code = ident.get("value")
+            break
+
+    outcome_status = imis_json.get("outcome", {}).get("text", "unknown")
+    created_date_str = imis_json.get("created")
+    created_date = datetime.fromisoformat(created_date_str) if created_date_str else datetime.utcnow()
+
+
+    seq_to_code = {}
+    for add_item in imis_json.get("addItem", []):
+        seq_list = add_item.get("sequenceLinkId", [])
+        service_list = add_item.get("service", {}).get("coding", [])
+        code = service_list[0].get("code") if service_list else None
+        for seq in seq_list:
+            seq_to_code[seq] = code
+
+
+    items_info = []
+    for item in imis_json.get("item", []):
+        seq_id = item.get("sequenceLinkId")
+        service_code = seq_to_code.get(seq_id, None)
+        for adj in item.get("adjudication", []):
+            status = adj.get("reason", {}).get("text")
+            items_info.append({
+                "sequence_id": seq_id,
+                "item_code": service_code,
+                "status": status
+            })
+
     imis_record = ImisResponse(
         patient_id=input.patient_id,
-        raw_response=json.loads(json.dumps(imis_response, default=str)),
-        fetched_at=datetime.utcnow()
+        claim_code=claim_code,
+        status=outcome_status,
+        created_at=created_date,
+        items=items_info,
+        raw_response=imis_json,
+        fetched_at=datetime.utcnow(),
+        service_type=input.service_type,
+        service_code=input.service_code
+
     )
     db.add(imis_record)
+    db.commit()
+    db.refresh(imis_record)
+    def detect_system(request: Request):
+        user_agent = request.headers.get("User-Agent", "").lower()
+        ip = request.client.host
 
-    try:
-        db.commit()
-        db.refresh(imis_record)
-    except Exception as exc:
-        db.rollback()
-        logging.error(f"Failed to commit IMIS record: {exc}")
-        raise HTTPException(status_code=500, detail=f"Failed to save submission record: {exc}")
+        # Custom header (if systems use it)
+        if "x-system-source" in request.headers:
+            return request.headers["x-system-source"]
+
+        # Detect via user-agent
+        if "hmis" in user_agent:
+            return "HMIS"
+        if "ehr" in user_agent:
+            return "EHR"
+
+
+        if ip.startswith("10."):
+            return "HMIS-network"
+        if ip.startswith("192.168."):
+            return "EHR-network"
+
+        return "Unknown"
+
+    system_info = {
+    "source": detect_system(request),
+    "ip": request.client.host,
+    "user_agent": request.headers.get("User-Agent"),
+    "timestamp": datetime.utcnow().isoformat()
+}
+
+    
+
 
     return {
         "message": "Claim successfully submitted to IMIS",
-        "claim_code": input.claim_code,
+        "claim_code": claim_code,
+        "status": outcome_status,
         "submitted_at": datetime.utcnow().isoformat(),
-        "imis_response": imis_response
+        "created_at": created_date.isoformat(),
+        "items": items_info,
+        "IMIS_response":imis_json,
+        "payload":fhir_claim_payload,
+        "system_info":system_info
     }
+
 
 
 # Get all claims
 @router.get("/claims/all")
 def get_all_claims(db: Session = Depends(get_db)):
-    claims = db.query(Claim).order_by(Claim.claim_code.desc()).all()
+    claims = db.query(ImisResponse).order_by(ImisResponse.claim_code.desc()).all()
     return {
         "count": len(claims),
         "results": claims
@@ -411,7 +491,7 @@ def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
 
-    claims = db.query(Claim).filter(Claim.patient_id == patient.id).order_by(Claim.claim_code.desc()).all()
+    claims = db.query(ImisResponse).filter(ImisResponse.patient_id == patient.patient_code).order_by(ImisResponse.claim_code.desc()).all()
     
     return {
         "count": len(claims),

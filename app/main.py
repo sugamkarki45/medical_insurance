@@ -10,7 +10,7 @@ import asyncio,re
 
 
 app = FastAPI(title="Insurance Claim Validation API")
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+# app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 app.include_router(claim_router, prefix="/api")
 app.include_router(documents,prefix="/docs")
 
