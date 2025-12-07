@@ -60,8 +60,8 @@ class Diagnosis(BaseModel):
 
 class HospitalType(str, Enum):
     phc = "phc"
-    government = "Government"
-    private = "Private"
+    government = "government"
+    private = "private"
 
 
 class ClaimInput(BaseModel):
@@ -78,6 +78,7 @@ class ClaimInput(BaseModel):
     facility_reference: Optional[str] = None  # health facility code
     claim_time: Optional[str] = Field(..., description="Enter the time of claim: discharge,same day")# e.g., 'discharge', 'same_day', etc.
     claim_code:Optional[str]
+    department:Optional[str]=Field(..., description="this is optional as so but in case of OPD this is required as the inter departmental consuntation shall be checked.")
 
     @validator("service_type", pre=True)
     def normalize_service_type(cls, v):

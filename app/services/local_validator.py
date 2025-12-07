@@ -17,6 +17,7 @@ def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[
         db.query(ImisResponse)
         .join(PatientInformation)
         .filter(PatientInformation.patient_code == patient_imis_id)
+        .filter(ImisResponse.status.notin_(["rejected", "unknown"]))
         .order_by(ImisResponse.fetched_at.desc())
         .all()
     )
@@ -78,74 +79,73 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
     category = claim.service_type  # "OPD", "IPD", "Emergency"
     cat_rules = rules["claim_categories"].get(category, {}).get("rules", {})
 
-    if category == "OPD":
 
+    if category == "OPD":
+        # Load category-specific rules
         ticket_days = cat_rules.get("ticket_valid_days", 7)
         use_same_claim_code = cat_rules.get("use_same_claim_code_within_validity", True)
         require_same_day_submit = cat_rules.get("submit_daily_after_service", True)
+        require_referral = cat_rules.get("require_referral_for_inter_department", True)
         cutoff = claim.visit_date - timedelta(days=ticket_days)
 
+        # Get the last OPD claim within ticket window
         last_opd_claim = (
             db.query(ImisResponse)
-            .join(PatientInformation)
-            .filter(PatientInformation.patient_code == claim.patient_id)
-            .filter(ImisResponse.fetched_at >= cutoff)
-            .order_by(ImisResponse.fetched_at.asc())
+            .filter(ImisResponse.patient_id == claim.patient_id)
+            .filter(ImisResponse.service_type == "OPD")
+            # .filter(ImisResponse.created_at >= cutoff)
+            .filter(ImisResponse.status.notin_(["rejected", "unknown"]))
+            .order_by(ImisResponse.created_at.asc())
             .first()
-        )#            .filter(ImisResponse.service_type == "OPD")
+        )
+       
+#default
+        new_ticket_required = True 
 
-
-        # Check if a new ticket is required
-        new_ticket_required = True
         if not last_opd_claim:
-            new_ticket_required=False
+            new_ticket_required = False  
         else:
-            if last_opd_claim and claim.service_code:
-                days_diff = (claim.visit_date - last_opd_claim.fetched_at.date()).days
+            days_diff = (claim.visit_date - last_opd_claim.created_at.date()).days
+            # Case 1: Same service code, ticket still valid → no new ticket
+            if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_code:
+                new_ticket_required = False
+
+            # Case 2: Different service code, ticket still valid → warn, no new ticket
+            elif 0 <= days_diff < ticket_days and claim.service_code != last_opd_claim.service_code:
+                new_ticket_required = False
+                warnings.append(
+                    "Previous OPD ticket still valid. No new ticket needed for a different service. Claim code shall remain the same.")
+
+            # Case 3: Different service code, ticket expired → valid new service, no warning
+            elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
+                new_ticket_required = False
+
+            # Case 4: Same service code, ticket expired → new ticket required
+            elif days_diff >= ticket_days and claim.service_code == last_opd_claim.service_code:
+                new_ticket_required = True
 
 
-                # Case 1: Same ticket still valid
-                if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_type:
-                    new_ticket_required = False
 
-                # Case 2: Different service code within validity → valid ticket, but warn
-                elif 0 <= days_diff < ticket_days and claim.service_code != last_opd_claim.service_code:
-                    new_ticket_required = False
-                    warnings.append("The previous OPD ticket is still valid. No new ticket needed even for a different service. The claim code shall also be the same")
+            # Inter-departmental referral check (only if ticket is valid)
+            if require_referral and 0 <= days_diff < ticket_days:
+                if last_opd_claim.department != claim.department:
+                    if not getattr(claim, "referral_provided", False):
+                        warnings.append(
+                            "Inter-department OPD visit within ticket validity requires referral documentation."
+                        )
 
-                # Case 3: Different service code + ticket expired → valid new service, no warning
-                elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
-                    new_ticket_required = False
-
-                # Case 4: Same service code + ticket expired → new ticket required
-                elif days_diff >= ticket_days and claim.service_code == last_opd_claim.service_code:
-                    new_ticket_required = True
-
-
-        # Append warning only if a new ticket is actually required
-            if new_ticket_required:
-                warnings.append("OPD ticket expired. New ticket required.")
-
-# check these three rules later when the claim object is updated to have department, referral_provided, submit_date, visit_date fields
-#         if require_referral:
-#             for prev in previous_claims:
-#                 if prev.department != claim.department:
-#                     if not claim.referral_provided:
-#                         warnings.append(
-#                             f"Inter-department visit requires referral documentation."
-#                         )
-
-
-        # if require_same_day_submit:
-        #     if claim.visit_date != Claims.claim_date:
-        #         warnings.append("OPD claims must be submitted on the same date of service.")
-
+#same day submission
+            if require_same_day_submit:
+                if claim.visit_date != getattr(claim, "submit_date", claim.visit_date):
+                    warnings.append("OPD claims must be submitted on the same date of service.")
+        if new_ticket_required:
+                    warnings.append("OPD ticket expired. New ticket required.")
 
 
 #IPD and emergency rules implementation
-    if category in ("Emergency", "IPD"):
+    if category in ("ER", "IPD"):
         submit_at_discharge = cat_rules.get("submit_at_discharge", True)
-# claim time maybe included in the input to determine the claim has been submitted at discharge or not
+
         if submit_at_discharge and claim.claim_time != "discharge":
             warnings.append(f"{category} claims must be submitted at discharge.")
     # if category == "IPD" and cat_rules.get("package_based_claim_only", True):
@@ -169,13 +169,10 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
     if available_money <= 0:
             raise HTTPException(
                 status_code=400, detail="This patient has no remaining balance")
-            # warnings.append(
-            #     f"Patient has no remaining balance (allowed: {allowed_money}, used: {used_money}), but claim is locally valid."
-            # )
-#processing of claiumable items
+            
     seen_surgery_packages = set()
     surgery_disease_count = defaultdict(int)  # disease → count of surgery claims
-
+    medical_disease_count=defaultdict(int)
     for item in claim.claimable_items:
         approved_amount = Decimal("0")  
         copay_amount = Decimal("0")   
@@ -287,34 +284,42 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
 
         # Surgery & Medical Management  
         if data["type"] == "surgery":
-            disease = claim.diagnosis_code
+            disease = tuple(claim.icd_codes) if claim.icd_codes else ("UNKNOWN",)
+
             surgery_disease_count[disease] += 1
             order = surgery_disease_count[disease]
+
             pct = rules["general_rules"]["surgery"]["claim_percentage"]
-            multiplier = Decimal(str(pct.get("first_disease", 100) if order == 1 else pct.get("second_disease", 50))) / 100
+            multiplier = Decimal(str(
+                pct["first_disease"] if order == 1 else pct.get("second_disease", 50)
+            )) / 100
+
             approved_amount = raw_amount * multiplier
+
             if multiplier < 1:
-                item_result["warnings"].append(f"Surgery #{order}: {int(multiplier*100)}% claimable.")
+                item_result["warnings"].append(
+                    f"Surgery #{order}: {int(multiplier*100)}% claimable."
+                )
 
         elif data["type"] == "medical_management":
-            disease = claim.diagnosis_code
-            order = len([c for c in previous_claims if c.diagnosis_code == disease and c.item_type == "medical_management"]) + 1
-            pct = rules["general_rules"]["medical_management"]["claim_percentage"]
-            multiplier = Decimal(str(pct.get("first_disease", 100) if order == 1 else pct.get("second_disease", 50))) / 100
-            approved_amount = raw_amount * multiplier
-            if multiplier < 1:
-                item_result["warnings"].append(f"Medical mgmt #{order}: {int(multiplier*100)}% claimable.")
-        else:
-        # medicine, lab, urology, etc.
-            approved_amount = raw_amount
+            disease = tuple(claim.icd_codes) if claim.icd_codes else ("UNKNOWN",)
 
-        # Surgery package
-        if data.get("is_surgery_package"):
-            if item.item_code in seen_surgery_packages:
-                item_result["warnings"].append("Surgery package already claimed. Pre-op not allowed separately.")
-                approved_amount = Decimal(0)
-            else:
-                seen_surgery_packages.add(item.item_code)
+            medical_disease_count[disease] += 1
+            order = medical_disease_count[disease]
+
+            pct = rules["general_rules"]["medical_management"]["claim_percentage"]
+            multiplier = Decimal(str(
+                pct["first_disease"] if order == 1 else pct.get("second_disease", 50)
+            )) / 100
+
+            approved_amount = raw_amount * multiplier
+
+            if multiplier < 1:
+                item_result["warnings"].append(
+                    f"Medical mgmt #{order}: {int(multiplier*100)}% claimable."
+                )
+        else:
+            approved_amount = raw_amount
 
         # Bed charge cap 
         if "bed" in item.name.lower():

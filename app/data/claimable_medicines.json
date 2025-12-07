@@ -19418,7 +19418,7 @@
   {
     "code": "DENT01",
     "name": "DENTAL X RAY(IOPA/RVG)",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 150,
     "capping": {
@@ -19430,7 +19430,7 @@
   {
     "code": "DENT02",
     "name": "DENTAL EXTRACTION SIMPLE PER UNIT(LA)",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 300,
     "capping": {
@@ -19442,7 +19442,7 @@
   {
     "code": "DENT03",
     "name": "DENTAL EXTRACTION DIFFICULT PER UNIT GA",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3000,
     "capping": {
@@ -19454,7 +19454,7 @@
   {
     "code": "DENT04",
     "name": "DENTAL EXTRACTION (DIFFICULT) PER UNIT(LA)",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1000,
     "capping": {
@@ -19466,7 +19466,7 @@
   {
     "code": "DENT05",
     "name": "IMPACTED TOOTH/MOLAR (LA) PACKAGE",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2500,
     "capping": {
@@ -19478,7 +19478,7 @@
   {
     "code": "DENT06",
     "name": "PERIORAL SINUS EXSION LA",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3500,
     "capping": {
@@ -19490,7 +19490,7 @@
   {
     "code": "DENT07",
     "name": "FRACTURE MANDIBLE PLATING(EXTRA) AND IMF LA",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -19502,7 +19502,7 @@
   {
     "code": "DENT08",
     "name": "FRACTURE MAXILLA FIXATION LA",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -19514,7 +19514,7 @@
   {
     "code": "DENT09",
     "name": "FRACTURE MAXILLA FIXATION GA",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -19526,7 +19526,7 @@
   {
     "code": "DENT10",
     "name": "FRACTURE MANDIBLE PLATING AND IMF GA",
-    "type": "dental",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -19538,7 +19538,7 @@
   {
     "code": "SENT01",
     "name": "EUE/EUM GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -19550,7 +19550,7 @@
   {
     "code": "SENT02",
     "name": "EUE/EUM GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3000,
     "capping": {
@@ -19562,7 +19562,7 @@
   {
     "code": "SENT03",
     "name": "PREAURICULAR SINUS EXCISION/COLLOAURAL FISTULA EXCISION GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -19574,7 +19574,7 @@
   {
     "code": "SENT04",
     "name": "PREAURICULAR SINUS EXCISION/COLLOAURAL FISTULA EXCISION LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -19586,7 +19586,7 @@
   {
     "code": "SENT05",
     "name": "MYRINGOTOMY/VTI /ENDOSCOPIC/MICROSCOPIC GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -19598,7 +19598,7 @@
   {
     "code": "SENT06",
     "name": "MYRINGOTOMY/VTI LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -19610,7 +19610,7 @@
   {
     "code": "SENT07",
     "name": "MYRINGOPLASTY/ENDOSCOPIC/MICROSCOPIC",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -19622,7 +19622,7 @@
   {
     "code": "SENT08",
     "name": "MYRINGOPLASTY LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -19634,7 +19634,7 @@
   {
     "code": "SENT09",
     "name": "TYMPANOPLASTY LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -19646,7 +19646,7 @@
   {
     "code": "SENT10",
     "name": "TYMPANOPLASTY LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -19658,7 +19658,7 @@
   {
     "code": "SENT11",
     "name": "MRM/RADICAL MASTOIDECTOMY/MASTOID EXPLORATION GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -19670,7 +19670,7 @@
   {
     "code": "SENT12",
     "name": "NASAL BONE FRACTURE CLOSED REDUCTION GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -19682,7 +19682,7 @@
   {
     "code": "SENT13",
     "name": "NASAL BONE FRACTURE CLOSED REDUCTION",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -19694,7 +19694,7 @@
   {
     "code": "SENT14",
     "name": "NASOLABIAL CYST EXCISION GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -19706,7 +19706,7 @@
   {
     "code": "SENT15",
     "name": "NASOLABIAL CYST EXCISION LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -19718,7 +19718,7 @@
   {
     "code": "SENT16",
     "name": "ESPAL GA UNILATERAL GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -19730,7 +19730,7 @@
   {
     "code": "SENT17",
     "name": "SEPTAL PERFORATION REPAIR GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -19742,7 +19742,7 @@
   {
     "code": "SENT18",
     "name": "SEPTAL PERFORATION REPAIR LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -19754,7 +19754,7 @@
   {
     "code": "SENT19",
     "name": "INTRANEASAL POLYP AVULSION/INPA LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -19766,7 +19766,7 @@
   {
     "code": "SENT20",
     "name": "ENDOSCOPIC MEDIAL MAXILLECTOMY GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -19778,7 +19778,7 @@
   {
     "code": "SENT21",
     "name": "ENDOSCOPIC MEDIAL MAXILLECTOMY LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25500,
     "capping": {
@@ -19790,7 +19790,7 @@
   {
     "code": "SENT22",
     "name": "TONSILLECTOMY CONVENTIONAL",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -19802,7 +19802,7 @@
   {
     "code": "SENT23",
     "name": "TONSILLECTOMY COBLATION/MICRO DEBRIDER",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -19814,7 +19814,7 @@
   {
     "code": "SENT24",
     "name": "HEMITHYROIDECTOMY GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -19826,7 +19826,7 @@
   {
     "code": "SENT25",
     "name": "HEMITHYROIDECTOMY LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25500,
     "capping": {
@@ -19838,7 +19838,7 @@
   {
     "code": "SENT26",
     "name": "TOTAL THYROIDECTOMY/GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -19850,7 +19850,7 @@
   {
     "code": "SENT27",
     "name": "PAROTIDECTOMY ADEQUATE/SUPERFICIAL",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -19862,7 +19862,7 @@
   {
     "code": "SENT28",
     "name": "PAROTIDECTOMY TOTAL CONSERVATIVE",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -19874,7 +19874,7 @@
   {
     "code": "SENT29",
     "name": "PAROTIDECTOMY RADICAL",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -19886,7 +19886,7 @@
   {
     "code": "SENT30",
     "name": "CERVICAL LYMPH NODE EXCISION /BIOPSY LA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -19898,7 +19898,7 @@
   {
     "code": "SENT31",
     "name": "RIGID OESOPHAGOSCOPY AND FB REMOVAL",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -19910,7 +19910,7 @@
   {
     "code": "SENT32",
     "name": "RIGID BRONCHOSCOPY AND FB REMOVAL",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 12000,
     "capping": {
@@ -19922,7 +19922,7 @@
   {
     "code": "SENT33",
     "name": "NECK ABSCESS I AND D SMALL GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -19934,7 +19934,7 @@
   {
     "code": "SENT34",
     "name": "NECK ABSCESS I AND D LARGE GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -19946,7 +19946,7 @@
   {
     "code": "SENT35",
     "name": "PATHOLOGY",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3500,
     "capping": {
@@ -19958,7 +19958,7 @@
   {
     "code": "SENT36",
     "name": "PATHOLOGY/MODIFIED RADICAL",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -19970,7 +19970,7 @@
   {
     "code": "SENT37",
     "name": "THYROIDECTOMY RADICAL GA",
-    "type": "ent",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -19982,7 +19982,7 @@
   {
     "code": "SOPTH01",
     "name": "CONJUNCTIVA PLASTY/ SUTURING",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3000,
     "capping": {
@@ -19994,7 +19994,7 @@
   {
     "code": "SOPTH02",
     "name": "AC REFORMATION/ WOUND REPAIR",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2500,
     "capping": {
@@ -20006,7 +20006,7 @@
   {
     "code": "SOPTH03",
     "name": "VISION THERAPY",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1500,
     "capping": {
@@ -20018,7 +20018,7 @@
   {
     "code": "SOPTH04",
     "name": "TRABECULECTOMY",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 7500,
     "capping": {
@@ -20030,7 +20030,7 @@
   {
     "code": "SOPTH05",
     "name": "APPLANATION/ TONOMETRY (IOP)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50,
     "capping": {
@@ -20042,7 +20042,7 @@
   {
     "code": "SOPTH06",
     "name": "CHALAZION SURGERY",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 500,
     "capping": {
@@ -20054,7 +20054,7 @@
   {
     "code": "SOPTH07",
     "name": "CCT(Central Corneal Thickness)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 100,
     "capping": {
@@ -20066,7 +20066,7 @@
   {
     "code": "SOPTH08",
     "name": "DACRYOCYSTECTOMY (DCT)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 4000,
     "capping": {
@@ -20078,7 +20078,7 @@
   {
     "code": "SOPTH09",
     "name": "PTERYGIUM EXCISION WITH GRAFT",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -20090,7 +20090,7 @@
   {
     "code": "SOPTH10",
     "name": "USG B-SCAN (BOTH EYE)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 300,
     "capping": {
@@ -20102,7 +20102,7 @@
   {
     "code": "SOPTH11",
     "name": "CRYO BLOCKING (CYCLOCRYOTHERAPY)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 4500,
     "capping": {
@@ -20114,7 +20114,7 @@
   {
     "code": "SOPTH12",
     "name": "PPAPILLOMA EXCISION",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3000,
     "capping": {
@@ -20126,7 +20126,7 @@
   {
     "code": "SOPTH13",
     "name": "SILICON OIL INJECTION",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 7000,
     "capping": {
@@ -20138,7 +20138,7 @@
   {
     "code": "SOPTH14",
     "name": "SYRINGING OF EYE",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 100,
     "capping": {
@@ -20150,7 +20150,7 @@
   {
     "code": "SOPTH15",
     "name": "CYCLO REFRACTION INCLUDING PMT",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 200,
     "capping": {
@@ -20162,7 +20162,7 @@
   {
     "code": "SOPTH16",
     "name": "PHACO + TRABE",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15500,
     "capping": {
@@ -20174,7 +20174,7 @@
   {
     "code": "SOPTH17",
     "name": "ENTROPION / ECTROPION PACKAGE",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 6000,
     "capping": {
@@ -20186,7 +20186,7 @@
   {
     "code": "SOPTH18",
     "name": "SUB CONJUNCTIVAL INJECTION",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 500,
     "capping": {
@@ -20198,7 +20198,7 @@
   {
     "code": "SOPTH19",
     "name": "OCT MACULA/OCT DISC BOTH EYES",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1500,
     "capping": {
@@ -20210,7 +20210,7 @@
   {
     "code": "SOPTH20",
     "name": "ERG/EOG/VEP",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1500,
     "capping": {
@@ -20222,7 +20222,7 @@
   {
     "code": "SOPTH21",
     "name": "RETINAL LASER/TSCP",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1500,
     "capping": {
@@ -20234,7 +20234,7 @@
   {
     "code": "SOPTH22",
     "name": "TARSORRHAPHY",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3000,
     "capping": {
@@ -20246,7 +20246,7 @@
   {
     "code": "SOPTH23",
     "name": "FORGEIN BODY REMOVAL ANTERIOR SEGMENT",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 500,
     "capping": {
@@ -20258,7 +20258,7 @@
   {
     "code": "SOPTH24",
     "name": "CORTICAL WASH +ANTERIOR VITRECTOMY",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 6000,
     "capping": {
@@ -20270,7 +20270,7 @@
   {
     "code": "SOPTH25",
     "name": "SCHIRMER TEAR TEST",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 100,
     "capping": {
@@ -20282,7 +20282,7 @@
   {
     "code": "SOPTH26",
     "name": "PHACO + IOL",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 12000,
     "capping": {
@@ -20294,7 +20294,7 @@
   {
     "code": "SOPTH27",
     "name": "INTRA VITREAL INJECTION (MINOR OT) W/ TRICORT",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1500,
     "capping": {
@@ -20306,7 +20306,7 @@
   {
     "code": "SOPTH28",
     "name": "SCLERARY AC IOL",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -20318,7 +20318,7 @@
   {
     "code": "SOPTH29",
     "name": "VITEROUS WASH",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -20330,7 +20330,7 @@
   {
     "code": "SOPTH30",
     "name": "CONJUNCTIVAL LACERATION REPAIR",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1500,
     "capping": {
@@ -20342,7 +20342,7 @@
   {
     "code": "SOPTH31",
     "name": "SCLERAL FIXATION OIL+ANTERIOR VITRECTOMY",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -20354,7 +20354,7 @@
   {
     "code": "SOPTH32",
     "name": "LID LACERATION REPAIR BIG",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 7000,
     "capping": {
@@ -20366,7 +20366,7 @@
   {
     "code": "SOPTH33",
     "name": "DCR",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 7000,
     "capping": {
@@ -20378,7 +20378,7 @@
   {
     "code": "SOPTH34",
     "name": "LID LACERATION REPAIR SMALL",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 4500,
     "capping": {
@@ -20390,7 +20390,7 @@
   {
     "code": "SOPTH35",
     "name": "SCLERAL PERFORATION REPAIR",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 7000,
     "capping": {
@@ -20402,7 +20402,7 @@
   {
     "code": "SOPTH36",
     "name": "HESS CHART / DIPLOPA CHART",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 500,
     "capping": {
@@ -20414,7 +20414,7 @@
   {
     "code": "SOPTH37",
     "name": "FUNDUS PHOTOGRAPHY BOTH EYE WITH PRINT",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 500,
     "capping": {
@@ -20426,7 +20426,7 @@
   {
     "code": "SOPTH38",
     "name": "VITRECTOMY + SILICON+ENDO LASER",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -20438,7 +20438,7 @@
   {
     "code": "SOPTH39",
     "name": "SYRINGING PROBING UNDER GA",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -20450,7 +20450,7 @@
   {
     "code": "SOPTH40",
     "name": "COLOUR VISION TEST",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 100,
     "capping": {
@@ -20462,7 +20462,7 @@
   {
     "code": "SOPTH41",
     "name": "ENUCLICATION",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 9000,
     "capping": {
@@ -20474,7 +20474,7 @@
   {
     "code": "SOPTH42",
     "name": "CORNEAL F.B. REMOVAL (DEEP) IN OT Minor surgery",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3000,
     "capping": {
@@ -20486,7 +20486,7 @@
   {
     "code": "SOPTH43",
     "name": "ORBITOTOMY UNDER LA",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8500,
     "capping": {
@@ -20498,7 +20498,7 @@
   {
     "code": "SOPTH44",
     "name": "ORBITOTOMY UNDER GA",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -20510,7 +20510,7 @@
   {
     "code": "SOPTH45",
     "name": "AC WASH",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2000,
     "capping": {
@@ -20522,7 +20522,7 @@
   {
     "code": "SOPTH46",
     "name": "VISUAL FIELD AUTOMATED",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1200,
     "capping": {
@@ -20534,7 +20534,7 @@
   {
     "code": "SOPTH47",
     "name": "YAG LASER PER EYE",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1000,
     "capping": {
@@ -20546,7 +20546,7 @@
   {
     "code": "SOPTH48",
     "name": "CYST REMOVAL (SMALL)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2000,
     "capping": {
@@ -20558,7 +20558,7 @@
   {
     "code": "SOPTH49",
     "name": "CYST REMOVAL (BIG)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 4000,
     "capping": {
@@ -20570,7 +20570,7 @@
   {
     "code": "SOPTH50",
     "name": "EXAMINATION UNDER ANESTHESIA EYE (GA)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -20582,7 +20582,7 @@
   {
     "code": "SOPTH51",
     "name": "IOL REMOVAL +ANTERIOR VITRECTOMY",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 6000,
     "capping": {
@@ -20594,7 +20594,7 @@
   {
     "code": "SOPTH52",
     "name": "LENS ASPIRATION + FOLDABLE IOL HYDROPHOBIC LENS UNDER GA",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -20606,7 +20606,7 @@
   {
     "code": "SOPTH53",
     "name": "CORNEAL REPAIR",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -20618,7 +20618,7 @@
   {
     "code": "SOPTH54",
     "name": "TOPOGRAPHY",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1000,
     "capping": {
@@ -20630,7 +20630,7 @@
   {
     "code": "SOPTH55",
     "name": "ORTHOPTIC TEST",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 500,
     "capping": {
@@ -20642,7 +20642,7 @@
   {
     "code": "SOPTH56",
     "name": "LOW VISION EVALUATION",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 500,
     "capping": {
@@ -20654,7 +20654,7 @@
   {
     "code": "SOPTH57",
     "name": "CONTACT LENS EVALUATION",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 500,
     "capping": {
@@ -20666,7 +20666,7 @@
   {
     "code": "SOPTH58",
     "name": "PTOSIS SURGERY / ONE EYE",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 13000,
     "capping": {
@@ -20678,7 +20678,7 @@
   {
     "code": "SOPTH59",
     "name": "STRABISMUS SURGERY / ONE EYE",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -20690,7 +20690,7 @@
   {
     "code": "SOPTH60",
     "name": "RETINAL DETACHMENT SURGERY (CYROBUCKLING)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -20702,7 +20702,7 @@
   {
     "code": "SOPTH61",
     "name": "SMALL INCISION CATARACT SURGERY",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 7000,
     "capping": {
@@ -20714,7 +20714,7 @@
   {
     "code": "SOPTH62",
     "name": "BANDAGE CONTACT LENS",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 800,
     "capping": {
@@ -20726,7 +20726,7 @@
   {
     "code": "SOPTH63",
     "name": "OPTICAL DISPENSING",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 100,
     "capping": {
@@ -20738,7 +20738,7 @@
   {
     "code": "SOPTH64",
     "name": "KERATOPLASTY (CORNEAL TRANSPLANT)",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -20750,7 +20750,7 @@
   {
     "code": "SOPTH65",
     "name": "FEUM",
-    "type": "ophthalmology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50,
     "capping": {
@@ -20762,7 +20762,7 @@
   {
     "code": "SGYNO01",
     "name": "TOTAL ABDOMINAL HYSTERECTOMY GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 40000,
     "capping": {
@@ -20774,7 +20774,7 @@
   {
     "code": "SGYNO02",
     "name": "ABDOMINAL MYOMECTOMY GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 40000,
     "capping": {
@@ -20786,7 +20786,7 @@
   {
     "code": "SGYNO03",
     "name": "VAGINAL HYSTERECTOMY GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 40000,
     "capping": {
@@ -20798,7 +20798,7 @@
   {
     "code": "SGYNO04",
     "name": "HYSTEROTOMY GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 40000,
     "capping": {
@@ -20810,7 +20810,7 @@
   {
     "code": "SGYNO05",
     "name": "SUCTION EVACUATION IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 10000,
     "capping": {
@@ -20822,7 +20822,7 @@
   {
     "code": "SGYNO06",
     "name": "CAC (MVA) IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 10000,
     "capping": {
@@ -20834,7 +20834,7 @@
   {
     "code": "SGYNO07",
     "name": "CAC (MVA) LA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 8000,
     "capping": {
@@ -20846,7 +20846,7 @@
   {
     "code": "SGYNO08",
     "name": "PAC (MVA) IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 6000,
     "capping": {
@@ -20858,7 +20858,7 @@
   {
     "code": "SGYNO09",
     "name": "PAC (MVA) LA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 4000,
     "capping": {
@@ -20870,7 +20870,7 @@
   {
     "code": "SGYNO10",
     "name": "DILATATION AND CURETTAGE IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 10000,
     "capping": {
@@ -20882,7 +20882,7 @@
   {
     "code": "SGYNO11",
     "name": "DILATATION AND CURETTAGE LA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 4000,
     "capping": {
@@ -20894,7 +20894,7 @@
   {
     "code": "SGYNO12",
     "name": "ENDOMETRIAL SAMPLING IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_uterus",
     "rate_npr": 10000,
     "capping": {
@@ -20906,7 +20906,7 @@
   {
     "code": "SGYNO13",
     "name": "LAPAROTOMY WITH OPHORECTOMY GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_ovary",
     "rate_npr": 40000,
     "capping": {
@@ -20918,7 +20918,7 @@
   {
     "code": "SGYNO14",
     "name": "LAPAROTOMY WITH CYSTECTOMY GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_ovary",
     "rate_npr": 40000,
     "capping": {
@@ -20930,7 +20930,7 @@
   {
     "code": "SGYNO15",
     "name": "LAPAROTOMY WITH SALPINGECTOMY GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_fallopain_tube",
     "rate_npr": 40000,
     "capping": {
@@ -20942,7 +20942,7 @@
   {
     "code": "SGYNO16",
     "name": "MINILAP ( TUBAL LIGATION) LA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_fallopain_tube",
     "rate_npr": 12000,
     "capping": {
@@ -20954,7 +20954,7 @@
   {
     "code": "SGYNO17",
     "name": "HYDROTUBATION IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_fallopain_tube",
     "rate_npr": 10000,
     "capping": {
@@ -20966,7 +20966,7 @@
   {
     "code": "SGYNO18",
     "name": "CERVICAL BIOPSY IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_cervix",
     "rate_npr": 12000,
     "capping": {
@@ -20978,7 +20978,7 @@
   {
     "code": "SGYNO19",
     "name": "CERVICAL POLYPECTOMY IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_cervix",
     "rate_npr": 12000,
     "capping": {
@@ -20990,7 +20990,7 @@
   {
     "code": "SGYNO20",
     "name": "COLPOSCOPY GUIDED BIOPSY IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_cervix",
     "rate_npr": 12000,
     "capping": {
@@ -21002,7 +21002,7 @@
   {
     "code": "SGYNO21",
     "name": "CONIZATION IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_cervix",
     "rate_npr": 20000,
     "capping": {
@@ -21014,7 +21014,7 @@
   {
     "code": "SGYNO22",
     "name": "FOTHERGILL'S REPAIR SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_cervix",
     "rate_npr": 20000,
     "capping": {
@@ -21026,7 +21026,7 @@
   {
     "code": "SGYNO23",
     "name": "MCDONALD SUTURE IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_cervix",
     "rate_npr": 15000,
     "capping": {
@@ -21038,7 +21038,7 @@
   {
     "code": "SGYNO24",
     "name": "VAGINAL CYST WALL OPERATION SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 15000,
     "capping": {
@@ -21050,7 +21050,7 @@
   {
     "code": "SGYNO25",
     "name": "HYMENECTOMY IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 15000,
     "capping": {
@@ -21062,7 +21062,7 @@
   {
     "code": "SGYNO26",
     "name": "VVF REPAIR SIMPLE SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 35000,
     "capping": {
@@ -21074,7 +21074,7 @@
   {
     "code": "SGYNO27",
     "name": "VVF REPAIR COMPLEX SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 45000,
     "capping": {
@@ -21086,7 +21086,7 @@
   {
     "code": "SGYNO28",
     "name": "ANTERIOR COLPORRHAPHY SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 25000,
     "capping": {
@@ -21098,7 +21098,7 @@
   {
     "code": "SGYNO29",
     "name": "POSTERIOR COLPOPERINEORRHAPHY SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 25000,
     "capping": {
@@ -21110,7 +21110,7 @@
   {
     "code": "SGYNO30",
     "name": "EVACUATION OF VAGINAL HEMATOMA SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 25000,
     "capping": {
@@ -21122,7 +21122,7 @@
   {
     "code": "SGYNO31",
     "name": "EVACUATION OF VAGINAL HEMATOMA LA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 12000,
     "capping": {
@@ -21134,7 +21134,7 @@
   {
     "code": "SGYNO32",
     "name": "ABDOMINAL BURCH COLPOSUSPENSION GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 40000,
     "capping": {
@@ -21146,7 +21146,7 @@
   {
     "code": "SGYNO33",
     "name": "VAGINAL MYOMECTOMY SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 25000,
     "capping": {
@@ -21158,7 +21158,7 @@
   {
     "code": "SGYNO34",
     "name": "VAGINAL SEPTUM RESECTION SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vagina",
     "rate_npr": 15000,
     "capping": {
@@ -21170,7 +21170,7 @@
   {
     "code": "SGYNO35",
     "name": "VULVAL BIOPSY IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vulva_and_perineum",
     "rate_npr": 12000,
     "capping": {
@@ -21182,7 +21182,7 @@
   {
     "code": "SGYNO36",
     "name": "VULVAL HEMATOMA SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vulva_and_perineum",
     "rate_npr": 15000,
     "capping": {
@@ -21194,7 +21194,7 @@
   {
     "code": "SGYNO37",
     "name": "VULVAL CYST EXCISION SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vulva_and_perineum",
     "rate_npr": 15000,
     "capping": {
@@ -21206,7 +21206,7 @@
   {
     "code": "SGYNO38",
     "name": "MARSUPIILISATION IV A",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vulva_and_perineum",
     "rate_npr": 15000,
     "capping": {
@@ -21218,7 +21218,7 @@
   {
     "code": "SGYNO39",
     "name": "PERINEAL TEAR REPAIR SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vulva_and_perineum",
     "rate_npr": 12000,
     "capping": {
@@ -21230,7 +21230,7 @@
   {
     "code": "SGYNO40",
     "name": "THIRD DEGREE PERINEAL TEAR REPAIR SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vulva_and_perineum",
     "rate_npr": 15000,
     "capping": {
@@ -21242,7 +21242,7 @@
   {
     "code": "SGYNO41",
     "name": "COMPLETE PERINEAL TEAR REPAIR SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "procedure_on_vulva_and_perineum",
     "rate_npr": 20000,
     "capping": {
@@ -21254,7 +21254,7 @@
   {
     "code": "SGYNO42",
     "name": "DIAGNOSTIC HYSTEROSCOPY IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 15000,
     "capping": {
@@ -21266,7 +21266,7 @@
   {
     "code": "SGYNO43",
     "name": "HYSTEROSCOPIC SEPTUM/ADHESION RESECTION SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 20000,
     "capping": {
@@ -21278,7 +21278,7 @@
   {
     "code": "SGYNO44",
     "name": "HYSTEROSCOPIC MYOMECTOMY SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 45000,
     "capping": {
@@ -21290,7 +21290,7 @@
   {
     "code": "SGYNO45",
     "name": "DIAGNOSTIC LAPAROSCOPY GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 38000,
     "capping": {
@@ -21302,7 +21302,7 @@
   {
     "code": "SGYNO46",
     "name": "LAPAROSCOPIC SALPINGOOPHORECTOMY GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 40000,
     "capping": {
@@ -21314,7 +21314,7 @@
   {
     "code": "SGYNO47",
     "name": "LAPAROSCOPIC CYSTECTOMY GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 40000,
     "capping": {
@@ -21326,7 +21326,7 @@
   {
     "code": "SGYNO48",
     "name": "TOTAL LAPAROSCOPIC HYSTERECTOMY GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 50000,
     "capping": {
@@ -21338,7 +21338,7 @@
   {
     "code": "SGYNO49",
     "name": "LAPAROSCOPIC MYOMECTOMY GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 50000,
     "capping": {
@@ -21350,7 +21350,7 @@
   {
     "code": "SGYNO50",
     "name": "LAPAROSCOPIC BURCH COLPOSUSPENSION GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 50000,
     "capping": {
@@ -21362,7 +21362,7 @@
   {
     "code": "SGYNO51",
     "name": "DIAGNOSTIC CYSTOSCOPY IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 15000,
     "capping": {
@@ -21374,7 +21374,7 @@
   {
     "code": "SGYNO52",
     "name": "CYSTOSCOPY WITH DJ INSERTION IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 25000,
     "capping": {
@@ -21386,7 +21386,7 @@
   {
     "code": "SGYNO53",
     "name": "NORMAL DELIVERY(WITH EPISIOTOMY)",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 6000,
     "capping": {
@@ -21398,7 +21398,7 @@
   {
     "code": "SGYNO54",
     "name": "MANUAL REMOVAL OF PLACENTA IVA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 12000,
     "capping": {
@@ -21410,7 +21410,7 @@
   {
     "code": "SGYNO55",
     "name": "INSTRUMENTAL DELIVERY LA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 8000,
     "capping": {
@@ -21422,7 +21422,7 @@
   {
     "code": "SGYNO56",
     "name": "CAESAREAN SECTION GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 22500,
     "capping": {
@@ -21434,7 +21434,7 @@
   {
     "code": "SGYNO57",
     "name": "CAESAREAN HYSTERECTOMY GA/SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "endoscopic_or_laparoscopic_procedure",
     "rate_npr": 25000,
     "capping": {
@@ -21446,7 +21446,7 @@
   {
     "code": "SGYNO58",
     "name": "WIDE RESECTION OF VULVA SA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "cancer_surgeries",
     "rate_npr": 40000,
     "capping": {
@@ -21458,7 +21458,7 @@
   {
     "code": "SGYNO59",
     "name": "STAGING LAPAROTOMY WITH PLND GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "cancer_surgeries",
     "rate_npr": 50000,
     "capping": {
@@ -21470,7 +21470,7 @@
   {
     "code": "SGYNO60",
     "name": "RADICAL HYSTERECTOMY WITH PLND GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "cancer_surgeries",
     "rate_npr": 50000,
     "capping": {
@@ -21482,7 +21482,7 @@
   {
     "code": "SGYNO61",
     "name": "SIMPLE VULVECTOMY GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "cancer_surgeries",
     "rate_npr": 40000,
     "capping": {
@@ -21494,7 +21494,7 @@
   {
     "code": "SGYNO62",
     "name": "RADICAL VULVECTOMY WITH LND GA",
-    "type": "gynaecology",
+    "type": "surgery",
     "sub_type": "cancer_surgeries",
     "rate_npr": 50000,
     "capping": {
@@ -21506,7 +21506,7 @@
   {
     "code": "CARD01",
     "name": "ECHOCARDIOGRAPHY",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1050,
     "capping": {
@@ -21518,7 +21518,7 @@
   {
     "code": "CARD02",
     "name": "HOTLER MONITORING",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2000,
     "capping": {
@@ -21530,7 +21530,7 @@
   {
     "code": "CARD03",
     "name": "STRESS ECHO",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2000,
     "capping": {
@@ -21542,7 +21542,7 @@
   {
     "code": "CARD04",
     "name": "TEE ( TRANSESOPHAGEAL ECHOCARDIOGRAPHY)",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1800,
     "capping": {
@@ -21554,7 +21554,7 @@
   {
     "code": "CARD05",
     "name": "CORONARY ANGIOGRAPHY",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -21566,7 +21566,7 @@
   {
     "code": "CARD06",
     "name": "CT CORONARY ANGIOGRAM",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 13000,
     "capping": {
@@ -21578,7 +21578,7 @@
   {
     "code": "CARD07",
     "name": "ANGIOPLASTY ( Primary/Elective)",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 85000,
     "capping": {
@@ -21590,7 +21590,7 @@
   {
     "code": "CARD08",
     "name": "STAGED ANGIOPLASTY",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -21602,7 +21602,7 @@
   {
     "code": "CARD09",
     "name": "EP STUDY",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -21614,7 +21614,7 @@
   {
     "code": "CARD10",
     "name": "EPS WITH RFA",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 80000,
     "capping": {
@@ -21626,7 +21626,7 @@
   {
     "code": "CARD11",
     "name": "DUAL CHAMBER PACEMAKER IMPLANTATION (Procedure only)",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -21638,7 +21638,7 @@
   {
     "code": "CARD12",
     "name": "TEMPORARY PACEMAKER IMPLANTATION",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -21650,7 +21650,7 @@
   {
     "code": "CARD13",
     "name": "PULSE GENERATOR REPLACEMENT SINGLE/DUAL CHAMBER",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -21662,7 +21662,7 @@
   {
     "code": "CARD14",
     "name": "CRRT/ICD IMPLANTATION/Replacement ( procedure only),(generator,lead extra)",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -21674,7 +21674,7 @@
   {
     "code": "CARD15",
     "name": "RHC(RIGHT HEART CATHETERIZATION) adult",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -21686,7 +21686,7 @@
   {
     "code": "CARD16",
     "name": "PERICARDIOCENTESIS (Pigtail)",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -21698,7 +21698,7 @@
   {
     "code": "CARD17",
     "name": "ASD/VSD/PDA DEVICE CLOSURE adult",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 41000,
     "capping": {
@@ -21710,7 +21710,7 @@
   {
     "code": "CARD18",
     "name": "INTRAOARTIC BALLOON PUMP (IABP) INSERTION",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -21722,7 +21722,7 @@
   {
     "code": "CARD19",
     "name": "FOETAL ECHO (Adult age 15 years complete and older)",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2500,
     "capping": {
@@ -21734,7 +21734,7 @@
   {
     "code": "CARD20",
     "name": "SINGLE CHAMBER PACEMAKER",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -21746,7 +21746,7 @@
   {
     "code": "CARD21",
     "name": "ECHO SCREENING",
-    "type": "cardiology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 600,
     "capping": {
@@ -21758,7 +21758,7 @@
   {
     "code": "CARD22",
     "name": "AORTIC VALVE REPLACEMENT-Non RHD",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 86000,
     "capping": {
@@ -21770,7 +21770,7 @@
   {
     "code": "CARD23",
     "name": "ASD CLOSURE (Adult)",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 86000,
     "capping": {
@@ -21782,7 +21782,7 @@
   {
     "code": "CARD24",
     "name": "CABG",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 97000,
     "capping": {
@@ -21794,7 +21794,7 @@
   {
     "code": "CARD25",
     "name": "CARDIAC TUMOR EXCISION",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 86000,
     "capping": {
@@ -21806,7 +21806,7 @@
   {
     "code": "CARD26",
     "name": "DOUBLE VALVE REPLACEMENT DVR ( 2 VALVE)",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 94000,
     "capping": {
@@ -21818,7 +21818,7 @@
   {
     "code": "CARD27",
     "name": "EBSTEIN'S ANOMALY REPAIR",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 94000,
     "capping": {
@@ -21830,7 +21830,7 @@
   {
     "code": "CARD28",
     "name": "MITRAL VALVE REPAIR WITH RING (Non-RHD)",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 86000,
     "capping": {
@@ -21842,7 +21842,7 @@
   {
     "code": "CARD29",
     "name": "MITRAL VALVE REPLACEMENT (Non-RHD)",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 86000,
     "capping": {
@@ -21854,7 +21854,7 @@
   {
     "code": "CARD30",
     "name": "PERICARDIOTOMY",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 70500,
     "capping": {
@@ -21866,7 +21866,7 @@
   {
     "code": "CARD31",
     "name": "TRICUSPID VALVE REPAIR/REPLACEMENT (Non_RHD)",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 86000,
     "capping": {
@@ -21878,7 +21878,7 @@
   {
     "code": "CARD32",
     "name": "ASCENDING AORTIC ANEURYSM REPAIR SURGERY",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 94000,
     "capping": {
@@ -21890,7 +21890,7 @@
   {
     "code": "CARD33",
     "name": "ASCENDING AORTA/ARCH REPLACEMENT",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 94000,
     "capping": {
@@ -21902,7 +21902,7 @@
   {
     "code": "CARD34",
     "name": "COARCTATION OF AORTA REPAIR -(ADULT)",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 62000,
     "capping": {
@@ -21914,7 +21914,7 @@
   {
     "code": "CARD35",
     "name": "STERNAL WIRE REMOVAL GA",
-    "type": "cardiac_surgery",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 19800,
     "capping": {
@@ -21926,7 +21926,7 @@
   {
     "code": "CTVS01",
     "name": "ESOPHAGEAL DILATATION (BALOON) -LA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 19000,
     "capping": {
@@ -21938,7 +21938,7 @@
   {
     "code": "CTVS02",
     "name": "ESOPHAGEAL DILATATION (SAVARY-GILIARD) GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 14500,
     "capping": {
@@ -21950,7 +21950,7 @@
   {
     "code": "CTVS03",
     "name": "ESOPHAGEAL DILATATION (SAVARY-GILIARD) LA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 6900,
     "capping": {
@@ -21962,7 +21962,7 @@
   {
     "code": "CTVS04",
     "name": "FLEXIBLE BRONCHOSCOPY G A",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 14000,
     "capping": {
@@ -21974,7 +21974,7 @@
   {
     "code": "CTVS05",
     "name": "FLEXIBLE BRONCHOSCOPY LA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8500,
     "capping": {
@@ -21986,7 +21986,7 @@
   {
     "code": "CTVS06",
     "name": "INCISION AND DRAINAGE GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 16000,
     "capping": {
@@ -21998,7 +21998,7 @@
   {
     "code": "CTVS07",
     "name": "PERCUTANEOUS ENDOSCOPIC GASTROSTOMY (PEG) GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 24000,
     "capping": {
@@ -22010,7 +22010,7 @@
   {
     "code": "CTVS08",
     "name": "PERCUTANEOUS ENDOSCOPIC GASTROSTOMY (PEG) LA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18500,
     "capping": {
@@ -22022,7 +22022,7 @@
   {
     "code": "CTVS09",
     "name": "TUBE THORACOSTOMY UNDER GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 14280,
     "capping": {
@@ -22034,7 +22034,7 @@
   {
     "code": "CTVS10",
     "name": "TUBE THORACOSTOMY UNDER LA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11700,
     "capping": {
@@ -22046,7 +22046,7 @@
   {
     "code": "CTVS11",
     "name": "USG GUIDED TRUCUT BIOPSY GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -22058,7 +22058,7 @@
   {
     "code": "CTVS12",
     "name": "CHEST WALL SINUSECTOMY/FISTULECTOMY UNDER GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 39200,
     "capping": {
@@ -22070,7 +22070,7 @@
   {
     "code": "CTVS14",
     "name": "FEEDING JEJUNOSTOMY UNDER GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 37500,
     "capping": {
@@ -22082,7 +22082,7 @@
   {
     "code": "CTVS15",
     "name": "FEEDING JEJUNOSTOMY UNDER LA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 26500,
     "capping": {
@@ -22094,7 +22094,7 @@
   {
     "code": "CTVS16",
     "name": "LUNG BIOPSY VIA THORACOTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 84000,
     "capping": {
@@ -22106,7 +22106,7 @@
   {
     "code": "CTVS17",
     "name": "LUNG BIOPSY VIA VATS",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 87000,
     "capping": {
@@ -22118,7 +22118,7 @@
   {
     "code": "CTVS18",
     "name": "MEDIASTINAL LN BIOPSY VIA VATS",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 57000,
     "capping": {
@@ -22130,7 +22130,7 @@
   {
     "code": "CTVS19",
     "name": "MEDIASTINAL LN BIOPSY VIA MEDIASTINOSTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 57000,
     "capping": {
@@ -22142,7 +22142,7 @@
   {
     "code": "CTVS20",
     "name": "OESOPHAGEAL DILATATION (BALOON)",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 33500,
     "capping": {
@@ -22154,7 +22154,7 @@
   {
     "code": "CTVS21",
     "name": "OESOPHAGEAL STENTING (STENT EXCLUDED) UNDER GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 33500,
     "capping": {
@@ -22166,7 +22166,7 @@
   {
     "code": "CTVS22",
     "name": "RE- EXPLORATORY THORACOTOMY UNDER GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 68500,
     "capping": {
@@ -22178,7 +22178,7 @@
   {
     "code": "CTVS26",
     "name": "TRACHEAL DILATATION (BALLON)",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 67000,
     "capping": {
@@ -22190,7 +22190,7 @@
   {
     "code": "CTVS27",
     "name": "TRACHEAL DILATATION (RIGID)",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 63700,
     "capping": {
@@ -22202,7 +22202,7 @@
   {
     "code": "CTVS28",
     "name": "TRACHEOSTOMY UNDER GA + BEDSIDE TRACHESOTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 13200,
     "capping": {
@@ -22214,7 +22214,7 @@
   {
     "code": "CTVS29",
     "name": "TRACHEOSTOMY UNDER LA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5500,
     "capping": {
@@ -22226,7 +22226,7 @@
   {
     "code": "CTVS30",
     "name": "WINDOW THORACOSTOMY UNDER GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 82000,
     "capping": {
@@ -22238,7 +22238,7 @@
   {
     "code": "CTVS31",
     "name": "WINDOW THORACOSTOMY UNDER LA/Regional",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 62100,
     "capping": {
@@ -22250,7 +22250,7 @@
   {
     "code": "CTVS33",
     "name": "CERVICAL OESOPHAGOSTOMY AND FEEDING JEJUNOSTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 95500,
     "capping": {
@@ -22262,7 +22262,7 @@
   {
     "code": "CTVS34",
     "name": "MEDIASTINAL LN BIOPSY VIA MEDIASTINOSCOPY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 62500,
     "capping": {
@@ -22274,7 +22274,7 @@
   {
     "code": "CTVS35",
     "name": "MODIFIED HELLER CARDIOMYOTOMY VIA THORACOSTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 85500,
     "capping": {
@@ -22286,7 +22286,7 @@
   {
     "code": "CTVS36",
     "name": "OESOPHAGEAL DIVERTICULUM EXCISION AND REPAIR",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 89000,
     "capping": {
@@ -22298,7 +22298,7 @@
   {
     "code": "CTVS37",
     "name": "PERICARDIAL WINDOW (OPEN)",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 62000,
     "capping": {
@@ -22310,7 +22310,7 @@
   {
     "code": "CTVS38",
     "name": "PERICARDIAL WINDOW (VATS)",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 67500,
     "capping": {
@@ -22322,7 +22322,7 @@
   {
     "code": "CTVS39",
     "name": "PLEURAL BIOPSY VIA VATS",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 62500,
     "capping": {
@@ -22334,7 +22334,7 @@
   {
     "code": "CTVS40",
     "name": "RIB EXCISION SINGLE UNDER GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 64000,
     "capping": {
@@ -22346,7 +22346,7 @@
   {
     "code": "CTVS41",
     "name": "SMALL CHEST WALL MASS EXCISION",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 64000,
     "capping": {
@@ -22358,7 +22358,7 @@
   {
     "code": "CTVS42",
     "name": "THORACIC SYMPATHECTOMY VIA VATS",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 72000,
     "capping": {
@@ -22370,7 +22370,7 @@
   {
     "code": "CTVS43",
     "name": "THORACOSTOMY FOR CHEST TRAUMA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 82000,
     "capping": {
@@ -22382,7 +22382,7 @@
   {
     "code": "CTVS44",
     "name": "THORACOSTOMY FOR TRACHEOBRONCHIAL FB REMOVAL",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 68000,
     "capping": {
@@ -22394,7 +22394,7 @@
   {
     "code": "CTVS46",
     "name": "DELOCULATION/ DE CORTICATION VIA VATS",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 93000,
     "capping": {
@@ -22406,7 +22406,7 @@
   {
     "code": "CTVS47",
     "name": "DELOCULATION/ DE CORTICATION VIA THORACOSTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 89500,
     "capping": {
@@ -22418,7 +22418,7 @@
   {
     "code": "CTVS48",
     "name": "DIAPHRAGMATIC HERNIA (CONGENITAL) REPAIR",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 95000,
     "capping": {
@@ -22430,7 +22430,7 @@
   {
     "code": "CTVS49",
     "name": "DIAPHRAGMATIC PLICATION VIA THORACOSTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 88000,
     "capping": {
@@ -22442,7 +22442,7 @@
   {
     "code": "CTVS50",
     "name": "DIAPHRAGMATIC PLICATION VIA VATS",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 89000,
     "capping": {
@@ -22454,7 +22454,7 @@
   {
     "code": "CTVS51",
     "name": "DIAPHRAGMATIC TEAR REPAIR (TRAUMA) UNDER GA",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 93500,
     "capping": {
@@ -22466,7 +22466,7 @@
   {
     "code": "CTVS52",
     "name": "HIATUS HERNIA REPAIR (LAPROSCOPIC)",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 89000,
     "capping": {
@@ -22478,7 +22478,7 @@
   {
     "code": "CTVS53",
     "name": "HYDATID CYST ENUCLEATION VIA THORACOSTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 93500,
     "capping": {
@@ -22490,7 +22490,7 @@
   {
     "code": "CTVS55",
     "name": "LAPROSCOPIC MODIFIED HELLER'S CARDIOMYOTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 95000,
     "capping": {
@@ -22502,7 +22502,7 @@
   {
     "code": "CTVS56",
     "name": "LASER BRONCHOSCOPY (LONG)",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 76500,
     "capping": {
@@ -22514,7 +22514,7 @@
   {
     "code": "CTVS57",
     "name": "LASER BRONCHOSCOPY (SHORT)",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 65500,
     "capping": {
@@ -22526,7 +22526,7 @@
   {
     "code": "CTVS58",
     "name": "MEDIASTINAL MASS EXCISION VIA STERNOTOMY/ OPEN THYMECTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 91000,
     "capping": {
@@ -22538,7 +22538,7 @@
   {
     "code": "CTVS59",
     "name": "MEDIASTINAL MASS EXCISION VIA THORACOSTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 91000,
     "capping": {
@@ -22550,7 +22550,7 @@
   {
     "code": "CTVS60",
     "name": "MEDIASTINAL THYROIDECTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 81500,
     "capping": {
@@ -22562,7 +22562,7 @@
   {
     "code": "CTVS61",
     "name": "OESOPHAGELE DEROOFING VIA VATS",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 83000,
     "capping": {
@@ -22574,7 +22574,7 @@
   {
     "code": "CTVS63",
     "name": "GASTRIC PULL UP (ONLY)",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 99000,
     "capping": {
@@ -22586,7 +22586,7 @@
   {
     "code": "CTVS64",
     "name": "LOBECTOMY/BILOBECTOMY VIA THORACOSTOMY",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 96000,
     "capping": {
@@ -22598,7 +22598,7 @@
   {
     "code": "CTVS65",
     "name": "LOBECTOMY/BILOBECTOMY VIA VATS",
-    "type": "thoracic",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 99800,
     "capping": {
@@ -22610,7 +22610,7 @@
   {
     "code": "CTVS68",
     "name": "PERFORATOR LIGATION ONLY/SPJ LIGATION ONLY UNDER SA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 9500,
     "capping": {
@@ -22622,7 +22622,7 @@
   {
     "code": "CTVS69",
     "name": "PERFORATOR LIGATION ONLY/SPJ LIGATION ONLY UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 13000,
     "capping": {
@@ -22634,7 +22634,7 @@
   {
     "code": "CTVS70",
     "name": "TOE/DIGITAL AMPUTATION UNDER RA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 9500,
     "capping": {
@@ -22646,7 +22646,7 @@
   {
     "code": "CTVS71",
     "name": "TOE/DIGITAL AMPUTATION UNDER LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5500,
     "capping": {
@@ -22658,7 +22658,7 @@
   {
     "code": "CTVS72",
     "name": "FASCIOTOMY UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 13000,
     "capping": {
@@ -22670,7 +22670,7 @@
   {
     "code": "CTVS73",
     "name": "FASCIOTOMY UNDER LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 6500,
     "capping": {
@@ -22682,7 +22682,7 @@
   {
     "code": "CTVS74",
     "name": "PERIPHERAL ANGIOGRAPHY (DYE EXTRA)",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18500,
     "capping": {
@@ -22694,7 +22694,7 @@
   {
     "code": "CTVS75",
     "name": "VENOGRAM(CONTRAST IN PACKAGE)",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18500,
     "capping": {
@@ -22706,7 +22706,7 @@
   {
     "code": "CTVS76",
     "name": "CEREBRAL ANGIOGRAM",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18500,
     "capping": {
@@ -22718,7 +22718,7 @@
   {
     "code": "CTVS77",
     "name": "CHEMICAL LUMBER SYMPATHECTOMY",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -22730,7 +22730,7 @@
   {
     "code": "CTVS78",
     "name": "SYMPATHECTOMY GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 27000,
     "capping": {
@@ -22742,7 +22742,7 @@
   {
     "code": "CTVS79",
     "name": "TEMPORAL ARTERY BIOPSY UNDER LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5500,
     "capping": {
@@ -22754,7 +22754,7 @@
   {
     "code": "CTVS80",
     "name": "INCISION AND DRAINAGE OF ABSCESS UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 16000,
     "capping": {
@@ -22766,7 +22766,7 @@
   {
     "code": "CTVS81",
     "name": "DEBRIDEMENT OF WOUND UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 17500,
     "capping": {
@@ -22778,7 +22778,7 @@
   {
     "code": "CTVS82",
     "name": "DEBRIDEMENT OF WOUND UNDER LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8500,
     "capping": {
@@ -22790,7 +22790,7 @@
   {
     "code": "CTVS83",
     "name": "PERMANENT CATHETER REMOVAL",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 4000,
     "capping": {
@@ -22802,7 +22802,7 @@
   {
     "code": "CTVS84",
     "name": "UNILATERAL VARICOSE VEIN STRIPPING & LIGATION UNDER SA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 22500,
     "capping": {
@@ -22814,7 +22814,7 @@
   {
     "code": "CTVS85",
     "name": "UNILATERAL VARICOSE VEIN STRIPPING & LIGATION UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 26500,
     "capping": {
@@ -22826,7 +22826,7 @@
   {
     "code": "CTVS86",
     "name": "BILATERAL VARICOSE VEIN STRIPPING AND LIGATION SA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 28500,
     "capping": {
@@ -22838,7 +22838,7 @@
   {
     "code": "CTVS87",
     "name": "BILATERAL VARICOSE VEIN STRIPPING AND LIGATION GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35500,
     "capping": {
@@ -22850,7 +22850,7 @@
   {
     "code": "CTVS88",
     "name": "AKA/ THROUGH KNEE/ BKA UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 28000,
     "capping": {
@@ -22862,7 +22862,7 @@
   {
     "code": "CTVS89",
     "name": "AKA/THROUGH KNEE/ BKA UNDER SA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 26000,
     "capping": {
@@ -22874,7 +22874,7 @@
   {
     "code": "CTVS90",
     "name": "ARM/FOREARM/WRIST/SYME'S AMPUTATION UNDER RA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20500,
     "capping": {
@@ -22886,7 +22886,7 @@
   {
     "code": "CTVS91",
     "name": "ARM/FOREARM/WRIST/SYME'S AMPUTATION UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25500,
     "capping": {
@@ -22898,7 +22898,7 @@
   {
     "code": "CTVS92",
     "name": "TRANSMETATARSAL/RAY AMPUTATION UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 27000,
     "capping": {
@@ -22910,7 +22910,7 @@
   {
     "code": "CTVS93",
     "name": "TRANSMETATARSAL/RAY AMPUTATION UNDER RA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -22922,7 +22922,7 @@
   {
     "code": "CTVS94",
     "name": "EMBOLECTOMY (FEMORAL/POPLITEAL/BRACHIAL) UNDER LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 28000,
     "capping": {
@@ -22934,7 +22934,7 @@
   {
     "code": "CTVS95",
     "name": "EMBOLECTOMY (FEMORAL/POPLITEAL/BRACHIAL) UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 39500,
     "capping": {
@@ -22946,7 +22946,7 @@
   {
     "code": "CTVS96",
     "name": "EMBOLECTOMY (FEMORAL/POPLITEAL/BRACHIAL) UNDER RA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 38500,
     "capping": {
@@ -22958,7 +22958,7 @@
   {
     "code": "CTVS97",
     "name": "LARGE AV MALFORMATION/HEMANGIOMA EXCISION UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 33500,
     "capping": {
@@ -22970,7 +22970,7 @@
   {
     "code": "CTVS98",
     "name": "LARGE AV MALFORMATION / HEMANGIOMA EXCISION UNDER RA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 32000,
     "capping": {
@@ -22982,7 +22982,7 @@
   {
     "code": "CTVS99",
     "name": "SMALL AV MALFORMATION/HEMANGIOMA EXCISION UNDER LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 22500,
     "capping": {
@@ -22994,7 +22994,7 @@
   {
     "code": "CTVS100",
     "name": "SCLEROTHERAPY UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -23006,7 +23006,7 @@
   {
     "code": "CTVS101",
     "name": "CERVICAL RIB EXCISION ONLY UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 46500,
     "capping": {
@@ -23018,7 +23018,7 @@
   {
     "code": "CTVS102",
     "name": "DELAYED CLOSURE/DEBRIDEMENT/STUMP REVISION UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 34500,
     "capping": {
@@ -23030,7 +23030,7 @@
   {
     "code": "CTVS103",
     "name": "DELAYED CLOSURE/DEBRIDEMENT/STUMP REVISION UNDER RA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 32500,
     "capping": {
@@ -23042,7 +23042,7 @@
   {
     "code": "CTVS104",
     "name": "DELAYED CLOSURE/DEBRIDEMENT/STUMP REVISION UNDER LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20500,
     "capping": {
@@ -23054,7 +23054,7 @@
   {
     "code": "CTVS105",
     "name": "EXTERNAL CAROTID ARTERY LIGATION UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 29500,
     "capping": {
@@ -23066,7 +23066,7 @@
   {
     "code": "CTVS106",
     "name": "INTERMEDIATE (BRACHIAL/DISTAL) REPAIR UNDER RA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -23078,7 +23078,7 @@
   {
     "code": "CTVS107",
     "name": "INTERMEDIATE (BRACHIAL/DISTAL) REPAIR UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 34500,
     "capping": {
@@ -23090,7 +23090,7 @@
   {
     "code": "CTVS108",
     "name": "AVF CONSTRUCTION UNDER LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 17000,
     "capping": {
@@ -23102,7 +23102,7 @@
   {
     "code": "CTVS109",
     "name": "AVF CONSTRUCTION UNDER BLOCK",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 22000,
     "capping": {
@@ -23114,7 +23114,7 @@
   {
     "code": "CTVS110",
     "name": "AVF CONSTRUCTION UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 27500,
     "capping": {
@@ -23126,7 +23126,7 @@
   {
     "code": "CTVS111",
     "name": "AVF CONSTRUCTION AND EXTERIORIZATION UNDER RA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 27500,
     "capping": {
@@ -23138,7 +23138,7 @@
   {
     "code": "CTVS112",
     "name": "AVF TAKEDOWN UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 24500,
     "capping": {
@@ -23150,7 +23150,7 @@
   {
     "code": "CTVS113",
     "name": "AVF TAKEDOWN UNDER RA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 23000,
     "capping": {
@@ -23162,7 +23162,7 @@
   {
     "code": "CTVS114",
     "name": "SCLEROTHERAPY UNDER LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 13000,
     "capping": {
@@ -23174,7 +23174,7 @@
   {
     "code": "CTVS115",
     "name": "BRONCHIAL ARTERY EMBOLIZATION",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 46500,
     "capping": {
@@ -23186,7 +23186,7 @@
   {
     "code": "CTVS116",
     "name": "LYMPH NODE BIOPSY LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18500,
     "capping": {
@@ -23198,7 +23198,7 @@
   {
     "code": "CTVS117",
     "name": "LYMPH NODE BIOPSY GA (TIVA/LMA)",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 23000,
     "capping": {
@@ -23210,7 +23210,7 @@
   {
     "code": "CTVS118",
     "name": "SKIN SPLIT GRAFT (SSG) (TIVA/LMA)",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 31000,
     "capping": {
@@ -23222,7 +23222,7 @@
   {
     "code": "CTVS119",
     "name": "EXPLORATION OF FOREIGN BODY UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 28500,
     "capping": {
@@ -23234,7 +23234,7 @@
   {
     "code": "CTVS120",
     "name": "VASCULAR MALFORMATION",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -23246,7 +23246,7 @@
   {
     "code": "CTVS121",
     "name": "PERMANENT CATHETER INSERTION",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 36500,
     "capping": {
@@ -23258,7 +23258,7 @@
   {
     "code": "CTVS122",
     "name": "SUBCLAVIAN ANEURYSM EXSION AND GRAFTING UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 94500,
     "capping": {
@@ -23270,7 +23270,7 @@
   {
     "code": "CTVS124",
     "name": "ENDOVASCULAR LASER ABLATION (EVLA)- LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 76500,
     "capping": {
@@ -23282,7 +23282,7 @@
   {
     "code": "CTVS125",
     "name": " ENDOVASCULAR LASER AVIATION (EVLA) SPINAL/ GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 77500,
     "capping": {
@@ -23294,7 +23294,7 @@
   {
     "code": "CTVS126",
     "name": "BILATERAL ENDOVASCULAR LASER ABLATION(EVLA)SPINAL/GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 93500,
     "capping": {
@@ -23306,7 +23306,7 @@
   {
     "code": "CTVS127",
     "name": "BILATERAL ENDOVASCULAR LASER ABLATION(EVLA)LA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 88500,
     "capping": {
@@ -23318,7 +23318,7 @@
   {
     "code": "CTVS128",
     "name": "PERIPHERAL STENTING (STEN EXTRA)",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 97500,
     "capping": {
@@ -23330,7 +23330,7 @@
   {
     "code": "CTVS129",
     "name": "PERIPHERAL BALOON ANGIOPLASTY (BALOON EXTRA)",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 88500,
     "capping": {
@@ -23342,7 +23342,7 @@
   {
     "code": "CTVS130",
     "name": "HIP DISARTICULATION UDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 75000,
     "capping": {
@@ -23354,7 +23354,7 @@
   {
     "code": "CTVS133",
     "name": "TIBIAL BYPASS UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 85000,
     "capping": {
@@ -23366,7 +23366,7 @@
   {
     "code": "CTVS135",
     "name": "PERIPHERAL PSEUDOANEURYSM/ANEURYSM REPAIR (EXPECT CAROTID AND ILIAC)UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 85000,
     "capping": {
@@ -23378,7 +23378,7 @@
   {
     "code": "CTVS136",
     "name": "AXILLO-FEMORAL BYPASS UNDER GA",
-    "type": "vascular",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 97000,
     "capping": {
@@ -23918,7 +23918,7 @@
   {
     "code": "SORTHO01",
     "name": "USG GUIDED INTRA-ARTICULAR STEROID INJECTION (INCLUDING STEROID MEDICINE)",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2000,
     "capping": {
@@ -23930,7 +23930,7 @@
   {
     "code": "SORTHO02",
     "name": "SKIN GRAFT GA/SA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 12000,
     "capping": {
@@ -23942,7 +23942,7 @@
   {
     "code": "SORTHO03",
     "name": "LOCAL FLAP GA/SA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -23954,7 +23954,7 @@
   {
     "code": "SORTHO04",
     "name": "SECONDARY SUTURING LA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1000,
     "capping": {
@@ -23966,7 +23966,7 @@
   {
     "code": "SORTHO05",
     "name": "SLAB/ CAST APPLICATION WITHOUT ANAESTHESIA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2000,
     "capping": {
@@ -23978,7 +23978,7 @@
   {
     "code": "SORTHO06",
     "name": "SLAB/ CAST APPLICATION WITH ANAESTHESIA (INCLUDING FRACTURE REDUCTION) INCLUDING COST OF CAST BLOCK/IVA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -23990,7 +23990,7 @@
   {
     "code": "SORTHO07",
     "name": "SLAB/ CAST APPLICATION WITH ANAESTHESIA(INCLUDING FRACTURE REDUCTION) INCLUDING COST OF CAST GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10500,
     "capping": {
@@ -24002,7 +24002,7 @@
   {
     "code": "SORTHO08",
     "name": "FOOT FRACTURE/ DISLOCATION SIMPLE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -24014,7 +24014,7 @@
   {
     "code": "SORTHO09",
     "name": "FOOT FRACTURE/DISLOCATION COMPLEX",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24026,7 +24026,7 @@
   {
     "code": "SORTHO10",
     "name": "FOOT FRACTURE/DISLOCATION(METATARSAL AND PHALANGES) FIXATION GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -24038,7 +24038,7 @@
   {
     "code": "SORTHO11",
     "name": "K-WIRE REMOVAL",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1000,
     "capping": {
@@ -24050,7 +24050,7 @@
   {
     "code": "SORTHO12",
     "name": "HIP SPICA GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -24062,7 +24062,7 @@
   {
     "code": "SORTHO13",
     "name": "TRIGGER FINGER RELEASE LA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -24074,7 +24074,7 @@
   {
     "code": "SORTHO14",
     "name": "TRIGGER FINGER RELEASE GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -24086,7 +24086,7 @@
   {
     "code": "SORTHO15",
     "name": "AMPUTATION DIGIT UNDER NERVE BLOCK",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -24098,7 +24098,7 @@
   {
     "code": "SORTHO16",
     "name": "IMPLANT REMOVAL - PLATE/CCS GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 12000,
     "capping": {
@@ -24110,7 +24110,7 @@
   {
     "code": "SORTHO17",
     "name": "IMPLANT REMOVAL - PLATE/CCS GA MAJOR",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -24122,7 +24122,7 @@
   {
     "code": "SORTHO18",
     "name": "STEINMANN PIN FOR SKELETON TRACTION LA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3000,
     "capping": {
@@ -24134,7 +24134,7 @@
   {
     "code": "SORTHO19",
     "name": "HAND- MCP/IP JOINTS DISLOCATIONS UNDER NERVE BLOCK",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 7000,
     "capping": {
@@ -24146,7 +24146,7 @@
   {
     "code": "SORTHO20",
     "name": "HAND- MCP/IP JOINTS DISLOCATIONS UNDER GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -24158,7 +24158,7 @@
   {
     "code": "SORTHO21",
     "name": "REDUCTION OF SHOULDER/ELBOW/KNEE DISLOCATION GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -24170,7 +24170,7 @@
   {
     "code": "SORTHO22",
     "name": "REDUCTION OF HIP DISLOCATION GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 12000,
     "capping": {
@@ -24182,7 +24182,7 @@
   {
     "code": "SORTHO23",
     "name": "TENDON REPAIR (SINGLE) UNDER NERVE BLOCK",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -24194,7 +24194,7 @@
   {
     "code": "SORTHO24",
     "name": "TENDON REPAIR (MULTIPLE) GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -24206,7 +24206,7 @@
   {
     "code": "SORTHO25",
     "name": "POLYDACTYLY EXCISION LA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -24218,7 +24218,7 @@
   {
     "code": "SORTHO26",
     "name": "POLYDACTYLY EXCISION MULTIPLE GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -24230,7 +24230,7 @@
   {
     "code": "SORTHO27",
     "name": "ARTHRODESIS OF SMALL JOINTS (MTP/MCP/IP) GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -24242,7 +24242,7 @@
   {
     "code": "SORTHO28",
     "name": "ARTHRODESIS OF LARGE JOINTS(WRIST/ANKLE/ELBOW) GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -24254,7 +24254,7 @@
   {
     "code": "SORTHO29",
     "name": "FIXATION OF INTERCONDYLAR FRACTURE OF HUMERUS UNDER REGIONAL BLOCK/ GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -24266,7 +24266,7 @@
   {
     "code": "SORTHO30",
     "name": "ELBOW FRACTURE OTHER THAN INTERCONDYLAR FRACTURE REGIONAL BLOCK/GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -24278,7 +24278,7 @@
   {
     "code": "SORTHO31",
     "name": "CONTRACTURE RELEASE SIMPLE SINGLE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -24290,7 +24290,7 @@
   {
     "code": "SORTHO32",
     "name": "CONTRACTURE RELEASE MULTIPLE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -24302,7 +24302,7 @@
   {
     "code": "SORTHO33",
     "name": "DEBRIDEMENT (SMALL) UNDER NERVE BLOCK",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 6000,
     "capping": {
@@ -24314,7 +24314,7 @@
   {
     "code": "SORTHO34",
     "name": "DEBRIDEMENT LARGE GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 12000,
     "capping": {
@@ -24326,7 +24326,7 @@
   {
     "code": "SORTHO35",
     "name": "CARPAL TUNNEL RELEASE LA/REGIONAL BLOCK",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 9000,
     "capping": {
@@ -24338,7 +24338,7 @@
   {
     "code": "SORTHO36",
     "name": "HAND CARPAL TUNNEL RELEASE GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 16000,
     "capping": {
@@ -24350,7 +24350,7 @@
   {
     "code": "SORTHO37",
     "name": "MICROSCOPIC NERVE REPAIR",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2500,
     "capping": {
@@ -24362,7 +24362,7 @@
   {
     "code": "SORTHO38",
     "name": "BIOPSY TRUCUT",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3750,
     "capping": {
@@ -24374,7 +24374,7 @@
   {
     "code": "SORTHO39",
     "name": "BIOPSY EXCISIONAL/INCISIONAL UNDER REGIONAL BLOCK/GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -24386,7 +24386,7 @@
   {
     "code": "SORTHO40",
     "name": "EXCISIONAL BIOPSY MAJOR",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -24398,7 +24398,7 @@
   {
     "code": "SORTHO41",
     "name": "DECOMPRESSION SEPTIC ARTHRITIS/OSTEOMYELITIS",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 12000,
     "capping": {
@@ -24410,7 +24410,7 @@
   {
     "code": "SORTHO42",
     "name": "CHRONIC OSTEOMYELITIS (SURGICAL MANAGEMENT INCLUDING I&D DRESSING)",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -24422,7 +24422,7 @@
   {
     "code": "SORTHO43",
     "name": "FIXATION OF FRACTURES SHAFT OF FEMUR/TIBIA WITH NAIL/PLATE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24434,7 +24434,7 @@
   {
     "code": "SORTHO44",
     "name": "Forearm- Fracture Distal Radius - ORIF Regional Block",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -24446,7 +24446,7 @@
   {
     "code": "SORTHO45",
     "name": "Forearm- Fracture Distal Radius - ORIF GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -24458,7 +24458,7 @@
   {
     "code": "SORTHO46",
     "name": "Ankle Fracture -Single Malleolus/SA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 12000,
     "capping": {
@@ -24470,7 +24470,7 @@
   {
     "code": "SORTHO47",
     "name": "Ankle Fracture -Complex GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -24482,7 +24482,7 @@
   {
     "code": "SORTHO48",
     "name": "HIP FRACTURE- NECK/INTERTROCHANTRIC FIXATION WITH CCS/ DHS/PEN UNDER GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 32000,
     "capping": {
@@ -24494,7 +24494,7 @@
   {
     "code": "SORTHO49",
     "name": "HEMIREPLACEMENT ARTHROPLASTY FOR FRACTURE NECK OF FEMUR",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24506,7 +24506,7 @@
   {
     "code": "SORTHO50",
     "name": "HIPS FRACTURE FEMUR NECK HEMIARTHROPLASTY GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24518,7 +24518,7 @@
   {
     "code": "SORTHO51",
     "name": "PATELLA FRACTURE EXCISION/FIXATION SA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -24530,7 +24530,7 @@
   {
     "code": "SORTHO52",
     "name": "PATELLA FRACTURE EXCISION/FIXATION GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 17000,
     "capping": {
@@ -24542,7 +24542,7 @@
   {
     "code": "SORTHO53",
     "name": "TIBIA CONDYLAR FRACTURE -PERCUTANEOUS SCREW FIXATION SA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 17000,
     "capping": {
@@ -24554,7 +24554,7 @@
   {
     "code": "SORTHO54",
     "name": "TIBIA CONDYLAR FRACTURE - SINGLE PLATE FIXATION GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -24566,7 +24566,7 @@
   {
     "code": "SORTHO55",
     "name": "ORIF SIMPLE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -24578,7 +24578,7 @@
   {
     "code": "SORTHO56",
     "name": "ORIF COMPLEX",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -24590,7 +24590,7 @@
   {
     "code": "SORTHO57",
     "name": "ARTHROTOMY SMALL JOINTS",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 9000,
     "capping": {
@@ -24602,7 +24602,7 @@
   {
     "code": "SORTHO58",
     "name": "ARTHROTOMY LARGE JOINTS",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -24614,7 +24614,7 @@
   {
     "code": "SORTHO59",
     "name": "DRAINAGE OF PSOAS ABSCESS -OPEN",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -24626,7 +24626,7 @@
   {
     "code": "SORTHO61",
     "name": "FEMUR CONDYLAR FRACTURE/ DISLOCATION - SIMPLE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -24638,7 +24638,7 @@
   {
     "code": "SORTHO62",
     "name": "FEMUR CONDYLAR FRACTURE/DISLOCATION - COMPLEX",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24650,7 +24650,7 @@
   {
     "code": "SORTHO63",
     "name": "SYNDACTYLY RELEASE AND GRAFTING GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 16000,
     "capping": {
@@ -24662,7 +24662,7 @@
   {
     "code": "SORTHO66",
     "name": "DISCECTOMY (OPEN)",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24674,7 +24674,7 @@
   {
     "code": "SORTHO67",
     "name": "ENDOSCOPIC DISCECTOMY",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -24686,7 +24686,7 @@
   {
     "code": "SORTHO68",
     "name": "LAMINECTOMY AND DECOMPRESSION OF CORD",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24698,7 +24698,7 @@
   {
     "code": "SORTHO69",
     "name": "HAND- CARPAL/METACARPAL/PHALANGES FRACTURE : ORIF",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -24710,7 +24710,7 @@
   {
     "code": "SORTHO72",
     "name": "FASCIOTOMY AND PROCEED",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24722,7 +24722,7 @@
   {
     "code": "SORTHO73",
     "name": "HIPS CDH ACETABULOPLASTY GA",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 26000,
     "capping": {
@@ -24734,7 +24734,7 @@
   {
     "code": "SORTHO75",
     "name": "SHOULDER FRACTURE DISLOCATION SIMPLE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -24746,7 +24746,7 @@
   {
     "code": "SORTHO76",
     "name": "SHOULDER FRACTURE DISLOCATION- COMPLEX",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24758,7 +24758,7 @@
   {
     "code": "SORTHO77",
     "name": "CERVICAL SPINE LAMINECTOMY AND FUSION",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24770,7 +24770,7 @@
   {
     "code": "SORTHO78",
     "name": "EXCISION BY LAMINECTOMY INTRASPINAL LESION OTHER THAN NEOPLASM",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24782,7 +24782,7 @@
   {
     "code": "SORTHO79",
     "name": "PELVIS/ACETABULAR FRACTURE- SINGLE WALL/COLUMN",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24794,7 +24794,7 @@
   {
     "code": "SORTHO80",
     "name": "PELVIS/ACETABULAR FRACTURE- BOTH WALL/COLUMN",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -24806,7 +24806,7 @@
   {
     "code": "SORTHO81",
     "name": "PELVIS FRACTURE EXTERNAL FIXATION",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 27000,
     "capping": {
@@ -24818,7 +24818,7 @@
   {
     "code": "SORTHO82",
     "name": "ARTHROSCOPIC DIAGNOSTIC",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -24830,7 +24830,7 @@
   {
     "code": "SORTHO83",
     "name": "TOTAL HIP/ KNEE REPLACEMENT SURGERY U/L (IMPLANT EXTRA)",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -24842,7 +24842,7 @@
   {
     "code": "SORTHO84",
     "name": "CURETTEGE AND SEQUESTRECTOMY",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -24854,7 +24854,7 @@
   {
     "code": "SORTHO85",
     "name": "CLAVICLE(ORIF)",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -24866,7 +24866,7 @@
   {
     "code": "SORTHO86",
     "name": "SPINAL FUSION POSTERIOR",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -24878,7 +24878,7 @@
   {
     "code": "SORTHO87",
     "name": "WRIST FRACTURE/DISLOCATION SIMPLE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -24890,7 +24890,7 @@
   {
     "code": "SORTHO88",
     "name": "WRIST FRACTURE/DISLOCATION COMPLEX",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -24902,7 +24902,7 @@
   {
     "code": "SORTHO89",
     "name": "BILATERAL KNEE REPLACEMENT",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 90000,
     "capping": {
@@ -24914,7 +24914,7 @@
   {
     "code": "SORTHO90",
     "name": "OPEN FRACTURE AND PROCEED",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -24926,7 +24926,7 @@
   {
     "code": "SORTHO91",
     "name": "ROOT BLOCK",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -24938,7 +24938,7 @@
   {
     "code": "SORTHO92",
     "name": "ARTHROSCOPY SIMPLE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -24950,7 +24950,7 @@
   {
     "code": "SORTHO93",
     "name": "ARTHROSCOPY COMPLEX",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 75000,
     "capping": {
@@ -24962,7 +24962,7 @@
   {
     "code": "SORTHO94",
     "name": "ARTHROSCOPIC DRAINAGE",
-    "type": "orthopedics",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -24974,7 +24974,7 @@
   {
     "code": "SGI01",
     "name": "SECONDARY SUTURING SMALL MINOR",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 1000,
     "capping": {
@@ -24986,7 +24986,7 @@
   {
     "code": "SGI02",
     "name": "SECONDARY SUTURING LARGE",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2000,
     "capping": {
@@ -24998,7 +24998,7 @@
   {
     "code": "SGI03",
     "name": "CORN WART EXCISION/FOREIGN BODY EXPOLARATION/REMOVAL",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 4000,
     "capping": {
@@ -25010,7 +25010,7 @@
   {
     "code": "SGI04",
     "name": "COLONOSCOPY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2750,
     "capping": {
@@ -25022,7 +25022,7 @@
   {
     "code": "SGI05",
     "name": "COLONOSCOPY WITH BIOPSY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -25034,7 +25034,7 @@
   {
     "code": "SGI06",
     "name": "COLONOSCOPY WITH POLYPECTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -25046,7 +25046,7 @@
   {
     "code": "SGI07",
     "name": "HEMORRHOID BANDING",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3000,
     "capping": {
@@ -25058,7 +25058,7 @@
   {
     "code": "SGI08",
     "name": "PENILE FRACTURE REPAIR",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 17500,
     "capping": {
@@ -25070,7 +25070,7 @@
   {
     "code": "SGI09",
     "name": "SIMPLE EXCISION LA(PAPILOMA/LIPOMA/SEBACEOUS/MUCUS RETENTION CYST/MUSCLE BIOPSY/LYMPHNODE BIOPSY/GRANULOMA/FIBROMA/GANGLION/DERMOID/FIBROADENOMA/SMALL BREAST LUMP)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3500,
     "capping": {
@@ -25082,7 +25082,7 @@
   {
     "code": "SGI10",
     "name": "INGROWING TOENAIL EXCISION UNILATERAL LA",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3500,
     "capping": {
@@ -25094,7 +25094,7 @@
   {
     "code": "SGI11",
     "name": "VASECTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3500,
     "capping": {
@@ -25106,7 +25106,7 @@
   {
     "code": "SGI12",
     "name": "DEBRIDEMENT/CLOSURE LA/REGIONAL",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 6000,
     "capping": {
@@ -25118,7 +25118,7 @@
   {
     "code": "SGI13",
     "name": " DEBRIDEMENT/NECROTISING FASCIITIS/ DIABETIC FOOT/FOURNIERS GANGRENE/CLOSURE GA/SAB",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -25130,7 +25130,7 @@
   {
     "code": "SGI14",
     "name": "EXAMINATION UNDER ANESTHESIA (EUA)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 3000,
     "capping": {
@@ -25142,7 +25142,7 @@
   {
     "code": "SGI15",
     "name": "UMBILICAL/INGUINAL/FEMORAL/EPIGASTRIC HERNIA REPAIR UNDER LA",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -25154,7 +25154,7 @@
   {
     "code": "SGI16",
     "name": "UMBILICAL/INGUINAL/FEMORAL/EPIGASTRIC HERNIA REPAIR UNDER LA WITH MESH HERNIOPLASTY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -25166,7 +25166,7 @@
   {
     "code": "SGI17",
     "name": "UMBILICAL/INGUINAL/FEMORAL/EPIGASTRIC HERNIA REPAIR UNDER GA/SAB",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -25178,7 +25178,7 @@
   {
     "code": "SGI18",
     "name": "INGUINAL/FEMORAL HERNIA REPAIR BILATERAL",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -25190,7 +25190,7 @@
   {
     "code": "SGI19",
     "name": "OPEN APPENDECTOMY SA/SAB",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -25202,7 +25202,7 @@
   {
     "code": "SGI20",
     "name": "PSOS ABSCESS/ APPENDICULAR ABSCESS DRAINAGE",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -25214,7 +25214,7 @@
   {
     "code": "SGI21",
     "name": "ANAL - HEMORRHOIDECTOMY /FISTULA /SINUS",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 17500,
     "capping": {
@@ -25226,7 +25226,7 @@
   {
     "code": "SGI22",
     "name": "LAPAROTOMY/ADHESIOLYSIS/ DEROTATION OF VOLVULUS/BIOPSY/DAMAGE CONTROL SURGERY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -25238,7 +25238,7 @@
   {
     "code": "SGI23",
     "name": "EMERGENCY LAPAROTOMY FOR D UODENAL/APPENDIX/SMALL INTESTINE/ GASTRIC PERFORATION/ILIOSTOMY / COLOSTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -25250,7 +25250,7 @@
   {
     "code": "SGI24",
     "name": "STOMACH - PALLIATIVE GASTROJEJUNOSTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -25262,7 +25262,7 @@
   {
     "code": "SGI25",
     "name": "STOMACH - RAMMSTEDT OPERATION FOR PYLORIC STENOSIS",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -25274,7 +25274,7 @@
   {
     "code": "SGI26",
     "name": "OPEN CHOLECYSTECTOMY WITH CBD EXPLORATION",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -25286,7 +25286,7 @@
   {
     "code": "SGI27",
     "name": "INTESTINE - ILEOSTOMY / COLOSTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -25298,7 +25298,7 @@
   {
     "code": "SGI28",
     "name": "INTESTINE CLOSURE OF ILEOSTOMY / COLOSTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -25310,7 +25310,7 @@
   {
     "code": "SGI29",
     "name": "BILIARY -CHOLEDOCHO-DUODENOSTOMY /CHOLECYSTO-DUODENOSTOMY/JEJUNOSTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -25322,7 +25322,7 @@
   {
     "code": "SGI30",
     "name": "STOMACH - VAGOTOMY/PYLOROPLASTY/GASTROJEJUNOSTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -25334,7 +25334,7 @@
   {
     "code": "SGI31",
     "name": "LAPAROSCOPIC APPENDECTOMY/CHOLECYSTECTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -25346,7 +25346,7 @@
   {
     "code": "SGI32",
     "name": "STOMACH - TOTAL GASTRECTOMY (OPEN)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25358,7 +25358,7 @@
   {
     "code": "SGI33",
     "name": "LAPAROSCOPIC HERNIA REPAIR U/L",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -25370,7 +25370,7 @@
   {
     "code": "SGI34",
     "name": "SPLEENECTOMY AND DEVASCULARIZATION",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -25382,7 +25382,7 @@
   {
     "code": "SGI35",
     "name": "LAPAROSCOPIC GASTRECTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25394,7 +25394,7 @@
   {
     "code": "SGI36",
     "name": "LAPAROSCOPIC HEMI-COLECTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25406,7 +25406,7 @@
   {
     "code": "SGI37",
     "name": "ESOPHAGECTOMY GA",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25418,7 +25418,7 @@
   {
     "code": "SGI38",
     "name": "POLYPECTOMY(SURG)LA",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -25430,7 +25430,7 @@
   {
     "code": "SGI39",
     "name": "STAGING/DIAGNOSTIC LAPAROSCOPY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -25442,7 +25442,7 @@
   {
     "code": "SGI40",
     "name": "BELOW/ABOVE KNEE AMPUTATION",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 28000,
     "capping": {
@@ -25454,7 +25454,7 @@
   {
     "code": "SGI41",
     "name": "HYDROCELE SURGERY (EVS) UNILATERAL LA",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -25466,7 +25466,7 @@
   {
     "code": "SGI42",
     "name": "HYDROCELE SURGERY(EVS) UNILATERAL SAB/GA",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 16000,
     "capping": {
@@ -25478,7 +25478,7 @@
   {
     "code": "SGI43",
     "name": "HYDROCELE SURGERY (EVS)BILATERAL SAB/GA",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -25490,7 +25490,7 @@
   {
     "code": "SGI44",
     "name": "LIPOMA/CYST GA/SAB",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -25502,7 +25502,7 @@
   {
     "code": "SGI45",
     "name": "LYMPH NODE/LIPOMA/MASS EXCISION BIOPSY GA",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -25514,7 +25514,7 @@
   {
     "code": "SGI46",
     "name": "EXPLORATORY LAPAROTOMY WITH PERIONEAL LAVAGE",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 22000,
     "capping": {
@@ -25526,7 +25526,7 @@
   {
     "code": "SGI47",
     "name": "STOMACH - SUBTOTAL GASTRECTOMY OPEN",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -25538,7 +25538,7 @@
   {
     "code": "SGI48",
     "name": "LAPAROSCOPIC SPLENECTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -25550,7 +25550,7 @@
   {
     "code": "SGI49",
     "name": "LAPAROSCOPIC COLECTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -25562,7 +25562,7 @@
   {
     "code": "SGI50",
     "name": "TOTAL GASTRECTOMY OPEN",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -25574,7 +25574,7 @@
   {
     "code": "SGI51",
     "name": "ERCP OPD",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -25586,7 +25586,7 @@
   {
     "code": "SGI52",
     "name": "ERCP ( EXTRACTION/STENTING WITH HOSPITALIZATION)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 21600,
     "capping": {
@@ -25598,7 +25598,7 @@
   {
     "code": "SGI53",
     "name": "ILEAL RESECTION FOR CANCER",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -25610,7 +25610,7 @@
   {
     "code": "SGI54",
     "name": "HEMICOLECTOMY/TOTAL/PROCTOCOLECTOMY FOR CANCER",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -25622,7 +25622,7 @@
   {
     "code": "SGI55",
     "name": "RETROPERITONEAL TUMOR EXCISION",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -25634,7 +25634,7 @@
   {
     "code": "SGI56",
     "name": "MALIGNANT MELANOMA WIDE- LOCAL EXCISION WITH LN DISSECTION",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -25646,7 +25646,7 @@
   {
     "code": "SGI57",
     "name": "LAPAROSCOPIC HERNIA REPAIR B/L",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -25658,7 +25658,7 @@
   {
     "code": "SGI58",
     "name": "POLYPECTOMY(SURG) GA",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -25670,7 +25670,7 @@
   {
     "code": "SGI59",
     "name": "WHIPPLE PROCEDURE OPEN",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 80000,
     "capping": {
@@ -25682,7 +25682,7 @@
   {
     "code": "SGI60",
     "name": "WHIPPLE PROCEDURE LAP",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 90000,
     "capping": {
@@ -25694,7 +25694,7 @@
   {
     "code": "SGI61",
     "name": "DISTAL PANCREATECTOMY OPEN",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25706,7 +25706,7 @@
   {
     "code": "SGI62",
     "name": "DISTAL PANCREATECTOMY LAP",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 60000,
     "capping": {
@@ -25718,7 +25718,7 @@
   {
     "code": "SGI63",
     "name": "RAMPS OPEN",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25730,7 +25730,7 @@
   {
     "code": "SGI64",
     "name": "RAMPS LAP",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 60000,
     "capping": {
@@ -25742,7 +25742,7 @@
   {
     "code": "SGI65",
     "name": "FREY PROCEDURE / CHRONIC PANCREATITIS",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 60000,
     "capping": {
@@ -25754,7 +25754,7 @@
   {
     "code": "SGI66",
     "name": "CYSTO-GASTROSTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -25766,7 +25766,7 @@
   {
     "code": "SGI67",
     "name": "EXTENDED CHOLECYSTECTOMY OPEN",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25778,7 +25778,7 @@
   {
     "code": "SGI68",
     "name": "EXTENDED CHOLECYSTECTOMY LAP",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 60000,
     "capping": {
@@ -25790,7 +25790,7 @@
   {
     "code": "SGI69",
     "name": "CHOLEDOCHAL CYST EXCISION OPEN",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25802,7 +25802,7 @@
   {
     "code": "SGI70",
     "name": "CHOLEDOCHAL CYST EXCISION LAP",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 60000,
     "capping": {
@@ -25814,7 +25814,7 @@
   {
     "code": "SGI71",
     "name": "CHOLANGIO CARCINOMA SURGERY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 60000,
     "capping": {
@@ -25826,7 +25826,7 @@
   {
     "code": "SGI72",
     "name": "HEPATICO JEJUNOSTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25838,7 +25838,7 @@
   {
     "code": "SGI73",
     "name": "RIGHT/LEFT HEPATECTOMY OPEN",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 60000,
     "capping": {
@@ -25850,7 +25850,7 @@
   {
     "code": "SGI74",
     "name": "RIGHT/LEFT HEPATECTOMY LAP",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 60000,
     "capping": {
@@ -25862,7 +25862,7 @@
   {
     "code": "SGI75",
     "name": "SECTIONECTOMY OPEN",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -25874,7 +25874,7 @@
   {
     "code": "SGI76",
     "name": "SECTIONECTOMY LAP",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 55000,
     "capping": {
@@ -25886,7 +25886,7 @@
   {
     "code": "SGI77",
     "name": "SURGERY FOR RECTAL PROLAPSE",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25898,7 +25898,7 @@
   {
     "code": "SGI78",
     "name": "APR OPEN (Abdomino Perineal Resection)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 55000,
     "capping": {
@@ -25910,7 +25910,7 @@
   {
     "code": "SGI79",
     "name": "APR LAP (Abdomino Perineal Resection)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 65000,
     "capping": {
@@ -25922,7 +25922,7 @@
   {
     "code": "SGI80",
     "name": "LAR OPEN (Lower Anterior Resection)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 55000,
     "capping": {
@@ -25934,7 +25934,7 @@
   {
     "code": "SGI81",
     "name": "LAR LAP (Lower Anterior Resection)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 65000,
     "capping": {
@@ -25946,7 +25946,7 @@
   {
     "code": "SGI82",
     "name": "AR OPEN (Anterior Resection)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 55000,
     "capping": {
@@ -25958,7 +25958,7 @@
   {
     "code": "SGI83",
     "name": "AR LAP (Anterior Resection)",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 65000,
     "capping": {
@@ -25970,7 +25970,7 @@
   {
     "code": "SGI84",
     "name": "WEDGE RESECTION OF STOMACH",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -25982,7 +25982,7 @@
   {
     "code": "SGI85",
     "name": "LINORENAL SHUNT",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 60000,
     "capping": {
@@ -25994,7 +25994,7 @@
   {
     "code": "SGI86",
     "name": "CARDIOMYOTOMY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -26006,7 +26006,7 @@
   {
     "code": "SGI87",
     "name": "FUNDOPLICATION",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -26018,7 +26018,7 @@
   {
     "code": "SGI88",
     "name": "PILONIDAL SINUS SURGERY",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -26030,7 +26030,7 @@
   {
     "code": "SGI89",
     "name": "ENUCLEATION OF HYDATID CYST / HYDTAID CYST OPERATION",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -26042,7 +26042,7 @@
   {
     "code": "SGI90",
     "name": "EXCISION OF ANAL WART",
-    "type": "gs_gi_onco",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -26054,7 +26054,7 @@
   {
     "code": "SURO01",
     "name": "URETHRA- EXCISION OF URETHRAL CARUNCLE IVA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -26066,7 +26066,7 @@
   {
     "code": "SURO02",
     "name": "URETHRA- EXCISION OF URETHRAL CARUNCLE LA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -26078,7 +26078,7 @@
   {
     "code": "SURO03",
     "name": "URETHRA- EXCISION OF URETHRAL CARUNCLE GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -26090,7 +26090,7 @@
   {
     "code": "SURO04",
     "name": "URETHRAL DILATION LA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -26102,7 +26102,7 @@
   {
     "code": "SURO05",
     "name": "URETHRAL DILATION SA/GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -26114,7 +26114,7 @@
   {
     "code": "SURO06",
     "name": "CYTOSCOPY LA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -26126,7 +26126,7 @@
   {
     "code": "SURO07",
     "name": "COMBINE IVA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 7000,
     "capping": {
@@ -26138,7 +26138,7 @@
   {
     "code": "SURO08",
     "name": "CYTOSCOPY SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -26150,7 +26150,7 @@
   {
     "code": "SURO09",
     "name": "CYSTOLITHOLOTOMY OPEN SA/IVA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -26162,7 +26162,7 @@
   {
     "code": "SURO10",
     "name": "CYSTOLITHOTRIPSY PNEUMATIC SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -26174,7 +26174,7 @@
   {
     "code": "SURO11",
     "name": "CYSTOLITHOTRIPSY LASER SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -26186,7 +26186,7 @@
   {
     "code": "SURO12",
     "name": "URETEROCYSTONEOSTOMY (UCN) OPEN GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26198,7 +26198,7 @@
   {
     "code": "SURO13",
     "name": "URETEROSCOPIC LITHOTRIPSY (URSL) PNEUMATIC + DJ STENTING GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -26210,7 +26210,7 @@
   {
     "code": "SURO14",
     "name": "URSL WITH LASER LITHOTRIPSY +DJ STENTING UNILATERAL/BILATERAL GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -26222,7 +26222,7 @@
   {
     "code": "SURO15",
     "name": "URETER - URETEROSCOPY (URS) DIAGNOSTIC IVA/SA/GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 18000,
     "capping": {
@@ -26234,7 +26234,7 @@
   {
     "code": "SURO16",
     "name": "REPAIR OF TRAUMATIC BLADDER RUPTURE GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -26246,7 +26246,7 @@
   {
     "code": "SURO17",
     "name": "URETEROLITHOTOMY OPEN +DJ STENTING GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -26258,7 +26258,7 @@
   {
     "code": "SURO18",
     "name": "URETEROLITHOTOMY LAP +DJ STENTING GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26270,7 +26270,7 @@
   {
     "code": "SURO19",
     "name": "TURBT GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 32000,
     "capping": {
@@ -26282,7 +26282,7 @@
   {
     "code": "SURO20",
     "name": "RETROPUBIC PROSTATECTOMY GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -26294,7 +26294,7 @@
   {
     "code": "SURO21",
     "name": "URETEROCALICOSTOMY OPEN GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26306,7 +26306,7 @@
   {
     "code": "SURO22",
     "name": "URETEROCALICOSTOMY LAP GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26318,7 +26318,7 @@
   {
     "code": "SURO23",
     "name": "BLADDER DIVERTICULECTOMY GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26330,7 +26330,7 @@
   {
     "code": "SURO24",
     "name": "PARTIAL CYSTECTOMY GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26342,7 +26342,7 @@
   {
     "code": "SURO25",
     "name": "PERCUTANEOUSCYSTOLITHOTRIPSY ( PCCL) GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26354,7 +26354,7 @@
   {
     "code": "SURO26",
     "name": "URINARY DIVERSION (MAINZ POUCH ) GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26366,7 +26366,7 @@
   {
     "code": "SURO27",
     "name": "POSTERIOR URETHRAL VALVE ABLATION IVA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 36000,
     "capping": {
@@ -26378,7 +26378,7 @@
   {
     "code": "SURO28",
     "name": "URINARY DIVERSION (ILEAL CONDUIT) GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -26390,7 +26390,7 @@
   {
     "code": "SURO29",
     "name": "RADICAL CYSTECTOMY WITH ILEAL CONDUIT GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26402,7 +26402,7 @@
   {
     "code": "SURO30",
     "name": "RADICAL PROSTATECTOMY LAP GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26414,7 +26414,7 @@
   {
     "code": "SURO31",
     "name": "PYELOPLASTY LAPAROSCOPIC + DJ STENTING GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26426,7 +26426,7 @@
   {
     "code": "SURO32",
     "name": "PYELOPLASTY OPEN + DJ STENTING GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -26438,7 +26438,7 @@
   {
     "code": "SURO33",
     "name": "RADICAL NEPHRECTOMY LAPAROSCOPIC GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26450,7 +26450,7 @@
   {
     "code": "SURO34",
     "name": "SIMPLE NEPHRECTOMY OPEN GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26462,7 +26462,7 @@
   {
     "code": "SURO35",
     "name": "SIMPLE NEPHRECTOMY LAP GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26474,7 +26474,7 @@
   {
     "code": "SURO36",
     "name": "PERCUTANEOUS NEPHROLITHOTOMY ( PCNL)",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -26486,7 +26486,7 @@
   {
     "code": "SURO37",
     "name": "HYDROCELECTOMY LA/SAB",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -26498,7 +26498,7 @@
   {
     "code": "SURO38",
     "name": "SIMPLE/ SUBCAPSULAR ORCHIDECTOMY LA/SAB",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -26510,7 +26510,7 @@
   {
     "code": "SURO39",
     "name": "ORCHIDOPEXY/ TESTICULAR IMPLANT GA/SAB",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -26522,7 +26522,7 @@
   {
     "code": "SURO40",
     "name": "PARTIAL/ TOTAL/ RADICAL PENECTOMY SAB",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26534,7 +26534,7 @@
   {
     "code": "SURO41",
     "name": "VVF REPAIR LAP GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26546,7 +26546,7 @@
   {
     "code": "SURO42",
     "name": "VVF REPAIR OPEN GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 40000,
     "capping": {
@@ -26558,7 +26558,7 @@
   {
     "code": "SURO43",
     "name": "DJ STENT INSERTION UNILATERAL GA/IVA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 13000,
     "capping": {
@@ -26570,7 +26570,7 @@
   {
     "code": "SURO44",
     "name": "DJ STENT INSERTION UNILATERAL LA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -26582,7 +26582,7 @@
   {
     "code": "SURO45",
     "name": "DJ STENT INSERTION BILATERAL GA/IVA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 14000,
     "capping": {
@@ -26594,7 +26594,7 @@
   {
     "code": "SURO46",
     "name": "DJ STENT INSERTION BILATERAL LA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8500,
     "capping": {
@@ -26606,7 +26606,7 @@
   {
     "code": "SURO47",
     "name": "DEBRIDEMENT/FOURNIER'S GANGRENE SAB",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -26618,7 +26618,7 @@
   {
     "code": "SURO48",
     "name": "RETROGRADE INTRARENAL SURGERY (RIRS)",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 63000,
     "capping": {
@@ -26630,7 +26630,7 @@
   {
     "code": "SURO49",
     "name": "URETHRA- EXCISION OF URETHRAL CARUNCLE GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -26642,7 +26642,7 @@
   {
     "code": "SURO50",
     "name": "URETHRAL DILATION GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -26654,7 +26654,7 @@
   {
     "code": "SURO51",
     "name": "CYSTOSCOPY GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -26666,7 +26666,7 @@
   {
     "code": "SURO52",
     "name": "MEATOTOMY / MEATOPLASTY LA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -26678,7 +26678,7 @@
   {
     "code": "SURO53",
     "name": "MEATOTOMY / MEATOPLASTY SA/IVA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -26690,7 +26690,7 @@
   {
     "code": "SURO54",
     "name": "MEATOTOMY/ MEATOPLASTY GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -26702,7 +26702,7 @@
   {
     "code": "SURO55",
     "name": "CIRCUMCISION LA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -26714,7 +26714,7 @@
   {
     "code": "SURO56",
     "name": "CIRCUMCISION SA/IVA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -26726,7 +26726,7 @@
   {
     "code": "SURO57",
     "name": "CIRCUMCISION GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -26738,7 +26738,7 @@
   {
     "code": "SURO58",
     "name": "ANASTOMOTIC URETHROPLASTY",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 30000,
     "capping": {
@@ -26750,7 +26750,7 @@
   {
     "code": "SURO59",
     "name": "BMG URETHROPLASTY",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26762,7 +26762,7 @@
   {
     "code": "SURO60",
     "name": "FLAP URETHROPLASTY",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26774,7 +26774,7 @@
   {
     "code": "SURO61",
     "name": "SPC ( SUPRA PUBIC CATHETER)",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 11000,
     "capping": {
@@ -26786,7 +26786,7 @@
   {
     "code": "SURO62",
     "name": "PENILE FRACTURE",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 20000,
     "capping": {
@@ -26798,7 +26798,7 @@
   {
     "code": "SURO63",
     "name": "TURP - 1ST STAGE",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26810,7 +26810,7 @@
   {
     "code": "SURO64",
     "name": "TURP - 2ND STAGE",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26822,7 +26822,7 @@
   {
     "code": "SURO65",
     "name": "URETEROCYSTONEOSTOMY (UCN) LAPAROSCOPIC GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26834,7 +26834,7 @@
   {
     "code": "SURO66",
     "name": "URETEROTOMY OPEN GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26846,7 +26846,7 @@
   {
     "code": "SURO67",
     "name": "URETEROTOMY LAPAROSCOPIC GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26858,7 +26858,7 @@
   {
     "code": "SURO68",
     "name": "UETER- URETEROSTOMY OPEN GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26870,7 +26870,7 @@
   {
     "code": "SURO69",
     "name": "UETER- URETEROSTOMY LAPAROSCOPIC GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26882,7 +26882,7 @@
   {
     "code": "SURO70",
     "name": "AUGMENTATION URETEROPLASTY OPEN GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 35000,
     "capping": {
@@ -26894,7 +26894,7 @@
   {
     "code": "SURO71",
     "name": "AUGMENTATION URETEROPLASTY LAPAROSCOPIC GA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26906,7 +26906,7 @@
   {
     "code": "SURO72",
     "name": "RE-TURBT GA/SA",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 32000,
     "capping": {
@@ -26918,7 +26918,7 @@
   {
     "code": "SURO73",
     "name": "RADICAL CYSTECTOMY WITH NEOBLADDER",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26930,7 +26930,7 @@
   {
     "code": "SURO74",
     "name": "RADICAL NEPHRECTOMY OPEN",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -26942,7 +26942,7 @@
   {
     "code": "SURO75",
     "name": "RADICAL NEPHRO URETERECTOMY",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26954,7 +26954,7 @@
   {
     "code": "SURO76",
     "name": "MINI-PCNL",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -26966,7 +26966,7 @@
   {
     "code": "SURO77",
     "name": "PARTIAL/ TOTAL PENECTOMY",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26978,7 +26978,7 @@
   {
     "code": "SURO78",
     "name": "INGUINAL LYMPHNODE DISSECTION (ILND)",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -26990,7 +26990,7 @@
   {
     "code": "SURO79",
     "name": "PELVIC LYMPHNODE DISSECTION (PLND)",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -27002,7 +27002,7 @@
   {
     "code": "SURO80",
     "name": "ADRENAL - ADRENALECTOMY OPEN",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 45000,
     "capping": {
@@ -27014,7 +27014,7 @@
   {
     "code": "SURO81",
     "name": "ADRENAL - ADRENALECTOMY LAP",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 50000,
     "capping": {
@@ -27026,7 +27026,7 @@
   {
     "code": "SURO82",
     "name": "VARICOCOELE",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 25000,
     "capping": {
@@ -27038,7 +27038,7 @@
   {
     "code": "SURO83",
     "name": "TRANSRECTAL ULTRASOUND SCAN (TRUS) GUIDED PROSTRATE BIOPSY",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -27050,7 +27050,7 @@
   {
     "code": "SURO84",
     "name": "CAPD CATHETER INSERTION",
-    "type": "urology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -27062,7 +27062,7 @@
   {
     "code": "NEPM01",
     "name": "USG GUIDED KIDNEY BIOPSY",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 12000,
     "capping": {
@@ -27074,7 +27074,7 @@
   {
     "code": "NEPM02",
     "name": "FEMORAL DIALYSIS CATHETER INSERTION",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 8000,
     "capping": {
@@ -27086,7 +27086,7 @@
   {
     "code": "NEPM03",
     "name": "INTERNAL JUGULAR/SUBCLAVIAN DIALYSIS CATHETER INSERTION",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 13000,
     "capping": {
@@ -27098,7 +27098,7 @@
   {
     "code": "NEPM04",
     "name": "TEMPORARY DIALYSIS CATHETER REMOVAL CHARGE",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 500,
     "capping": {
@@ -27110,7 +27110,7 @@
   {
     "code": "NEPM05",
     "name": "CAPD CATHETER REMOVAL CHARGE",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -27122,7 +27122,7 @@
   {
     "code": "NEPM06",
     "name": "TUNNELED DIALYSIS CATHETER INSERTION",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 15000,
     "capping": {
@@ -27134,7 +27134,7 @@
   {
     "code": "NEPM07",
     "name": "TUNNELED DIALYSIS CATHETER REMOVAL",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2000,
     "capping": {
@@ -27146,7 +27146,7 @@
   {
     "code": "NEPM08",
     "name": "HEMODIALYSIS",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 2500,
     "capping": {
@@ -27158,7 +27158,7 @@
   {
     "code": "NEPM09",
     "name": "PLASMAPHERESIS PROCEDURE ONLY",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 5000,
     "capping": {
@@ -27170,7 +27170,7 @@
   {
     "code": "NEPM10",
     "name": "CRRT( CONTINUOUS RENAL REPLACEMENT THERAPY)",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -27182,7 +27182,7 @@
   {
     "code": "NEPM11",
     "name": "CAPD CATHETER INSERTION",
-    "type": "nephrology",
+    "type": "surgery",
     "sub_type": null,
     "rate_npr": 10000,
     "capping": {
@@ -27194,7 +27194,7 @@
   {
     "code": "SPFM01",
     "name": "DEBRIDEMENT/ DRESSING SMALL UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 7200,
     "capping": {
@@ -27206,7 +27206,7 @@
   {
     "code": "SPFM02",
     "name": "DEBRIDEMENT/ DRESSING SMALL UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 11000,
     "capping": {
@@ -27218,7 +27218,7 @@
   {
     "code": "SPFM03",
     "name": "DEBRIDEMENT/DRESSING LARGE UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 15000,
     "capping": {
@@ -27230,7 +27230,7 @@
   {
     "code": "SPFM04",
     "name": "LACERATION REPAIR SMALL UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 3000,
     "capping": {
@@ -27242,7 +27242,7 @@
   {
     "code": "SPFM05",
     "name": "LACERATION REPAIR LARGE UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 12000,
     "capping": {
@@ -27254,7 +27254,7 @@
   {
     "code": "SPFM06",
     "name": "LACERATION REPAIR SMALL UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 12000,
     "capping": {
@@ -27266,7 +27266,7 @@
   {
     "code": "SPFM07",
     "name": "LACERATION REPAIR LARGE UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 17000,
     "capping": {
@@ -27278,7 +27278,7 @@
   {
     "code": "SPFM08",
     "name": "BURN EARLY EXCISION AND SKIN GRAFTING SMALL",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 15000,
     "capping": {
@@ -27290,7 +27290,7 @@
   {
     "code": "SPFM09",
     "name": "BURN EARLY EXCISION AND SKIN GRAFTING LARGE",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 25000,
     "capping": {
@@ -27302,7 +27302,7 @@
   {
     "code": "SPFM10",
     "name": "SKIN GRAFTING SMALL UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 10000,
     "capping": {
@@ -27314,7 +27314,7 @@
   {
     "code": "SPFM11",
     "name": "SKIN GRAFTING SMALL UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 12500,
     "capping": {
@@ -27326,7 +27326,7 @@
   {
     "code": "SPFM12",
     "name": "SKIN GRAFTING LARGE UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27338,7 +27338,7 @@
   {
     "code": "SPFM13",
     "name": "FLAP COVER SMALL UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 8000,
     "capping": {
@@ -27350,7 +27350,7 @@
   {
     "code": "SPFM14",
     "name": "FLAP COVER INTERMEDIATE UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 12000,
     "capping": {
@@ -27362,7 +27362,7 @@
   {
     "code": "SPFM15",
     "name": "FLAP COVER LARGE UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 14000,
     "capping": {
@@ -27374,7 +27374,7 @@
   {
     "code": "SPFM16",
     "name": "FLAP COVER SMALL UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 15000,
     "capping": {
@@ -27386,7 +27386,7 @@
   {
     "code": "SPFM17",
     "name": "FLAP COVER LARGE UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27398,7 +27398,7 @@
   {
     "code": "SPFM18",
     "name": "FLAP DETACHMENT UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 8000,
     "capping": {
@@ -27410,7 +27410,7 @@
   {
     "code": "SPFM19",
     "name": "FLAP DETACHMENT UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 12000,
     "capping": {
@@ -27422,7 +27422,7 @@
   {
     "code": "SPFM20",
     "name": "FREE FLAP GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 40000,
     "capping": {
@@ -27434,7 +27434,7 @@
   {
     "code": "SPFM21",
     "name": "HAND INJURY REPAIR WITH FRACTURE FIXATION SMALL UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27446,7 +27446,7 @@
   {
     "code": "SPFM22",
     "name": "HAND INJURY REPAIR WITH FRACTURE FIXATION LARGE UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 35000,
     "capping": {
@@ -27458,7 +27458,7 @@
   {
     "code": "SPFM23",
     "name": "HAND INJURY REPAIR WITH FRACTURE FIXATION SMALL UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 30000,
     "capping": {
@@ -27470,7 +27470,7 @@
   {
     "code": "SPFM24",
     "name": "HAND INJURY REPAIR WITH FRACTURE FIXATION LARGE UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 40000,
     "capping": {
@@ -27482,7 +27482,7 @@
   {
     "code": "SPFM25",
     "name": "TENDON REPAIR SMALL (SINGLE) UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 10000,
     "capping": {
@@ -27494,7 +27494,7 @@
   {
     "code": "SPFM26",
     "name": "TENDON REPAIR LARGE ( 5 OR GREATER) UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27506,7 +27506,7 @@
   {
     "code": "SPFM27",
     "name": "TENDON REPAIR SMALL (SINGLE) UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 12000,
     "capping": {
@@ -27518,7 +27518,7 @@
   {
     "code": "SPFM28",
     "name": "TENDON REPAIR LARGE ( 5 OR GREATER) UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27530,7 +27530,7 @@
   {
     "code": "SPFM29",
     "name": "VESSEL / NERVE REPAIR SMALL (SINGLE) UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27542,7 +27542,7 @@
   {
     "code": "SPFM30",
     "name": "VESSEL / NERVE REPAIR LARGE (VEIN/ NERVE GRAFT) UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 40000,
     "capping": {
@@ -27554,7 +27554,7 @@
   {
     "code": "SPFM31",
     "name": "VESSEL / NERVE REPAIR SMALL (SINGLE) UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 25000,
     "capping": {
@@ -27566,7 +27566,7 @@
   {
     "code": "SPFM32",
     "name": "VESSEL / NERVE REPAIR LARGE (VEIN/ NERVE GRAFT) UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 35000,
     "capping": {
@@ -27578,7 +27578,7 @@
   {
     "code": "SPFM33",
     "name": "REVASCULARIZATION SMALL",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 35000,
     "capping": {
@@ -27590,7 +27590,7 @@
   {
     "code": "SPFM34",
     "name": "REVASCULARIZATION LARGE",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 45000,
     "capping": {
@@ -27602,7 +27602,7 @@
   {
     "code": "SPFM35",
     "name": "NERVE RECONSTRUCTION SMALL",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 25000,
     "capping": {
@@ -27614,7 +27614,7 @@
   {
     "code": "SPFM36",
     "name": "NERVE RECONSTRUCTION LARGE",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 35000,
     "capping": {
@@ -27626,7 +27626,7 @@
   {
     "code": "SPFM37",
     "name": "CONTRACTURE / SYNDACTYLI RELEASE SMALL UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 10000,
     "capping": {
@@ -27638,7 +27638,7 @@
   {
     "code": "SPFM38",
     "name": "CONTRACTURE / SYNDACTYLI RELEASE LARGE UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 30000,
     "capping": {
@@ -27650,7 +27650,7 @@
   {
     "code": "SPFM39",
     "name": "CONTRACTURE / SYNDACTYLI RELEASE SMALL UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27662,7 +27662,7 @@
   {
     "code": "SPFM40",
     "name": "CONTRACTURE / SYNDACTYLI RELEASE LARGE UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 30000,
     "capping": {
@@ -27674,7 +27674,7 @@
   {
     "code": "SPFM41",
     "name": "POLYDACTYLY CORRECTION SMALL UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 10000,
     "capping": {
@@ -27686,7 +27686,7 @@
   {
     "code": "SPFM42",
     "name": "POLYDACTYLY CORRECTION SMALL UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 15000,
     "capping": {
@@ -27698,7 +27698,7 @@
   {
     "code": "SPFM43",
     "name": "POLYDACTYLI CORRECTION LARGE UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27710,7 +27710,7 @@
   {
     "code": "SPFM44",
     "name": "TRIGGER FINGER RELEASE (SINGLE) UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 8000,
     "capping": {
@@ -27722,7 +27722,7 @@
   {
     "code": "SPFM45",
     "name": "TRIGGER FINGER RELEASE (SINGLE) UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 15000,
     "capping": {
@@ -27734,7 +27734,7 @@
   {
     "code": "SPFM46",
     "name": "CARPAL TUNNEL RELEASE SMALL",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 12000,
     "capping": {
@@ -27746,7 +27746,7 @@
   {
     "code": "SPFM47",
     "name": "MOLE / SKIN LESION EXCISION SMALL UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 5000,
     "capping": {
@@ -27758,7 +27758,7 @@
   {
     "code": "SPFM48",
     "name": "MOLE / SKIN LESION EXCISION LARGE UNDER LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 10000,
     "capping": {
@@ -27770,7 +27770,7 @@
   {
     "code": "SPFM49",
     "name": "MOLE / SKIN LESION EXCISION SMALL UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 12000,
     "capping": {
@@ -27782,7 +27782,7 @@
   {
     "code": "SPFM50",
     "name": "MOLE / SKIN LESION EXCISION LARGE UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27794,7 +27794,7 @@
   {
     "code": "SPFM51",
     "name": "SKIN (SOFT TISSUE) TUMOUR SMALL LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 10000,
     "capping": {
@@ -27806,7 +27806,7 @@
   {
     "code": "SPFM52",
     "name": "SKIN (SOFT TISSUE) TUMOUR SMALL GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 12500,
     "capping": {
@@ -27818,7 +27818,7 @@
   {
     "code": "SPFM53",
     "name": "SKIN (SOFT TISSUE) TUMOUR LARGE GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27830,7 +27830,7 @@
   {
     "code": "SPFM54",
     "name": "CLEFT LIP UNILATERAL GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 25000,
     "capping": {
@@ -27842,7 +27842,7 @@
   {
     "code": "SPFM55",
     "name": "CLEFT LIP UNILATERAL LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 20000,
     "capping": {
@@ -27854,7 +27854,7 @@
   {
     "code": "SPFM56",
     "name": "CLEFT LIP BILATERAL GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 30000,
     "capping": {
@@ -27866,7 +27866,7 @@
   {
     "code": "SPFM57",
     "name": "CLEFT PALATE UNDER GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 35000,
     "capping": {
@@ -27878,7 +27878,7 @@
   {
     "code": "SPFM58",
     "name": "BED SORE LARGE GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "plastic",
     "rate_npr": 24000,
     "capping": {
@@ -27890,7 +27890,7 @@
   {
     "code": "SPFM59",
     "name": "MANDIBLE FRACTURE GA UNILATATERAL",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 30000,
     "capping": {
@@ -27902,7 +27902,7 @@
   {
     "code": "SPFM60",
     "name": "MANDIBLE FRACTURE GA BILATERAL)",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 40000,
     "capping": {
@@ -27914,7 +27914,7 @@
   {
     "code": "SPFM61",
     "name": "MANDIBLE OSTEOTOMIES (TUMOURS)",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 40000,
     "capping": {
@@ -27926,7 +27926,7 @@
   {
     "code": "SPFM62",
     "name": "HEMI-MANDIBULECTOMY",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 40000,
     "capping": {
@@ -27938,7 +27938,7 @@
   {
     "code": "SPFM63",
     "name": "OROANTRAL-FISTULA CLOSURE",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 25000,
     "capping": {
@@ -27950,7 +27950,7 @@
   {
     "code": "SPFM64",
     "name": "PALATAL FISTULA CLOSURE",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 25000,
     "capping": {
@@ -27962,7 +27962,7 @@
   {
     "code": "SPFM65",
     "name": "INTERMAXILLARY FIXATATION LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 10000,
     "capping": {
@@ -27974,7 +27974,7 @@
   {
     "code": "SPFM66",
     "name": "INTERMAXILLARY FIXATATION GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 20000,
     "capping": {
@@ -27986,7 +27986,7 @@
   {
     "code": "SPFM67",
     "name": "FACIAL LACERATION LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 7000,
     "capping": {
@@ -27998,7 +27998,7 @@
   {
     "code": "SPFM68",
     "name": "FACIAL LACERATION GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 20000,
     "capping": {
@@ -28010,7 +28010,7 @@
   {
     "code": "SPFM69",
     "name": "MINOR LIP PROCEDURE LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 5000,
     "capping": {
@@ -28022,7 +28022,7 @@
   {
     "code": "SPFM70",
     "name": "MINOR LIP PROCEDURE GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 10000,
     "capping": {
@@ -28034,7 +28034,7 @@
   {
     "code": "SPFM71",
     "name": "TONGUE TIE RELEASE LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 6000,
     "capping": {
@@ -28046,7 +28046,7 @@
   {
     "code": "SPFM72",
     "name": "TONGUE TIE RELEASE GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 12000,
     "capping": {
@@ -28058,7 +28058,7 @@
   {
     "code": "SPFM73",
     "name": "IMPLANT REMOVAL FACE/MAXILLA MANDIBLE",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 20000,
     "capping": {
@@ -28070,7 +28070,7 @@
   {
     "code": "SPFM74",
     "name": "SECONDARY SUTURING FACE(LIP/NOSE/EAR/EYE) LA Each",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 2000,
     "capping": {
@@ -28082,7 +28082,7 @@
   {
     "code": "SPFM75",
     "name": "SECONDARY SUTURING FACE(LIP/NOSE/EAR/EYE) GA Each",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 3000,
     "capping": {
@@ -28094,7 +28094,7 @@
   {
     "code": "SPFM76",
     "name": "SIALOTHIASIS LA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 7000,
     "capping": {
@@ -28106,7 +28106,7 @@
   {
     "code": "SPFM77",
     "name": "SIALOTHIASIS GA",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 12000,
     "capping": {
@@ -28118,7 +28118,7 @@
   {
     "code": "SPFM78",
     "name": "INTRA-ORAL BIOPSY",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 5000,
     "capping": {
@@ -28130,7 +28130,7 @@
   {
     "code": "SPFM79",
     "name": "REPLANTATION FINGER/THUMB",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 30000,
     "capping": {
@@ -28142,7 +28142,7 @@
   {
     "code": "SPFM80",
     "name": "REPLANTATION LIMB",
-    "type": "plastic_or_facio_maxillary_surgery",
+    "type": "surgery",
     "sub_type": "fascio_maxilla",
     "rate_npr": 45000,
     "capping": {

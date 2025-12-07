@@ -47,7 +47,7 @@ async def get_patient_and_eligibility(
     allowed_money = Decimal(str(parsed.get("allowed_money") or "0"))
     used_money = Decimal(str(parsed.get("used_money") or "0"))
 
-    birth_date_str = resource.get("birthDate")  # e.g., '2016-04-07'
+    birth_date_str = resource.get("birthDate") 
     birth_date_obj = None
 
     if birth_date_str:
@@ -255,57 +255,26 @@ async def submit_claim_endpoint(
     password:str,
     request:Request,
     db: Session = Depends(get_db),
-):#    session: requests.Session = Depends(get_imis_session), #here we have discarded the use of session 
+):
     
+    patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input.patient_id).first())
+    allowed_money=patient.allowed_money
+    used_money=patient.used_money    
+    #here we perform the local validation
+    local = prevalidate_claim(input, db, allowed_money=allowed_money, used_money=used_money)
+
     # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
     # if not session_obj:
     #     raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
     # session = get_imis_session(db, username)
-
-
-    # claim = (
-    #     db.query(Claim)
-    #     .filter(Claim.claim_id == claim_id)
-    #     .first()
-    # )
-    # if not claim:
-    #     raise HTTPException(status_code=404, detail="Claim not found")
-    # if not claim.patient:
-    #     raise HTTPException(status_code=404, detail="Patient not found for this claim")
-    # if claim.status != "pending":
-    #     raise HTTPException(
-    #         status_code=400,
-    #         detail=f"Only 'pending' claims can be submitted. Current status: {claim.status}"
-    #     )
 
     patient = db.query(PatientInformation).filter(PatientInformation.patient_code == input.patient_id).first()
     if not patient:
         raise HTTPException(status_code=500, detail="Claim has no linked patient")
 
     patient_uuid = patient.patient_uuid
-
-    # prevalidated_items = claim.prevalidation_result.get("items") if claim.prevalidation_result else None
-    # if not prevalidated_items:
-    #     raise HTTPException(status_code=400, detail="Claim not prevalidated or has no items")
-
-#eligibility ko kura haru chha yesma which is changed for now see this and change if necessary 
-
-    # cache_entry = (
-    #     db.query(EligibilityCache)
-    #     .filter(EligibilityCache.patient_uuid == patient_uuid)
-    #     .order_by(EligibilityCache.checked_at.desc())
-    #     .first()
-    # )
-    # if not cache_entry:
-    #     raise HTTPException(status_code=400, detail="No eligibility cache found for patient")
-    # insurance_entries = cache_entry.raw_response.get("data", {}).get("insurance")
-    # if not insurance_entries or not insurance_entries[0].get("contract"):
-    #     raise HTTPException(status_code=400, detail="No contract/coverage found in eligibility cache")
-    # coverage_reference = insurance_entries[0]["contract"]["reference"]
-
     
     imis_claim_code = uuid.uuid4().hex
-
 
     care_type_map = {"OPD": "O", "IPD": "I", "ER": "O","Referral":"O"}
     service_type_mapped = {"OPD": "O", "ER": "E", "IPD": "O", "Referral": "R"}
@@ -373,13 +342,8 @@ async def submit_claim_endpoint(
         logging.error(f"IMIS submission failed for claim {claim_id}: {exc}")
         raise HTTPException(status_code=500, detail=f"IMIS submission failed: {str(exc)}") from exc
 
-
-    # claim.status = "submitted"
-
-
     imis_json_str = imis_response.get("response")
     imis_json = json.loads(imis_json_str) if imis_json_str else {}
-
 
     claim_code = "UNKNOWN_CLAIM_CODE"
     for ident in imis_json.get("identifier", []):
@@ -392,7 +356,6 @@ async def submit_claim_endpoint(
     created_date_str = imis_json.get("created")
     created_date = datetime.fromisoformat(created_date_str) if created_date_str else datetime.utcnow()
 
-
     seq_to_code = {}
     for add_item in imis_json.get("addItem", []):
         seq_list = add_item.get("sequenceLinkId", [])
@@ -400,7 +363,6 @@ async def submit_claim_endpoint(
         code = service_list[0].get("code") if service_list else None
         for seq in seq_list:
             seq_to_code[seq] = code
-
 
     items_info = []
     for item in imis_json.get("item", []):
@@ -413,7 +375,17 @@ async def submit_claim_endpoint(
                 "item_code": service_code,
                 "status": status
             })
-
+    items_list = [
+    {
+        "item_code": item.item_code,
+        "name": item.name,
+        "qty": item.quantity,
+        "cost": item.cost,
+        "category": item.category,
+        "type": item.type
+    }
+    for item in input.claimable_items
+]
     imis_record = ImisResponse(
         patient_id=input.patient_id,
         claim_code=claim_code,
@@ -423,7 +395,9 @@ async def submit_claim_endpoint(
         raw_response=imis_json,
         fetched_at=datetime.utcnow(),
         service_type=input.service_type,
-        service_code=input.service_code
+        service_code=input.service_code,
+        item_code=items_list,
+        department=input.department
 
     )
     db.add(imis_record)
@@ -457,10 +431,6 @@ async def submit_claim_endpoint(
     "user_agent": request.headers.get("User-Agent"),
     "timestamp": datetime.utcnow().isoformat()
 }
-
-    
-
-
     return {
         "message": "Claim successfully submitted to IMIS",
         "claim_code": claim_code,
@@ -470,7 +440,9 @@ async def submit_claim_endpoint(
         "items": items_info,
         "IMIS_response":imis_json,
         "payload":fhir_claim_payload,
-        "system_info":system_info
+        "system_info":system_info,
+        "prevalidation_summary":local,
+        "warnings": local.get("warnings", []),
     }
 
 

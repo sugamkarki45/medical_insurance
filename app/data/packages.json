@@ -2,7 +2,7 @@
   {
     "code": "IPDB1",
     "name": "Nebulization per episode",
-    "type": "medical_package",
+    "type": "bed_charges",
     "package_group": "Day Care",
     "rate_npr": 120,
     "includes": [
@@ -14,12 +14,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM1",
     "name": "Speech Therapy per session",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Day Care",
     "rate_npr": 180,
     "includes": [
@@ -31,12 +35,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM2",
     "name": "Phototherapy per sitting",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Day Care",
     "rate_npr": 240,
     "includes": [
@@ -48,12 +56,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM3",
     "name": "Oxygen gas charge /1 hr",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Day Care",
     "rate_npr": 30,
     "includes": [
@@ -65,12 +77,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM4",
     "name": "PAC ( Post abortion Medical care)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Day Care",
     "rate_npr": 600,
     "includes": [
@@ -82,12 +98,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM5",
     "name": "Posterior Nasal Packing",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Day Care",
     "rate_npr": 1440,
     "includes": [
@@ -99,12 +119,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM6",
     "name": "Poisoning Emergency Management package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 1",
     "rate_npr": 2400,
     "includes": [
@@ -116,12 +140,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM7",
     "name": "Snake bite Medical Management",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 2",
     "rate_npr": 3600,
     "includes": [
@@ -133,12 +161,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM8",
     "name": "Renal Calculi medical management",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 2",
     "rate_npr": 3600,
     "includes": [
@@ -150,12 +182,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM9",
     "name": "Cellulitis ( Medical Management with minor dressing)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 2",
     "rate_npr": 3600,
     "includes": [
@@ -168,12 +204,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM10",
     "name": "Ante-natal care package (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 2",
     "rate_npr": 3600,
     "includes": [
@@ -185,12 +225,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM11",
     "name": "Sickle Cell/ Aplastic Anemia (Medical Management/ blood transfusion)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 2",
     "rate_npr": 3600,
     "includes": [
@@ -203,12 +247,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM12",
     "name": "Acute Nephritis",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 2",
     "rate_npr": 3600,
     "includes": [
@@ -220,12 +268,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM13",
     "name": "Acute Gastroenteritis (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 3",
     "rate_npr": 4800,
     "includes": [
@@ -237,12 +289,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM14",
     "name": "BPH (Benign Prostate Hyperplasia) medical package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 3",
     "rate_npr": 4800,
     "includes": [
@@ -254,12 +310,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM15",
     "name": "Conversion disorder (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 3",
     "rate_npr": 4800,
     "includes": [
@@ -271,12 +331,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM16",
     "name": "Rheumatoid Arthritis (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 3",
     "rate_npr": 4800,
     "includes": [
@@ -288,12 +352,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM17",
     "name": "Thalassemia (Medical Management including Blood transfusion)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 3",
     "rate_npr": 4800,
     "includes": [
@@ -306,12 +374,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM18",
     "name": "Nephrotic Syndrome (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 3",
     "rate_npr": 4800,
     "includes": [
@@ -323,12 +395,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM19",
     "name": "Malnutrition (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 4",
     "rate_npr": 6000,
     "includes": [
@@ -340,12 +416,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM20",
     "name": "Acute Appendicitis (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 4",
     "rate_npr": 6000,
     "includes": [
@@ -357,12 +437,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM21",
     "name": "Diarrhoea (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 4",
     "rate_npr": 6000,
     "includes": [
@@ -374,12 +458,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM22",
     "name": "Neonatal care ( basic care package) (e.g. Transient tachyponea of newborn, Mild birth asphyxia, Jaundice requiring phototherapy, Hemorrhagic disease of newborn, for observational care)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 4",
     "rate_npr": 6000,
     "includes": [
@@ -391,12 +479,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM23",
     "name": "Diabetic Cellulitis ( Medical Management including minor dressing)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 4",
     "rate_npr": 6000,
     "includes": [
@@ -409,12 +501,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM24",
     "name": "Anemia (Medical Management including blood transfusion)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 4",
     "rate_npr": 6000,
     "includes": [
@@ -426,12 +522,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
    {
     "code": "MM25",
     "name": "Abdominal pain",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 5",
     "rate_npr": 6650,
     "includes": [
@@ -443,12 +543,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM26",
     "name": "Cholera (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 5",
     "rate_npr": 7200,
     "includes": [
@@ -460,12 +564,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM27",
     "name": "Dysentry (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 5",
     "rate_npr": 7200,
     "includes": [
@@ -477,12 +585,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM28",
     "name": "Wound/ Abscess requiring inpatient care (including I&D, Dressing)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 5",
     "rate_npr": 7200,
     "includes": [
@@ -496,12 +608,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM29",
     "name": "Puerperal sepsis Management package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 5",
     "rate_npr": 7200,
     "includes": [
@@ -513,12 +629,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM30",
     "name": "Severe depression (Medical management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 6",
     "rate_npr": 8400,
     "includes": [
@@ -530,12 +650,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM31",
     "name": "Hypovolumeic shock management package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 6",
     "rate_npr": 8400,
     "includes": [
@@ -547,12 +671,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM32",
     "name": "Acute Hepatitis (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 6",
     "rate_npr": 8400,
     "includes": [
@@ -564,12 +692,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM33",
     "name": "Avastin Injection (3 doses per year)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 6",
     "rate_npr": 6000,
     "includes": [
@@ -581,12 +713,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM34",
     "name": "Trauma and Injuries management (medical management including blood transfusion, dressing, oxygen etc)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -601,12 +737,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM35",
     "name": "Severe pneumonia medical management adult package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -618,12 +758,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM36",
     "name": "Typhoid and Paratyphoid fevers (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -635,12 +779,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM37",
     "name": "Hospitalization package for medical management of Zoonotic/ Vector Borne infections ( e.g. Leptospirosis etc.)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -652,12 +800,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM38",
     "name": "Acute Respiratory Distress Syndrome (ARDS) Medical Management without ICU/CCU care",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -669,12 +821,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM39",
     "name": "Viral hemorrhagic fever Medical Management",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -686,12 +842,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM40",
     "name": "Complicated Urinary Tract Infection (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -703,12 +863,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM41",
     "name": "Acute Cholecystitis (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -720,12 +884,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM42",
     "name": "Dengue/ Dengue Hemorrhagic Fever (Medical Management/ Blood Transfusion)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -738,12 +906,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM43",
     "name": "Neonatal care (special care package) (admitted with mild-moderate respiratory distress, infection/sepsis with no major complications, Prolonged persistent jaundice, Assisted feeding for low-birth weight babies (<1800gram) Neonatal seizures",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 7",
     "rate_npr": 9600,
     "includes": [
@@ -756,12 +928,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
    {
     "code": "MM44",
     "name": "Hydrocephalus medical management package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 8",
     "rate_npr": 10800,
     "includes": [
@@ -773,12 +949,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM45",
     "name": "Asthma (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 8",
     "rate_npr": 10800,
     "includes": [
@@ -790,12 +970,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM46",
     "name": "Diabetes Mellitus (Hospitalization for blood sugar control) package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 9",
     "rate_npr": 12000,
     "includes": [
@@ -807,12 +991,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM47",
     "name": "Severe pneumonia medical management pediatric package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 9",
     "rate_npr": 12000,
     "includes": [
@@ -824,12 +1012,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM48",
     "name": "Chronic Obstructive Pulmonary Disease (COPD) (Medical Management inlcuding oxygen)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 9",
     "rate_npr": 12000,
     "includes": [
@@ -842,12 +1034,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM49",
     "name": "Burn <30% Body surface area (Medical Management including dressing)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 9",
     "rate_npr": 12000,
     "includes": [
@@ -860,12 +1056,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM50",
     "name": "Pneumothorax medical management package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 10",
     "rate_npr": 14400,
     "includes": [
@@ -877,12 +1077,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM51",
     "name": "Myocardial Infarction (Medical management where CCU care not available) (MI) : Level 1",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 10",
     "rate_npr": 14400,
     "includes": [
@@ -894,12 +1098,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM52",
     "name": "Pyogenic Liver abscess (Including Aspiration/ Drainage)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 11",
     "rate_npr": 16800,
     "includes": [
@@ -913,12 +1121,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM53",
     "name": "Hypertensive Emergency Urgency (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 11",
     "rate_npr": 16800,
     "includes": [
@@ -930,12 +1142,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM54",
     "name": "Bipolar disorder (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 11",
     "rate_npr": 16800,
     "includes": [
@@ -947,12 +1163,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM55",
     "name": "Diabetes Mellitus related complications medical management package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 12",
     "rate_npr": 19200,
     "includes": [
@@ -964,12 +1184,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM56",
     "name": "Paralytic syndromes/ stroke Medical management package",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 12",
     "rate_npr": 19200,
     "includes": [
@@ -981,12 +1205,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM57",
     "name": "Atherosclerotic Vascular Disease CCU care (AVD)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 12",
     "rate_npr": 21600,
     "includes": [
@@ -998,12 +1226,16 @@
     "icu_included": false,
     "ccu_included": true,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM58",
     "name": "Epiplepsy adult (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 12",
     "rate_npr": 21600,
     "includes": [
@@ -1015,12 +1247,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM59",
     "name": "Congestive Cardiac Failure (CCF) (CCU care included)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 13",
     "rate_npr": 27000,
     "includes": [
@@ -1032,12 +1268,16 @@
     "icu_included": false,
     "ccu_included": true,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM60",
     "name": "Burn >30% Body surface area",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 14",
     "rate_npr": 30000,
     "includes": [
@@ -1049,12 +1289,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM61",
     "name": "Schizophrenia (Medical Management)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 14",
     "rate_npr": 30000,
     "includes": [
@@ -1066,12 +1310,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM62",
     "name": "Upper Gastrointestinal bleeding (Medical management including blood transfusion/ injection octreotide/ terlipressin",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 15",
     "rate_npr": 36000,
     "includes": [
@@ -1087,12 +1335,16 @@
     "icu_included": false,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM63",
     "name": "Severe Septicemia (Medical management including ICU care)",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 16",
     "rate_npr": 48000,
     "includes": [
@@ -1104,12 +1356,16 @@
     "icu_included": true,
     "ccu_included": false,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   },
   {
     "code": "MM64",
     "name": "Myocardial Infarction(package with CCU care included) : Level 2",
-    "type": "medical_package",
+    "type": "medical_management",
     "package_group": "Package 17",
     "rate_npr": 54000,
     "includes": [
@@ -1121,6 +1377,10 @@
     "icu_included": false,
     "ccu_included": true,
     "claim_mode": "bundled_per_admission",
-    "claimable": true
+    "claimable": true,
+    "capping": {
+      "max_days":  null,
+      "max_per_visit": 99999
+    }
   }
 ]

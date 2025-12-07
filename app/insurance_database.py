@@ -45,6 +45,8 @@ class ImisResponse(Base):
     fetched_at = Column(DateTime, default=datetime.utcnow)
     service_type = Column(String) 
     service_code= Column(String)
+    item_code=Column(JSON)
+    department=Column(String)
 
     patient = relationship("PatientInformation", back_populates="imis_responses")
 
