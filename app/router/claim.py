@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from decimal import Decimal 
 from datetime import datetime
 import logging,uuid,json
+from rule_loader import get_all_medicines,get_all_packages
 
 
 
@@ -108,7 +109,7 @@ async def get_patient_and_eligibility(
         "eligibility": record.eligibility_raw
     }
 
-@router.post("/Prevalidation", response_model=FullClaimValidationResponse)
+@router.post("/prevalidation", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
     input_data: ClaimInput, username: str,password:str,
     db: Session = Depends(get_db), 
@@ -470,3 +471,22 @@ def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
         "results": claims
     }
 
+
+
+
+@router.get("/medicines")
+def list_medicines():
+    """
+    Returns list of all medicines from rules.json
+    """
+    medicines = get_all_medicines()
+    return {"count": len(medicines), "medicines": medicines}
+
+
+@router.get("/packages")
+def list_packages():
+    """
+    Returns list of all medical packages from rules.json
+    """
+    packages = get_all_packages()
+    return {"count": len(packages), "packages": packages}
