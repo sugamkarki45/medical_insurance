@@ -1,16 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException,Request
 from sqlalchemy.orm import Session
-from services.imis_services import get_patient_info, extract_copayment
-from model import ClaimInput, FullClaimValidationResponse 
-from services.local_validator import prevalidate_claim
-from services import imis_services
-from insurance_database import get_db, ImisResponse, PatientInformation
-from services.imis_parser import parse_eligibility_response
-from bs4 import BeautifulSoup
+from app.services.imis_services import get_patient_info, extract_copayment
+from app.model import ClaimInput, FullClaimValidationResponse 
+from app.services.local_validator import prevalidate_claim
+from app.services import imis_services
+from app.insurance_database import get_db, ImisResponse, PatientInformation
+from app.services.imis_parser import parse_eligibility_response
 from decimal import Decimal 
 from datetime import datetime
 import logging,uuid,json
-from rule_loader import get_all_medicines,get_all_packages
+from app.rule_loader import get_all_medicines,get_all_packages
 
 
 

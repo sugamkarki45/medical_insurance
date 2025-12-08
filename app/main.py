@@ -1,11 +1,11 @@
 from fastapi import FastAPI
-from router.claim import router as claim_router
-from router.documents import router as documents
+from app.router.claim import router as claim_router
+from app.router.documents import router as documents
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from tasks import prune_old_patients
-from insurance_database import SessionLocal
+from app.tasks import prune_old_patients
+from app.insurance_database import SessionLocal
 import asyncio,re
 
 

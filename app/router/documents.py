@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from insurance_database import get_db, ClaimDocument, ImisResponse
+from app.insurance_database import get_db, ClaimDocument, ImisResponse
 from pydantic import BaseModel
 from typing import List
 

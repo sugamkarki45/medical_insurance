@@ -3,3 +3,6 @@ uvicorn==0.23.2
 pydantic==2.4.2
 requests==2.31.0
 SQLAlchemy==2.0.32
+httpx
+dotenv
+bs4
