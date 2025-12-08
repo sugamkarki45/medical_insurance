@@ -1,6 +1,10 @@
+import os
 from fastapi import Header, HTTPException
 
+# Load keys from environment
+VALID_API_KEYS = set(os.getenv("MY_API_KEYS", "").split(","))
+
 def get_api_key(api_key: str = Header(...)):
-    if not api_key or api_key != "fNJOr4X6ADJUobFyWoNsjWoaGGk7Pja4XegwtQZ4c6c": 
+    if api_key not in VALID_API_KEYS:
         raise HTTPException(status_code=403, detail="Invalid API key")
     return api_key
