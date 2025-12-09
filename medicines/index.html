@@ -223,7 +223,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_overview.md" class="md-nav__link">
+      <a href="../api_overview/" class="md-nav__link">
         
   
   
@@ -549,33 +549,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../models.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -633,8 +606,32 @@
 <p><strong>Endpoint:</strong> <code>GET /medicine</code></p>
 <h3 id="response-example">Response Example</h3>
 <pre><code class="language-json">[
-  {&quot;code&quot;: &quot;MED001&quot;, &quot;name&quot;: &quot;Paracetamol&quot;, &quot;unit_price&quot;: 10},
-  {&quot;code&quot;: &quot;MED002&quot;, &quot;name&quot;: &quot;Ibuprofen&quot;, &quot;unit_price&quot;: 15}
+  &quot;count&quot;: 2585,
+  &quot;medicines&quot;: [
+    {
+      &quot;code&quot;: &quot;MED001IVFES&quot;,
+      &quot;name&quot;: &quot;10% DEXTROSE 500/540ML GLASS BTL.&quot;,
+      &quot;type&quot;: &quot;medicine&quot;,
+      &quot;sub_type&quot;: null,
+      &quot;rate_npr&quot;: 70,
+      &quot;capping&quot;: {
+        &quot;max_days&quot;: null,
+        &quot;max_per_visit&quot;: 10
+      },
+      &quot;claimable&quot;: true
+    },
+    {
+      &quot;code&quot;: &quot;MED001IVFES&quot;,
+      &quot;name&quot;: &quot;10% DEXTROSE 500/540ML GLASS BTL.&quot;,
+      &quot;type&quot;: &quot;medicine&quot;,
+      &quot;sub_type&quot;: null,
+      &quot;rate_npr&quot;: 70,
+      &quot;capping&quot;: {
+        &quot;max_days&quot;: null,
+        &quot;max_per_visit&quot;: 10
+      },
+      &quot;claimable&quot;: true
+    }]
 ]
 </code></pre>
 <hr />

@@ -221,7 +221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_overview.md" class="md-nav__link">
+      <a href="../api_overview/" class="md-nav__link">
         
   
   
@@ -547,33 +547,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../models.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -631,8 +604,50 @@
 <p><strong>Endpoint:</strong> <code>GET /packages</code></p>
 <h3 id="response-example">Response Example</h3>
 <pre><code class="language-json">[
-  {&quot;code&quot;: &quot;PKG001&quot;, &quot;name&quot;: &quot;Normal Delivery&quot;, &quot;price&quot;: 5000},
-  {&quot;code&quot;: &quot;PKG002&quot;, &quot;name&quot;: &quot;C-section&quot;, &quot;price&quot;: 15000}
+  &quot;count&quot;: 65,
+  &quot;packages&quot;: [
+    {
+      &quot;code&quot;: &quot;IPDB1&quot;,
+      &quot;name&quot;: &quot;Nebulization per episode&quot;,
+      &quot;type&quot;: &quot;bed_charges&quot;,
+      &quot;package_group&quot;: &quot;Day Care&quot;,
+      &quot;rate_npr&quot;: 120,
+      &quot;includes&quot;: [
+        &quot;bed_charge&quot;,
+        &quot;consultation&quot;,
+        &quot;investigations&quot;,
+        &quot;medications&quot;
+      ],
+      &quot;icu_included&quot;: false,
+      &quot;ccu_included&quot;: false,
+      &quot;claim_mode&quot;: &quot;bundled_per_admission&quot;,
+      &quot;claimable&quot;: true,
+      &quot;capping&quot;: {
+        &quot;max_days&quot;: null,
+        &quot;max_per_visit&quot;: 99999
+      }
+    },
+    {
+      &quot;code&quot;: &quot;MM1&quot;,
+      &quot;name&quot;: &quot;Speech Therapy per session&quot;,
+      &quot;type&quot;: &quot;medical_management&quot;,
+      &quot;package_group&quot;: &quot;Day Care&quot;,
+      &quot;rate_npr&quot;: 180,
+      &quot;includes&quot;: [
+        &quot;bed_charge&quot;,
+        &quot;consultation&quot;,
+        &quot;investigations&quot;,
+        &quot;medications&quot;
+      ],
+      &quot;icu_included&quot;: false,
+      &quot;ccu_included&quot;: false,
+      &quot;claim_mode&quot;: &quot;bundled_per_admission&quot;,
+      &quot;claimable&quot;: true,
+      &quot;capping&quot;: {
+        &quot;max_days&quot;: null,
+        &quot;max_per_visit&quot;: 99999
+      }
+    }]
 ]
 </code></pre>
 

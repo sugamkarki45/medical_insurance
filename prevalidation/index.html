@@ -223,7 +223,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_overview.md" class="md-nav__link">
+      <a href="../api_overview/" class="md-nav__link">
         
   
   
@@ -560,33 +560,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../models.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -655,17 +628,276 @@
 <p><strong>Endpoint:</strong> <code>POST /prevalidate</code></p>
 <h3 id="request-body">Request Body</h3>
 <pre><code class="language-json">{
-  &quot;patient_id&quot;: &quot;string&quot;,
-  &quot;service_type&quot;: &quot;OPD/IPD/ER&quot;,
-  &quot;claim_items&quot;: [
-    {&quot;item_code&quot;: &quot;LAB101&quot;, &quot;quantity&quot;: 1}
-  ]
+  &quot;username&quot;:&quot;username&quot;,
+  &quot;password&quot;:&quot;password&quot;
+}
+{
+  &quot;patient_id&quot;: &quot;740500036&quot;,
+  &quot;visit_date&quot;: &quot;2025-12-09&quot;,
+  &quot;service_type&quot;: &quot;OPD&quot;,
+  &quot;service_code&quot;: &quot;OPD1&quot;,
+  &quot;doctor_nmc&quot;: &quot;121&quot;,
+  &quot;diagnosis&quot;: {
+    &quot;provisional&quot;: &quot;malaria&quot;,
+    &quot;differential&quot;: &quot;fever&quot;,
+    &quot;final&quot;: &quot;malaria&quot;,
+    &quot;is_chronic&quot;: false
+  },
+  &quot;icd_codes&quot;: [
+    &quot;1F42&quot;
+  ],
+  &quot;claimable_items&quot;: [
+    {
+      &quot;type&quot;: &quot;LAB&quot;,
+      &quot;item_code&quot;: &quot;LAB140&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;cost&quot;: 70,
+      &quot;name&quot;: &quot;ammonia&quot;,
+      &quot;category&quot;: &quot;service&quot;
+    }
+  ],
+  &quot;hospital_type&quot;: &quot;phc&quot;,
+  &quot;enterer_reference&quot;: &quot;7aa79c53-057e-4e77-8576-dfcfb03584a8&quot;,
+  &quot;facility_reference&quot;: &quot;1ac457d3-efd3-4a67-89b3-bf8cbe18045d&quot;,
+  &quot;claim_time&quot;: &quot;2025-12-09&quot;,
+  &quot;claim_code&quot;: &quot;CLM11&quot;,
+  &quot;department&quot;: &quot;ENT&quot;
 }
 </code></pre>
 <h3 id="response-example">Response Example</h3>
 <pre><code class="language-json">{
-  &quot;status&quot;: &quot;passed&quot;,
-  &quot;messages&quot;: [&quot;All checks passed&quot;]
+  &quot;local_validation&quot;: {
+    &quot;is_locally_valid&quot;: false,
+    &quot;warnings&quot;: [
+      &quot;Inter-department OPD visit within ticket validity requires referral documentation.&quot;
+    ],
+    &quot;items&quot;: [
+      {
+        &quot;item_code&quot;: &quot;LAB145&quot;,
+        &quot;item_name&quot;: &quot;AMMONIA&quot;,
+        &quot;quantity&quot;: 1,
+        &quot;claimable&quot;: true,
+        &quot;approved_amount&quot;: 960,
+        &quot;copay_amount&quot;: 96,
+        &quot;warnings&quot;: [],
+        &quot;type&quot;: &quot;lab&quot;
+      }
+    ],
+    &quot;total_approved_local&quot;: 960,
+    &quot;total_copay&quot;: 96,
+    &quot;net_claimable&quot;: 864,
+    &quot;applied_rules_version&quot;: &quot;1.0&quot;,
+    &quot;allowed_money&quot;: 25520,
+    &quot;used_money&quot;: 0,
+    &quot;available_money&quot;: 25520
+  },
+  &quot;imis_patient&quot;: {
+    &quot;resourceType&quot;: &quot;Bundle&quot;,
+    &quot;entry&quot;: [
+      {
+        &quot;fullUrl&quot;: &quot;http://localhost/api/api_fhir/Patient/C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;,
+        &quot;resource&quot;: {
+          &quot;resourceType&quot;: &quot;Patient&quot;,
+          &quot;address&quot;: [
+            {
+              &quot;text&quot;: &quot;0.0 0.0&quot;,
+              &quot;type&quot;: &quot;both&quot;,
+              &quot;use&quot;: &quot;home&quot;
+            }
+          ],
+          &quot;birthDate&quot;: &quot;2016-04-07&quot;,
+          &quot;extension&quot;: [
+            {
+              &quot;url&quot;: &quot;https://openimis.atlassian.net/wiki/spaces/OP/pages/960069653/FHIR+extension+isHead&quot;,
+              &quot;valueBoolean&quot;: true
+            },
+            {
+              &quot;url&quot;: &quot;https://openimis.atlassian.net/wiki/spaces/OP/pages/960331779/FHIR+extension+registrationDate&quot;,
+              &quot;valueString&quot;: &quot;2024-07-31 15:52:57.760000&quot;
+            },
+            {
+              &quot;url&quot;: &quot;https://openimis.atlassian.net/wiki/spaces/OP/pages/960495619/FHIR+extension+Location&quot;,
+              &quot;valueString&quot;: &quot;&quot;
+            },
+            {
+              &quot;url&quot;: &quot;https://openimis.atlassian.net/wiki/spaces/OP/pages/960331788/FHIR+extension+Education&quot;,
+              &quot;valueString&quot;: &quot;&quot;
+            },
+            {
+              &quot;url&quot;: &quot;https://openimis.atlassian.net/wiki/spaces/OP/pages/960135203/FHIE+extension+Profession&quot;,
+              &quot;valueString&quot;: &quot;&quot;
+            },
+            {
+              &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Copayment&quot;,
+              &quot;valueDecimal&quot;: 0.1,
+              &quot;valueString&quot;: &quot;NormalHibScheme &quot;
+            },
+            {
+              &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Profile+Photo+Url&quot;,
+              &quot;valueString&quot;: &quot;&quot;
+            },
+            {
+              &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Profile+FSP&quot;,
+              &quot;valueString&quot;: &quot;&quot;
+            },
+            {
+              &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Profile+District&quot;,
+              &quot;valueString&quot;: &quot;&quot;
+            }
+          ],
+          &quot;gender&quot;: &quot;Male&quot;,
+          &quot;id&quot;: &quot;C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;,
+          &quot;identifier&quot;: [
+            {
+              &quot;type&quot;: {
+                &quot;coding&quot;: [
+                  {
+                    &quot;code&quot;: &quot;ACSN&quot;,
+                    &quot;system&quot;: &quot;https://hl7.org/fhir/valueset-identifier-type.html&quot;
+                  }
+                ]
+              },
+              &quot;use&quot;: &quot;usual&quot;,
+              &quot;value&quot;: &quot;C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;
+            },
+            {
+              &quot;type&quot;: {
+                &quot;coding&quot;: [
+                  {
+                    &quot;code&quot;: &quot;SB&quot;,
+                    &quot;system&quot;: &quot;https://hl7.org/fhir/valueset-identifier-type.html&quot;
+                  }
+                ]
+              },
+              &quot;use&quot;: &quot;usual&quot;,
+              &quot;value&quot;: &quot;740500036&quot;
+            },
+            {
+              &quot;type&quot;: {
+                &quot;coding&quot;: [
+                  {
+                    &quot;code&quot;: &quot;PPN&quot;,
+                    &quot;system&quot;: &quot;https://hl7.org/fhir/valueset-identifier-type.html&quot;
+                  }
+                ]
+              },
+              &quot;use&quot;: &quot;usual&quot;,
+              &quot;value&quot;: &quot;&quot;
+            }
+          ],
+          &quot;name&quot;: [
+            {
+              &quot;family&quot;: &quot;Number&quot;,
+              &quot;given&quot;: [
+                &quot;Test Bima &quot;
+              ],
+              &quot;use&quot;: &quot;usual&quot;
+            }
+          ],
+          &quot;telecom&quot;: [
+            {
+              &quot;system&quot;: &quot;phone&quot;,
+              &quot;use&quot;: &quot;home&quot;,
+              &quot;value&quot;: &quot;9871717177&quot;
+            },
+            {
+              &quot;system&quot;: &quot;email&quot;,
+              &quot;use&quot;: &quot;home&quot;,
+              &quot;value&quot;: &quot;&quot;
+            }
+          ]
+        }
+      }
+    ],
+    &quot;link&quot;: [
+      {
+        &quot;relation&quot;: &quot;self&quot;,
+        &quot;url&quot;: &quot;http://localhost/api/api_fhir/Patient/?identifier=740500036&quot;
+      }
+    ],
+    &quot;total&quot;: 1,
+    &quot;type&quot;: &quot;searchset&quot;
+  },
+  &quot;eligibility&quot;: {
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+      &quot;resourceType&quot;: &quot;EligibilityResponse&quot;,
+      &quot;extension&quot;: [
+        {
+          &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Profile+Photo+Url&quot;,
+          &quot;valueString&quot;: &quot;https://imis.hib.gov.np/Images\\Updated\\/740500036_kat1_20240421_0.0_0.0.jpg&quot;
+        },
+        {
+          &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Profile+FSP&quot;,
+          &quot;valueString&quot;: &quot;TESTHF1 TEST API HOSPITAL&quot;
+        },
+        {
+          &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Profile+District&quot;,
+          &quot;valueString&quot;: &quot;&quot;
+        }
+      ],
+      &quot;insurance&quot;: [
+        {
+          &quot;benefitBalance&quot;: [
+            {
+              &quot;category&quot;: {
+                &quot;text&quot;: &quot;medical&quot;
+              },
+              &quot;financial&quot;: [
+                {
+                  &quot;allowedMoney&quot;: {
+                    &quot;value&quot;: 25520
+                  },
+                  &quot;usedMoney&quot;: {
+                    &quot;value&quot;: 0
+                  }
+                }
+              ]
+            }
+          ],
+          &quot;contract&quot;: {
+            &quot;reference&quot;: &quot;Contract/HIB-3500/2026-11-16 00:00:00&quot;
+          },
+          &quot;extension&quot;: [
+            {
+              &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Copayment&quot;,
+              &quot;valueDecimal&quot;: 0.1,
+              &quot;valueString&quot;: &quot;NormalHibScheme &quot;
+            }
+          ]
+        },
+        {
+          &quot;benefitBalance&quot;: [
+            {
+              &quot;category&quot;: {
+                &quot;text&quot;: &quot;medical&quot;
+              },
+              &quot;financial&quot;: [
+                {
+                  &quot;allowedMoney&quot;: {
+                    &quot;value&quot;: 99950
+                  },
+                  &quot;usedMoney&quot;: {
+                    &quot;value&quot;: 0
+                  }
+                }
+              ]
+            }
+          ],
+          &quot;contract&quot;: {
+            &quot;reference&quot;: &quot;Contract/HIB-8D/2026-11-16 00:00:00&quot;
+          },
+          &quot;extension&quot;: [
+            {
+              &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Copayment&quot;,
+              &quot;valueDecimal&quot;: 0.1,
+              &quot;valueString&quot;: &quot;NormalHibScheme &quot;
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
 </code></pre>
 <hr />

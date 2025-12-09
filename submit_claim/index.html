@@ -223,7 +223,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_overview.md" class="md-nav__link">
+      <a href="../api_overview/" class="md-nav__link">
         
   
   
@@ -560,33 +560,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../models.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -655,23 +628,276 @@
 <p><strong>Endpoint:</strong> <code>POST /submit_claim</code></p>
 <h3 id="request-body">Request Body</h3>
 <pre><code class="language-json">{
-  &quot;patient_id&quot;: &quot;string&quot;,
+  &quot;claim_id&quot;:&quot;claim id&quot;,
+  &quot;username&quot;:&quot;username&quot;,
+  &quot;password&quot;:&quot;password&quot;
+}
+{
+  &quot;patient_id&quot;: &quot;740500036&quot;,
+  &quot;visit_date&quot;: &quot;2025-12-09&quot;,
   &quot;service_type&quot;: &quot;OPD&quot;,
-  &quot;doctor_nmc&quot;: &quot;12345&quot;,
-  &quot;claimed_amount&quot;: 1500,
-  &quot;items&quot;: [
-    {&quot;item_code&quot;: &quot;MED002IVF&quot;, &quot;quantity&quot;: 1}
-  ]
+  &quot;service_code&quot;: &quot;OPD1&quot;,
+  &quot;doctor_nmc&quot;: &quot;121&quot;,
+  &quot;diagnosis&quot;: {
+    &quot;provisional&quot;: &quot;malaria&quot;,
+    &quot;differential&quot;: &quot;fever&quot;,
+    &quot;final&quot;: &quot;malaria&quot;,
+    &quot;is_chronic&quot;: false
+  },
+  &quot;icd_codes&quot;: [
+    &quot;1F42&quot;
+  ],
+  &quot;claimable_items&quot;: [
+    {
+      &quot;type&quot;: &quot;LAB&quot;,
+      &quot;item_code&quot;: &quot;LAB140&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;cost&quot;: 70,
+      &quot;name&quot;: &quot;ammonia&quot;,
+      &quot;category&quot;: &quot;service&quot;
+    }
+  ],
+  &quot;hospital_type&quot;: &quot;phc&quot;,
+  &quot;enterer_reference&quot;: &quot;7aa79c53-057e-4e77-8576-dfcfb03584a8&quot;,
+  &quot;facility_reference&quot;: &quot;1ac457d3-efd3-4a67-89b3-bf8cbe18045d&quot;,
+  &quot;claim_time&quot;: &quot;2025-12-09&quot;,
+  &quot;claim_code&quot;: &quot;CLM11&quot;,
+  &quot;department&quot;: &quot;ENT&quot;
 }
 </code></pre>
 <h3 id="response-example">Response Example</h3>
 <pre><code class="language-json">{
-  &quot;claim_id&quot;: &quot;uuid-string&quot;,
-  &quot;status&quot;: &quot;submitted&quot;,
-  &quot;imis_response&quot;: {
+  &quot;message&quot;: &quot;Claim successfully submitted to IMIS&quot;,
+  &quot;claim_code&quot;: &quot;CLM11&quot;,
+  &quot;status&quot;: &quot;checked&quot;,
+  &quot;submitted_at&quot;: &quot;2025-12-09T06:57:26.777470&quot;,
+  &quot;created_at&quot;: &quot;2025-12-09T00:00:00&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;sequence_id&quot;: 1,
+      &quot;item_code&quot;: &quot;LAB130&quot;,
+      &quot;status&quot;: &quot;passed&quot;
+    }
+  ],
+  &quot;IMIS_response&quot;: {
     &quot;resourceType&quot;: &quot;ClaimResponse&quot;,
-    &quot;created&quot;: &quot;2025-12-03&quot;
-  }
+    &quot;addItem&quot;: [
+      {
+        &quot;sequenceLinkId&quot;: [
+          1
+        ],
+        &quot;service&quot;: {
+          &quot;coding&quot;: [
+            {
+              &quot;code&quot;: &quot;LAB130&quot;
+            }
+          ]
+        }
+      }
+    ],
+    &quot;created&quot;: &quot;2025-12-09&quot;,
+    &quot;extension&quot;: [
+      {
+        &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Copayment+Claim+Total&quot;,
+        &quot;valueDecimal&quot;: 0.1,
+        &quot;valueMoney&quot;: 7,
+        &quot;valueString&quot;: &quot;NormalHibScheme &quot;
+      }
+    ],
+    &quot;id&quot;: &quot;79DCDCEA-628A-4E27-8ADB-6561F700E274&quot;,
+    &quot;identifier&quot;: [
+      {
+        &quot;type&quot;: {
+          &quot;coding&quot;: [
+            {
+              &quot;code&quot;: &quot;ACSN&quot;,
+              &quot;system&quot;: &quot;https://hl7.org/fhir/valueset-identifier-type.html&quot;
+            }
+          ]
+        },
+        &quot;use&quot;: &quot;usual&quot;,
+        &quot;value&quot;: &quot;79DCDCEA-628A-4E27-8ADB-6561F700E274&quot;
+      },
+      {
+        &quot;type&quot;: {
+          &quot;coding&quot;: [
+            {
+              &quot;code&quot;: &quot;MR&quot;,
+              &quot;system&quot;: &quot;https://hl7.org/fhir/valueset-identifier-type.html&quot;
+            }
+          ]
+        },
+        &quot;use&quot;: &quot;usual&quot;,
+        &quot;value&quot;: &quot;CLM11&quot;
+      }
+    ],
+    &quot;item&quot;: [
+      {
+        &quot;adjudication&quot;: [
+          {
+            &quot;amount&quot;: {
+              &quot;value&quot;: 90
+            },
+            &quot;category&quot;: {
+              &quot;text&quot;: &quot;general&quot;
+            },
+            &quot;extension&quot;: [
+              {
+                &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Copayment+Item+Value&quot;,
+                &quot;valueDecimal&quot;: 0.1,
+                &quot;valueMoney&quot;: 7,
+                &quot;valueString&quot;: &quot;NormalHibScheme &quot;
+              }
+            ],
+            &quot;reason&quot;: {
+              &quot;coding&quot;: [
+                {
+                  &quot;code&quot;: &quot;1&quot;
+                }
+              ],
+              &quot;text&quot;: &quot;passed&quot;
+            }
+          }
+        ],
+        &quot;sequenceLinkId&quot;: 1
+      }
+    ],
+    &quot;outcome&quot;: {
+      &quot;coding&quot;: [
+        {
+          &quot;code&quot;: &quot;4&quot;
+        }
+      ],
+      &quot;text&quot;: &quot;checked&quot;
+    },
+    &quot;request&quot;: {
+      &quot;reference&quot;: &quot;Claim/79DCDCEA-628A-4E27-8ADB-6561F700E274&quot;
+    }
+  },
+  &quot;payload&quot;: {
+    &quot;resourceType&quot;: &quot;Claim&quot;,
+    &quot;billablePeriod&quot;: {
+      &quot;start&quot;: &quot;2025-12-09&quot;,
+      &quot;end&quot;: &quot;2025-12-09&quot;
+    },
+    &quot;created&quot;: &quot;2025-12-09T06:57:22.911370&quot;,
+    &quot;patient&quot;: {
+      &quot;reference&quot;: &quot;Patient/C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;
+    },
+    &quot;identifier&quot;: [
+      {
+        &quot;type&quot;: {
+          &quot;coding&quot;: [
+            {
+              &quot;code&quot;: &quot;ACSN&quot;,
+              &quot;system&quot;: &quot;https://hl7.org/fhir/valueset-identifier-type.html&quot;
+            }
+          ]
+        },
+        &quot;use&quot;: &quot;usual&quot;,
+        &quot;value&quot;: &quot;498160191ec7414390b52a0360082cff&quot;
+      },
+      {
+        &quot;type&quot;: {
+          &quot;coding&quot;: [
+            {
+              &quot;code&quot;: &quot;MR&quot;,
+              &quot;system&quot;: &quot;https://hl7.org/fhir/valueset-identifier-type.html&quot;
+            }
+          ]
+        },
+        &quot;use&quot;: &quot;usual&quot;,
+        &quot;value&quot;: &quot;CLM11&quot;
+      }
+    ],
+    &quot;item&quot;: [
+      {
+        &quot;sequence&quot;: 1,
+        &quot;category&quot;: {
+          &quot;text&quot;: &quot;service&quot;
+        },
+        &quot;quantity&quot;: {
+          &quot;value&quot;: 1
+        },
+        &quot;service&quot;: {
+          &quot;text&quot;: &quot;LAB130&quot;
+        },
+        &quot;unitPrice&quot;: {
+          &quot;value&quot;: 70
+        }
+      }
+    ],
+    &quot;total&quot;: {
+      &quot;value&quot;: 70
+    },
+    &quot;careType&quot;: &quot;O&quot;,
+    &quot;enterer&quot;: {
+      &quot;reference&quot;: &quot;Practitioner/7aa79c53-057e-4e77-8576-dfcfb03584a8&quot;
+    },
+    &quot;facility&quot;: {
+      &quot;reference&quot;: &quot;Location/1ac457d3-efd3-4a67-89b3-bf8cbe18045d&quot;
+    },
+    &quot;diagnosis&quot;: [
+      {
+        &quot;sequence&quot;: 1,
+        &quot;type&quot;: [
+          {
+            &quot;coding&quot;: [
+              {
+                &quot;code&quot;: &quot;icd_0&quot;
+              }
+            ],
+            &quot;text&quot;: &quot;icd_0&quot;
+          }
+        ],
+        &quot;diagnosisCodeableConcept&quot;: {
+          &quot;coding&quot;: [
+            {
+              &quot;code&quot;: &quot;1F42&quot;
+            }
+          ]
+        }
+      }
+    ],
+    &quot;nmc&quot;: &quot;121&quot;,
+    &quot;type&quot;: {
+      &quot;text&quot;: &quot;O&quot;
+    }
+  },
+  &quot;system_info&quot;: {
+    &quot;source&quot;: &quot;Unknown&quot;,
+    &quot;ip&quot;: &quot;127.0.0.1&quot;,
+    &quot;user_agent&quot;: &quot;Mozilla/5.0 (X11; Linux x86_64; rv:143.0) Gecko/20100101 Firefox/143.0&quot;,
+    &quot;timestamp&quot;: &quot;2025-12-09T06:57:26.777451&quot;
+  },
+  &quot;prevalidation_summary&quot;: {
+    &quot;is_locally_valid&quot;: false,
+    &quot;warnings&quot;: [
+      &quot;Inter-department OPD visit within ticket validity requires referral documentation.&quot;
+    ],
+    &quot;items&quot;: [
+      {
+        &quot;item_code&quot;: &quot;LAB130&quot;,
+        &quot;item_name&quot;: &quot;AMMONIA&quot;,
+        &quot;quantity&quot;: 1,
+        &quot;claimable&quot;: true,
+        &quot;approved_amount&quot;: 180,
+        &quot;copay_amount&quot;: 18,
+        &quot;warnings&quot;: [],
+        &quot;type&quot;: &quot;lab&quot;
+      }
+    ],
+    &quot;total_approved_local&quot;: 180,
+    &quot;total_copay&quot;: 18,
+    &quot;net_claimable&quot;: 162,
+    &quot;applied_rules_version&quot;: &quot;1.0&quot;,
+    &quot;allowed_money&quot;: 25520,
+    &quot;used_money&quot;: 0,
+    &quot;available_money&quot;: 25520
+  },
+  &quot;warnings&quot;: [
+    &quot;Inter-department OPD visit within ticket validity requires referral documentation.&quot;
+  ]
 }
 </code></pre>
 <hr />
