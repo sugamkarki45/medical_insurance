@@ -6,16 +6,16 @@ nav:
   - Home: index.md
   - API Overview: api_overview.md
   - Endpoints:
-      - Patient Info & Eligibility: endpoints/patient_info_and_eligibility.md
-      - Prevalidation: endpoints/prevalidation.md
-      - Claim Submission: endpoints/submit_claim.md
-      - Get All Claims: endpoints/get_all_claims.md
-      - Get Claim by UUID: endpoints/get_claim_by_uuid.md
-      - Medicine List: endpoints/medicine_list.md
-      - Package List: endpoints/package_list.md
-  - Models: models.md
+      - Patient Info & Eligibility: patient_info_and_eligibility.md
+      - Prevalidation: prevalidation.md
+      - Claim Submission: submit_claim.md
+      - Get All Claims: get_all_claims.md
+      - Get Claim by UUID: get_claim_by_uuid.md
+      - Medicine List: medicines.md
+      - Package List: packages.md
+#
 
 plugins:
   - search
-  - swagger-ui-tag
+
 

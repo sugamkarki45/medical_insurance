@@ -1,16 +1,16 @@
-# tests/conftest.py
+# conftest.py
 import pytest
 from httpx import AsyncClient
+from httpx._transports.asgi import ASGITransport  # required for ASGI testing
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.main import app  # Import your FastAPI app
+from app.main import app
 from app.insurance_database import get_db, Base
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base.metadata.create_all(bind=engine)
 
 def override_get_db():
@@ -28,5 +28,6 @@ def anyio_backend():
 
 @pytest.fixture
 async def client(anyio_backend):
-    async with AsyncClient(app=app, base_url="http://test") as ac:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac

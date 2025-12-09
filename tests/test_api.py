@@ -35,7 +35,7 @@ def test_prevalidate_endpoint():
     }
 
     # CHANGE THIS TO YOUR ACTUAL ENDPOINT PATH
-    response = client.post("/prevalidate-claim", json=payload)
+    response = client.post("/prevalidation", json=payload)
     # or try: /api/v1/prevalidate, /claim/prevalidate, etc.
 
     assert response.status_code == 200
