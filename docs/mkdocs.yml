@@ -13,7 +13,7 @@ nav:
       - Get Claim by UUID: get_claim_by_uuid.md
       - Medicine List: medicines.md
       - Package List: packages.md
-#
+  # - Models: models.md
 
 plugins:
   - search
