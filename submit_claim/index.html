@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#request-body" class="md-skip">
+        <a href="#header" class="md-skip">
           Skip to content
         </a>
       
@@ -411,10 +411,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#request-body" class="md-nav__link">
+  <a href="#header" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Request Body
+        Header
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#this-is-the-request-body" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        This is the Request Body
       
     </span>
   </a>
@@ -585,10 +596,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#request-body" class="md-nav__link">
+  <a href="#header" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Request Body
+        Header
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#this-is-the-request-body" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        This is the Request Body
       
     </span>
   </a>
@@ -626,19 +648,20 @@
   <h1>Claim Submission</h1>
 
 <p><strong>Endpoint:</strong> <code>POST /submit_claim</code></p>
-<h3 id="request-body">Request Body</h3>
+<h3 id="header">Header</h3>
 <pre><code class="language-json">{
-  &quot;claim_id&quot;:&quot;claim id&quot;,
   &quot;username&quot;:&quot;username&quot;,
   &quot;password&quot;:&quot;password&quot;
 }
-{
-  &quot;patient_id&quot;: &quot;740500036&quot;,
+</code></pre>
+<h3 id="this-is-the-request-body">This is the Request Body</h3>
+<pre><code class="language-json">{
+  &quot;patient_id&quot;: &quot;740500036&quot;,  // patient inusrance number
   &quot;visit_date&quot;: &quot;2025-12-09&quot;,
-  &quot;service_type&quot;: &quot;OPD&quot;,
-  &quot;service_code&quot;: &quot;OPD1&quot;,
-  &quot;doctor_nmc&quot;: &quot;121&quot;,
-  &quot;diagnosis&quot;: {
+  &quot;service_type&quot;: &quot;OPD&quot;,      // service taken by the patient OPD, IPD, ER
+  &quot;service_code&quot;: &quot;OPD1&quot;,     // code of the service taken
+  &quot;doctor_nmc&quot;: &quot;121&quot;, // doctor's NMC number. This can be multiple and can be sent as a list
+  &quot;diagnosis&quot;: {      // Provisional, Differential, final diagnosis with ICD code is required
     &quot;provisional&quot;: &quot;malaria&quot;,
     &quot;differential&quot;: &quot;fever&quot;,
     &quot;final&quot;: &quot;malaria&quot;,
@@ -647,22 +670,22 @@
   &quot;icd_codes&quot;: [
     &quot;1F42&quot;
   ],
-  &quot;claimable_items&quot;: [
+  &quot;claimable_items&quot;: [    
     {
       &quot;type&quot;: &quot;LAB&quot;,
       &quot;item_code&quot;: &quot;LAB140&quot;,
       &quot;quantity&quot;: 1,
       &quot;cost&quot;: 70,
       &quot;name&quot;: &quot;ammonia&quot;,
-      &quot;category&quot;: &quot;service&quot;
+      &quot;category&quot;: &quot;service&quot;  // Service or Item( according to HIB catalogue)
     }
   ],
-  &quot;hospital_type&quot;: &quot;phc&quot;,
-  &quot;enterer_reference&quot;: &quot;7aa79c53-057e-4e77-8576-dfcfb03584a8&quot;,
-  &quot;facility_reference&quot;: &quot;1ac457d3-efd3-4a67-89b3-bf8cbe18045d&quot;,
+  &quot;hospital_type&quot;: &quot;phc&quot;,   // Types of hospital: PHC, Government, Private
+  &quot;enterer_reference&quot;: &quot;7aa79c53-057e-4e77-8576-dfcfb03584a8&quot;, // UUID provided of the enterer
+  &quot;facility_reference&quot;: &quot;1ac457d3-efd3-4a67-89b3-bf8cbe18045d&quot;, // Facility UUID
   &quot;claim_time&quot;: &quot;2025-12-09&quot;,
-  &quot;claim_code&quot;: &quot;CLM11&quot;,
-  &quot;department&quot;: &quot;ENT&quot;
+  &quot;claim_code&quot;: &quot;CLM11&quot;,  // Claim code: shall be upto 8 in length only
+  &quot;department&quot;: &quot;ENT&quot;     // Department the patient took service from
 }
 </code></pre>
 <h3 id="response-example">Response Example</h3>
