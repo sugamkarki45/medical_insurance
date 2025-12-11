@@ -11,8 +11,8 @@ nav:
       - Claim Submission: submit_claim.md
       - Get All Claims: get_all_claims.md
       - Get Claim by UUID: get_claim_by_uuid.md
-      - Medicine List: medicines.md
-      - Package List: packages.md
+      - Items List: items.md
+      - Services List: services.md
   # - Models: models.md
 
 plugins:

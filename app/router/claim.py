@@ -9,7 +9,7 @@ from app.services.imis_parser import parse_eligibility_response
 from decimal import Decimal 
 from datetime import datetime
 import logging,uuid,json
-from app.rule_loader import get_all_medicines,get_all_packages
+from app.rule_loader import get_all_items,get_all_services
 
 
 
@@ -333,19 +333,19 @@ def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
 
 
 
-@router.get("/medicines")
-def list_medicines():
+@router.get("/items")
+def list_items():
     """
     Returns list of all medicines from rules.json
     """
-    medicines = get_all_medicines()
+    medicines = get_all_items()
     return {"count": len(medicines), "medicines": medicines}
 
 
-@router.get("/packages")
-def list_packages():
+@router.get("/services")
+def list_services():
     """
     Returns list of all medical packages from rules.json
     """
-    packages = get_all_packages()
+    packages = get_all_services()
     return {"count": len(packages), "packages": packages}

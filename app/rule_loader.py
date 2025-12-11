@@ -30,37 +30,37 @@ def get_rules():
 
 
 
-def get_all_medicines():
+def get_all_items():
     """Load large medicine list once."""
     global _cached_meds_list, _cached_meds_map
     if _cached_meds_list is None:
-        _cached_meds_list = load_json("claimable_medicines.json")
+        _cached_meds_list = load_json("items.json")
         # Convert to dict for fast lookup
         _cached_meds_map = {str(m["code"]): m for m in _cached_meds_list}
     return _cached_meds_list
 
 
-def get_med(item_code: str):
+def get_items(item_code: str):
     """O(1) fast lookup of a medicine by code."""
     if _cached_meds_map is None:
-        get_all_medicines()  # initialize cache
+        get_all_items()  # initialize cache
     return _cached_meds_map.get(str(item_code))
 
 
 
-def get_all_packages():
+def get_all_services():
 
     global _cached_packages_list, _cached_packages_map
     if _cached_packages_list is None:
-        _cached_packages_list = load_json("packages.json")
+        _cached_packages_list = load_json("services.json")
         _cached_packages_map = {str(p["code"]): p for p in _cached_packages_list}
     return _cached_packages_list
 
 
-def get_package(item_code: str):
+def get_services(item_code: str):
 
     if _cached_packages_map is None:
-        get_all_packages()  # initialize cache
+        get_all_services()  # initialize cache
     return _cached_packages_map.get(str(item_code))
 
 

@@ -1,7 +1,12 @@
 
 
 **Endpoint:** `GET /patients/{uuid}`
-
+### Header
+```json
+{
+  "patient_id":"patient_uuid"
+}
+```
 ### Response Example
 
 ```json

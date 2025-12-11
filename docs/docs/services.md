@@ -6,7 +6,7 @@
 
 ```json
 [
-  "count": 65,
+  "count": 1,  // total count of all the services which are claimable as per HIB catalogue
   "packages": [
     {
       "code": "IPDB1",

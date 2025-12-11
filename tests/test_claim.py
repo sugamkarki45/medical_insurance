@@ -1,18 +1,19 @@
 # tests/test_claim.py
-import respx
+import pytest, json, uuid
 from httpx import AsyncClient, Response, ASGITransport
-import pytest, httpx
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.main import app
-from app.insurance_database import Base, get_db, ImisResponse
+from app.insurance_database import Base, get_db, ImisResponse, PatientInformation
+from app.model import ClaimInput
 
-
+# ---------------------------
+# Database setup for tests
+# ---------------------------
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base.metadata.create_all(bind=engine)
-
 
 def override_get_db():
     db = TestingSessionLocal()
@@ -23,117 +24,122 @@ def override_get_db():
 
 app.dependency_overrides[get_db] = override_get_db
 
-
 @pytest.fixture
 async def client():
     transport = ASGITransport(app=app)
     async with AsyncClient(base_url="http://testserver", transport=transport) as ac:
         yield ac
 
-
 @pytest.fixture
 def respx_mock_fixture():
+    import respx
     with respx.mock(base_url="http://imislegacy.hib.gov.np/api/api_fhir") as mock:
         yield mock
 
+@pytest.fixture
+def create_patient():
+    db = next(override_get_db())
+    patient = PatientInformation(
+        patient_code="740500036",
+        patient_uuid=str(uuid.uuid4()),
+        name="John Doe",
+        birth_date=None,
+        gender="male",
+        copayment=0,
+        allowed_money=1000,
+        used_money=0,
+        category="Normal",
+        policy_id="POL123",
+        policy_expiry=None,
+        imis_full_response={"mocked": True},
+        eligibility_raw={"mocked": True}
+    )
+    db.add(patient)
+    db.commit()
+    db.refresh(patient)
+    return patient
 
-# -------------------------------------------------------------------------------
-# TEST 1: patient full info + eligibility
-# -------------------------------------------------------------------------------
 @pytest.mark.anyio
 async def test_get_patient_and_eligibility_success(client, respx_mock_fixture):
-
-    # Mock the external IMIS full-info endpoint
     respx_mock_fixture.post("/patient/full-info").mock(
         return_value=Response(
-            201,
-            json={
-                "resourceType": "EligibilityResponse",
-                "patient": {"id": "740500036"}
-            }
+            200,
+            json={"success": True, "data": {"entry":[{"resource":{"id":"740500036","name":[{"given":["John"]}],"gender":"male"}}]}}
+        )
+    )
+    respx_mock_fixture.post("/eligibility").mock(
+        return_value=Response(
+            200,
+            json={"success": True, "data":{"allowed_money":1000,"used_money":0}}
         )
     )
 
-    # FIX: Correct payload for your model
     payload = {
-        "patient_code": "740500036",
+        "identifier": "740500036",
         "username": "user",
         "password": "pass"
     }
-
     response = await client.post("/api/patient/full-info", json=payload)
     assert response.status_code == 200
     data = response.json()
+    assert data["patient_code"] == "740500036"
+    assert data["gender"] == "male"
 
-    assert data["patient"]["id"] == "740500036"
 
-
-# -------------------------------------------------------------------------------
-# TEST 2: prevalidation
-# -------------------------------------------------------------------------------
 @pytest.mark.anyio
-async def test_prevalidation_endpoint(client, respx_mock_fixture):
-
-    await test_get_patient_and_eligibility_success(client, respx_mock_fixture)
-
+async def test_prevalidation_endpoint(client, create_patient):
     payload = {
+        "patient_id": create_patient.patient_code,
         "claim_code": "CLAIM001",
-        "items": [{"item_code": "OPD01"}],
-        "username": "user",
-        "password": "pass"
+        "items": [{"item_code": "OPD01", "quantity": 1, "cost": 100, "category": "General"}]
     }
-
-    response = await client.post("/api/prevalidate", json=payload)
+    # username/password as query params
+    response = await client.post("/api/prevalidation?username=user&password=pass", json=payload)
     assert response.status_code == 200
     data = response.json()
+    assert "local_validation" in data
+    assert "imis_patient" in data
+    assert "eligibility" in data
 
-    assert "prevalidation_result" in data
 
-
-# -------------------------------------------------------------------------------
-# TEST 3: submit claim
-# -------------------------------------------------------------------------------
 @pytest.mark.anyio
-async def test_submit_claim_full_flow(client, respx_mock_fixture):
-
-    await test_get_patient_and_eligibility_success(client, respx_mock_fixture)
-
+async def test_submit_claim_full_flow(client, create_patient):
     payload = {
+        "patient_id": create_patient.patient_code,
         "claim_code": "CLAIM002",
-        "items": [{"item_code": "OPD02"}],
-        "username": "user",
-        "password": "pass"
+        "service_type": "OPD",
+        "service_code": "OPD01",
+        "doctor_nmc": ["NMC123"],
+        "icd_codes": ["I10"],
+        "claimable_items": [{"item_code": "OPD01", "quantity": 1, "cost": 100, "category": "General"}],
+        "enterer_reference": "E1",
+        "facility_reference": "F1",
+        "department": "General",
+        "visit_date": "2025-12-11"
     }
-
-    response = await client.post("/api/submit_claim", json=payload)
+    response = await client.post(f"/api/submit_claim/{uuid.uuid4().hex}?username=user&password=pass", json=payload)
     assert response.status_code == 200
     data = response.json()
+    assert data["message"] == "Claim successfully submitted to IMIS"
+    assert "claim_code" in data
+    assert "items" in data
 
-    assert "status" in data
 
-
-# -------------------------------------------------------------------------------
-# TEST 4: get all claims
-# -------------------------------------------------------------------------------
 @pytest.mark.anyio
-async def test_get_all_claims(client):
-
+async def test_get_all_claims(client, create_patient):
     db = next(override_get_db())
-
-    fake_claim = ImisResponse(
+    claim_record = ImisResponse(
         claim_code="TEST123",
-        patient_id="1234567890",
+        patient_id=create_patient.patient_code,
         status="submitted",
         items=[{"item_code": "OPD01"}]
     )
-
-    db.add(fake_claim)
+    db.add(claim_record)
     db.commit()
+    db.refresh(claim_record)
 
     response = await client.get("/api/claims/all")
     assert response.status_code == 200
-
     data = response.json()
-
-    assert len(data) > 0
-    assert data[0]["claim_code"] == "TEST123"
+    assert data["count"] > 0
+    assert any(claim["claim_code"] == "TEST123" for claim in data["results"])

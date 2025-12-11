@@ -6,7 +6,7 @@
 
 ```json
 [
-  "count": 2585,
+  "count": 1,  // total count of all the items in HIB catalogue
   "medicines": [
     {
       "code": "MED001IVFES",

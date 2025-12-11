@@ -2,20 +2,22 @@
 
 **Endpoint:** `POST /prevalidate`
 
-### Request Body
-
+### Header
 ```json
 {
   "username":"username",
   "password":"password"
 }
+```
+### Request Body
+```json
 {
-  "patient_id": "740500036",
+  "patient_id": "740500036",  // patient inusrance number
   "visit_date": "2025-12-09",
-  "service_type": "OPD",
-  "service_code": "OPD1",
-  "doctor_nmc": "121",
-  "diagnosis": {
+  "service_type": "OPD",      // service taken by the patient OPD, IPD, ER
+  "service_code": "OPD1",     // code of the service taken
+  "doctor_nmc": "121", // doctor's NMC number. This can be multiple and can be sent as a list
+  "diagnosis": {      // Provisional, Differential, final diagnosis with ICD code is required
     "provisional": "malaria",
     "differential": "fever",
     "final": "malaria",
@@ -24,22 +26,22 @@
   "icd_codes": [
     "1F42"
   ],
-  "claimable_items": [
+  "claimable_items": [    
     {
       "type": "LAB",
       "item_code": "LAB140",
       "quantity": 1,
       "cost": 70,
       "name": "ammonia",
-      "category": "service"
+      "category": "service"  // Service or Item( according to HIB catalogue)
     }
   ],
-  "hospital_type": "phc",
-  "enterer_reference": "7aa79c53-057e-4e77-8576-dfcfb03584a8",
-  "facility_reference": "1ac457d3-efd3-4a67-89b3-bf8cbe18045d",
+  "hospital_type": "phc",   // Types of hospital: PHC, Government, Private
+  "enterer_reference": "7aa79c53-057e-4e77-8576-dfcfb03584a8", // UUID provided of the enterer
+  "facility_reference": "1ac457d3-efd3-4a67-89b3-bf8cbe18045d", // Facility UUID
   "claim_time": "2025-12-09",
-  "claim_code": "CLM11",
-  "department": "ENT"
+  "claim_code": "CLM11",  // Claim code: shall be upto 8 in length only
+  "department": "ENT"     // Department the patient took service from
 }
 ```
 
