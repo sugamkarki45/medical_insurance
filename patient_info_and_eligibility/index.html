@@ -658,103 +658,103 @@
 </code></pre>
 <h3 id="response-example">Response Example</h3>
 <pre><code class="language-json">{
-  &quot;patient_code&quot;: &quot;740500036&quot;,       // Internal identifier of the patient in IMIS
-  &quot;uuid&quot;: &quot;C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;,  // FHIR-compliant UUID
-  &quot;name&quot;: &quot;Test Bima &quot;,              // Patient full name
-  &quot;birthDate&quot;: &quot;2016-04-07&quot;,         // Date of birth (YYYY-MM-DD)
-  &quot;gender&quot;: &quot;Male&quot;,                   // Patient gender
-  &quot;copayment&quot;: &quot;0.10&quot;,                // Copayment fraction (0.10 = 10%)
-  &quot;allowed_money&quot;: &quot;25520.00&quot;,        // Total coverage allowed
-  &quot;used_money&quot;: &quot;0.00&quot;,               // Already used amount
-  &quot;category&quot;: &quot;medical&quot;,              // Type of benefit
-  &quot;policy_id&quot;: &quot;HIB-3500&quot;,            // Policy number
-  &quot;policy_expiry&quot;: &quot;2026-11-16&quot;,      // Policy expiration date
+  &quot;patient_code&quot;: &quot;740500036&quot;,      
+  &quot;uuid&quot;: &quot;C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;,  
+  &quot;name&quot;: &quot;Test Bima &quot;,              
+  &quot;birthDate&quot;: &quot;2016-04-07&quot;,         
+  &quot;gender&quot;: &quot;Male&quot;,                  
+  &quot;copayment&quot;: &quot;0.10&quot;,                
+  &quot;allowed_money&quot;: &quot;25520.00&quot;,       
+  &quot;used_money&quot;: &quot;0.00&quot;,             
+  &quot;category&quot;: &quot;medical&quot;,             
+  &quot;policy_id&quot;: &quot;HIB-3500&quot;,          
+  &quot;policy_expiry&quot;: &quot;2026-11-16&quot;,      
   &quot;imis&quot;: {
-    &quot;resourceType&quot;: &quot;Bundle&quot;,         // FHIR resource type
+    &quot;resourceType&quot;: &quot;Bundle&quot;,         
     &quot;entry&quot;: [
       {
-        &quot;fullUrl&quot;: &quot;http://localhost/api/api_fhir/Patient/C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;, // URL of patient resource
+        &quot;fullUrl&quot;: &quot;http://localhost/api/api_fhir/Patient/C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;, 
         &quot;resource&quot;: {
-          &quot;resourceType&quot;: &quot;Patient&quot;,   // Resource type
+          &quot;resourceType&quot;: &quot;Patient&quot;,   
           &quot;address&quot;: [
             {
-              &quot;text&quot;: &quot;0.0 0.0&quot;,       // Address text
-              &quot;type&quot;: &quot;both&quot;,         // Type of address
-              &quot;use&quot;: &quot;home&quot;           // Address use
+              &quot;text&quot;: &quot;0.0 0.0&quot;,       
+              &quot;type&quot;: &quot;both&quot;,         
+              &quot;use&quot;: &quot;home&quot;          
             }
           ],
-          &quot;birthDate&quot;: &quot;2016-04-07&quot;,   // Birth date
+          &quot;birthDate&quot;: &quot;2016-04-07&quot;,  
           &quot;extension&quot;: [
             {
               &quot;url&quot;: &quot;https://openimis.atlassian.net/wiki/spaces/OP/pages/960069653/FHIR+extension+isHead&quot;,
-              &quot;valueBoolean&quot;: true    // Indicates if patient is head of household
+              &quot;valueBoolean&quot;: true    
             },
             {
               &quot;url&quot;: &quot;https://openimis.atlassian.net/wiki/spaces/OP/pages/960331779/FHIR+extension+registrationDate&quot;,
-              &quot;valueString&quot;: &quot;2024-07-31 15:52:57.760000&quot; // Registration date
+              &quot;valueString&quot;: &quot;2024-07-31 15:52:57.760000&quot; 
             },
             {
               &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Copayment&quot;,
-              &quot;valueDecimal&quot;: 0.1,    // Copayment fraction
-              &quot;valueString&quot;: &quot;NormalHibScheme &quot; // Scheme name
+              &quot;valueDecimal&quot;: 0.1,    
+              &quot;valueString&quot;: &quot;NormalHibScheme &quot; 
             }
           ],
-          &quot;gender&quot;: &quot;Male&quot;,             // Gender
-          &quot;id&quot;: &quot;C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;, // UUID
+          &quot;gender&quot;: &quot;Male&quot;,             
+          &quot;id&quot;: &quot;C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;, 
           &quot;identifier&quot;: [
             {
               &quot;type&quot;: { &quot;coding&quot;: [{&quot;code&quot;: &quot;ACSN&quot;}]},
               &quot;use&quot;: &quot;usual&quot;,
-              &quot;value&quot;: &quot;C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot; // FHIR UUID identifier
+              &quot;value&quot;: &quot;C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot; 
             },
             {
               &quot;type&quot;: { &quot;coding&quot;: [{&quot;code&quot;: &quot;SB&quot;}]},
               &quot;use&quot;: &quot;usual&quot;,
-              &quot;value&quot;: &quot;740500036&quot;     // Secondary ID / Patient code
+              &quot;value&quot;: &quot;740500036&quot;    
             }
           ],
           &quot;name&quot;: [
             {
-              &quot;family&quot;: &quot;Number&quot;,       // Last name
-              &quot;given&quot;: [&quot;Test Bima &quot;],  // First name(s)
+              &quot;family&quot;: &quot;Number&quot;,      
+              &quot;given&quot;: [&quot;Test Bima &quot;], 
               &quot;use&quot;: &quot;usual&quot;
             }
           ],
           &quot;telecom&quot;: [
             {
-              &quot;system&quot;: &quot;phone&quot;,        // Contact type
+              &quot;system&quot;: &quot;phone&quot;,        
               &quot;use&quot;: &quot;home&quot;,
-              &quot;value&quot;: &quot;9871717177&quot;    // Phone number
+              &quot;value&quot;: &quot;9871717177&quot;    
             }
           ]
         }
       }
     ],
-    &quot;total&quot;: 1                        // Number of entries
+    &quot;total&quot;: 1                        
   },
   &quot;eligibility&quot;: {
-    &quot;success&quot;: true,                  // Eligibility check success
+    &quot;success&quot;: true,                  
     &quot;data&quot;: {
-      &quot;resourceType&quot;: &quot;EligibilityResponse&quot;,  // FHIR resource type
+      &quot;resourceType&quot;: &quot;EligibilityResponse&quot;, 
       &quot;insurance&quot;: [
         {
           &quot;benefitBalance&quot;: [
             {
-              &quot;category&quot;: { &quot;text&quot;: &quot;medical&quot; }, // Benefit type
+              &quot;category&quot;: { &quot;text&quot;: &quot;medical&quot; }, 
               &quot;financial&quot;: [
                 {
-                  &quot;allowedMoney&quot;: {&quot;value&quot;: 25520}, // Allowed coverage
-                  &quot;usedMoney&quot;: {&quot;value&quot;: 0}        // Already used
+                  &quot;allowedMoney&quot;: {&quot;value&quot;: 25520}, 
+                  &quot;usedMoney&quot;: {&quot;value&quot;: 0}     
                 }
               ]
             }
           ],
-          &quot;contract&quot;: {&quot;reference&quot;: &quot;Contract/HIB-3500/2026-11-16 00:00:00&quot;}, // Policy reference
+          &quot;contract&quot;: {&quot;reference&quot;: &quot;Contract/HIB-3500/2026-11-16 00:00:00&quot;}, 
           &quot;extension&quot;: [
             {
               &quot;url&quot;: &quot;https://hib.gov.np/fhir/FHIE+extension+Copayment&quot;,
               &quot;valueDecimal&quot;: 0.1,
-              &quot;valueString&quot;: &quot;NormalHibScheme &quot;  // Copayment for this policy
+              &quot;valueString&quot;: &quot;NormalHibScheme &quot;  
             }
           ]
         }
