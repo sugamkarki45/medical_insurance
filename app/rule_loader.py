@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-
+from fastapi.responses import Response
 
 DATA_PATH = Path(__file__).resolve().parent / "data"
 
@@ -64,42 +64,37 @@ def get_services(item_code: str):
     return _cached_packages_map.get(str(item_code))
 
 
+_cached_items_response = None
+_cached_services_response = None
 
 
+def get_items_response():
+    global _cached_items_response
+    if _cached_items_response is None:
+        data = get_all_items()
+        payload = {
+            "count": len(data),
+            "medicines": data
+        }
+        _cached_items_response = Response(
+            content=json.dumps(payload),
+            media_type="application/json",
+            headers={"Cache-Control": "public, max-age=3600"}
+        )
+    return _cached_items_response
 
 
-# import json
-# from pathlib import Path
-
-# DATA_PATH = Path(__file__).resolve().parent / "data"
-
-# def load_json(file_name):
-#     file_path = DATA_PATH / file_name
-#     with open(file_path, "r", encoding="utf-8") as f:
-#         return json.load(f)
-
-# def get_rules():
-#     return load_json("validation_rules.json")
-
-# def get_med(item_code: str):
-#     meds = load_json("claimable_medicines.json")
-#     for med in meds:
-#         if med["code"] == item_code:
-#             return med
-#     return None
-
-# def get_package(item_code: str):
-#     packages = load_json("packages.json")
-#     for pkg in packages:
-#         if pkg["code"] == item_code:
-#             return pkg
-#     return None
-
-# def get_all_medicines():
-#     rules = load_json("claimable_medicines.json")        
-#     return rules
-
-# def get_all_packages():
-#     rules = load_json("packages.json")
-#     return rules
-
+def get_services_response():
+    global _cached_services_response
+    if _cached_services_response is None:
+        data = get_all_services()
+        payload = {
+            "count": len(data),
+            "packages": data
+        }
+        _cached_services_response = Response(
+            content=json.dumps(payload),
+            media_type="application/json",
+            headers={"Cache-Control": "public, max-age=3600"}
+        )
+    return _cached_services_response

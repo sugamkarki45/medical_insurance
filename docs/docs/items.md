@@ -1,6 +1,6 @@
 
 
-**Endpoint:** `GET /medicine`
+**Endpoint:** `GET /items`
 
 ### Response Example
 

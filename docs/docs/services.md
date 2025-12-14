@@ -1,6 +1,6 @@
 
 
-**Endpoint:** `GET /packages`
+**Endpoint:** `GET /services`
 
 ### Response Example
 
