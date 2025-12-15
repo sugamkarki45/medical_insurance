@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import List, Optional, Dict, Any,Literal
 from datetime import date
 import uuid
@@ -33,18 +33,18 @@ class ClaimableItem(BaseModel):
     name: str
     category:str=Field(..., description="Enter the category of the item i.e item or service")
 
-    @validator("type", pre=True)
+    @field_validator("type" )
     def normalize_item_type(cls, v):
         if isinstance(v, str):
             return v.lower().strip()
         return v
     
-    @validator("item_code", "name", pre=True)
+    @field_validator("item_code", "name" )
     def normalize_strings(cls, v):
         if isinstance(v, str):
             return v.upper().strip()
         return v
-    @validator("category", pre=True)
+    @field_validator("category" )
     def normalize_category(cls, v):
         if isinstance(v, str):
             return v.lower().strip()
@@ -60,8 +60,8 @@ class Diagnosis(BaseModel):
 
 class HospitalType(str, Enum):
     phc = "phc"
-    government = "Government"
-    private = "Private"
+    government = "government"
+    private = "private"
 
 
 class ClaimInput(BaseModel):
@@ -78,14 +78,15 @@ class ClaimInput(BaseModel):
     facility_reference: Optional[str] = None  # health facility code
     claim_time: Optional[str] = Field(..., description="Enter the time of claim: discharge,same day")# e.g., 'discharge', 'same_day', etc.
     claim_code:Optional[str]
+    department:Optional[str]=Field(..., description="this is optional as so but in case of OPD this is required as the inter departmental consuntation shall be checked.")
 
-    @validator("service_type", pre=True)
+    @field_validator("service_type" )
     def normalize_service_type(cls, v):
         if isinstance(v, str):
             return v.upper().strip() 
         return v
 
-    @validator("hospital_type", pre=True)
+    @field_validator("hospital_type" )
     def normalize_hospital_type(cls, v):
         if isinstance(v, str):
             return v.lower().strip()
