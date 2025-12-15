@@ -124,14 +124,7 @@ async def eligibility_check_endpoint(
 
     allowed_money=patient.allowed_money
     used_money=patient.used_money
-    local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)#, claim_code=claim_code
-#     local = await run_in_threadpool(
-#     prevalidate_claim,
-#     input_data,
-#     db,
-#     allowed_money=allowed_money,
-#     used_money=used_money
-# )
+    local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)
     return {
         "local_validation": local,
         "imis_patient": patient.imis_full_response,
@@ -289,11 +282,7 @@ async def submit_claim_endpoint(
         service_type=input.service_type,
         service_code=input.service_code,
         item_code=items_list,
-        department=input.department
-        service_code=input.service_code,
-        item_code=items_list,
-        department=input.department
-
+        department=input.department,
     )
     db.add(imis_record)
     db.commit()
@@ -333,9 +322,7 @@ async def submit_claim_endpoint(
         "items": items_info,
         "IMIS_response":imis_json,
         "payload":fhir_claim_payload,
-        "system_info":system_info,
-        "prevalidation_summary":local,
-        "warnings": local.get("warnings", []),
+        "system_info":system_info
     }
 
 
@@ -370,20 +357,3 @@ def list_items(    api_key: str = Depends(get_api_key)):
 @router.get("/services")
 def list_services(    api_key: str = Depends(get_api_key)):
     return get_services_response()
-
-# @router.get("/items")
-# def list_items():
-#     """
-#     Returns list of all medicines from rules.json
-#     """
-#     medicines = get_all_items()
-#     return {"count": len(medicines), "medicines": medicines}
-
-
-# @router.get("/services")
-# def list_services():
-#     """
-#     Returns list of all medical packages from rules.json
-#     """
-#     packages = get_all_services()
-#     return {"count": len(packages), "packages": packages}
