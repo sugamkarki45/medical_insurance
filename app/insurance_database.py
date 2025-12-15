@@ -22,21 +22,14 @@ class PatientInformation(Base):
     imis_full_response = Column(JSON)
     eligibility_raw = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
-
-   # claims = relationship("Claim", back_populates="patient")
-    imis_responses = relationship("ImisResponse", back_populates="patient")
-
-
-
-
+    imis_responses = relationship("ImisResponse",    cascade="all, delete-orphan",passive_deletes=True,back_populates="patient")
 
 
 class ImisResponse(Base):
     __tablename__ = "imis_responses"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    patient_id = Column(String(50), ForeignKey("patient_information.patient_code"), nullable=False)
-
+    patient_id = Column(String(50), ForeignKey("patient_information.patient_code",ondelete="CASCADE"), nullable=False)
     claim_code = Column(String(50), nullable=False)  
     status = Column(String(50))                   
     created_at = Column(DateTime)              
@@ -73,32 +66,3 @@ def get_db():
 #to create tables
 Base.metadata.create_all(engine)
 
-
-
-# class IMISSession(Base):
-#     __tablename__ = "imis_sessions"
-
-#     id = Column(Integer, primary_key=True, index=True)
-#     username = Column(String, unique=True, nullable=False)  
-#     session_cookie = Column(String, nullable=False)
-#     created_at = Column(DateTime, default=datetime.utcnow)
-#     expires_at = Column(DateTime, nullable=True)
-
-# class Claim(Base):
-#     __tablename__ = "claims"
-#     claim_id = Column(String, primary_key=True, index=True)
-#     claim_code = Column(String(11),nullable=False,index=True)
-#     icd_codes = Column(String, nullable=False)
-#     doctor_nmc = Column(String, nullable=True)
-#     service_type = Column(String, nullable=False)
-#     service_code = Column(String, nullable=True)
-#     patient_id = Column(Integer, ForeignKey("patient_information.id", ondelete="CASCADE"), nullable=False)
-#     amount_claimed = Column(Float, nullable=False)
-#     claim_date = Column(Date)
-#     item_code=Column(JSON)
-#     status = Column(String, default="draft")
-#     prevalidation_result = Column(JSON, nullable=True)
-#     enterer_reference = Column(String, nullable=True)
-#     facility_reference = Column(String, nullable=True)
-#     #Relationships
-#     patient = relationship("PatientInformation", back_populates="claims")

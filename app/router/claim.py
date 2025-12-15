@@ -6,12 +6,12 @@ from services.local_validator import prevalidate_claim
 from services import imis_services
 from insurance_database import get_db, ImisResponse, PatientInformation
 from services.imis_parser import parse_eligibility_response
-from bs4 import BeautifulSoup
 from decimal import Decimal 
 from datetime import datetime
 import logging,uuid,json
-from rule_loader import get_all_medicines,get_all_packages
-
+from rule_loader import get_items_response, get_services_response
+from dependencies import get_api_key
+from fastapi.concurrency import run_in_threadpool
 
 
 router = APIRouter(tags=["Claims"])
@@ -25,7 +25,8 @@ async def get_patient_and_eligibility(
     identifier: str,
     username: str,
     password: str,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    api_key: str = Depends(get_api_key)
 ):
 
     patient_info = await imis_services.get_patient_info(identifier, username, password)
@@ -48,6 +49,7 @@ async def get_patient_and_eligibility(
     allowed_money = Decimal(str(parsed.get("allowed_money") or "0"))
     used_money = Decimal(str(parsed.get("used_money") or "0"))
 
+    birth_date_str = resource.get("birthDate") 
     birth_date_str = resource.get("birthDate") 
     birth_date_obj = None
 
@@ -110,142 +112,31 @@ async def get_patient_and_eligibility(
     }
 
 @router.post("/prevalidation", response_model=FullClaimValidationResponse)
+@router.post("/prevalidation", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
     input_data: ClaimInput, username: str,password:str,
     db: Session = Depends(get_db), 
-    #api_key: str = Depends(get_api_key),
+    api_key: str = Depends(get_api_key)
 ):
     patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input_data.patient_id).first())
-    allowed_money=patient.allowed_money
-    used_money=patient.used_money    
-    # claim_code = _generate_or_reuse_claim_code(
-    #     patient=patient,
-    #     claim_date=input_data.visit_date,
-    #     service_type=input_data.service_type,
-    #     service_code=input_data.service_code,
-    #     db=db)
-    local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)#, claim_code=claim_code
+    if not patient:
+     raise HTTPException(status_code=404, detail="Patient not found")
 
+    allowed_money=patient.allowed_money
+    used_money=patient.used_money
+    local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)#, claim_code=claim_code
+#     local = await run_in_threadpool(
+#     prevalidate_claim,
+#     input_data,
+#     db,
+#     allowed_money=allowed_money,
+#     used_money=used_money
+# )
     return {
         "local_validation": local,
         "imis_patient": patient.imis_full_response,
         "eligibility":patient.eligibility_raw
-        # "claim_code":claim_code,
-        # "claim_id":claim_id,
     }
-
-
-
-    #here this it to maintain the session if required or else we use basic auth
-    # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
-    # if not session_obj:
-    #     raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
-    # session = get_imis_session(db, username)
-
-    # patient_info = await imis_services.get_patient_info(input_data.patient_id, username,password)
-    # data = patient_info.get("data") or {}
-    # entries = data.get("entry") or []
-
-    # if not (patient_info.get("success") and len(entries) > 0):
-    #     raise HTTPException(status_code=404, detail="Patient not found in IMIS")
-
-    # resource = entries[0]["resource"]
-    # patient_uuid = resource.get("id")
-    # eligibility_raw = await imis_services.check_eligibility(input_data.patient_id, username,password)
-
-    # if not eligibility_raw.get("success"):
-    #     raise HTTPException(
-    #         status_code=eligibility_raw.get("status", 500),
-    #         detail="Eligibility request failed in IMIS"
-    #     )
-
-    # parsed = parse_eligibility_response(eligibility_raw) or {}
-    # allowed_money = Decimal(str(parsed.get("allowed_money") or "0"))
-    # used_money = Decimal(str(parsed.get("used_money") or "0"))
-    # item_code=parsed.get("item_code")
-
-
-    # patient = (
-    #     db.query(Patient).filter(Patient.patient_code == input_data.patient_id).first()
-    # )
-
-    # if not patient:
-    #     patient = Patient(
-    #         patient_code=input_data.patient_id,
-    #         patient_uuid=patient_uuid,
-    #         imis_info=patient_info,
-    #         eligibility=eligibility_raw,
-    #     )
-    #     db.add(patient)
-    # else:
-    #     patient.patient_uuid = patient_uuid
-    #     patient.imis_full_response = patient_info["data"]
-
-
-    # try:
-    #     db.commit()
-    #     db.refresh(patient)
-    # except Exception:
-    #     db.rollback()
-    #     raise HTTPException(status_code=500, detail="Failed to update patient")
-
-    # cache_entry = EligibilityCache(
-
-    #     patient_uuid=patient_uuid,
-    #     category=parsed.get("category"),
-    #     allowed_money=allowed_money,
-    #     used_money=used_money,
-    #     policy_id=parsed.get("policy_id"),
-    #     policy_expiry=parsed.get("policy_expiry"),
-    #     raw_response=eligibility_raw,
-    # )
-
-    # db.add(cache_entry)
-    # try:
-    #     db.commit()
-    #     db.refresh(cache_entry)
-    # except Exception as e:
-    #     db.rollback()
-    #     print("ELIG CACHE ERROR:", e)  
-    #     raise HTTPException(status_code=500, detail=str(e))
-
-
-
-
-
-    # items = [
-    # {"item_code": item.item_code, "qty": item.quantity}
-    # for item in input_data.claimable_items
-    # ]
-    # claim_id = str(uuid.uuid4())
-    # claim = Claim(
-    #     claim_id=claim_id,
-    #     claim_code=claim_code,
-    #     service_code=input_data.service_code,
-    #     service_type=input_data.service_type,
-    #     icd_codes=json.dumps(input_data.icd_codes or []),
-    #     patient=patient,
-    #     item_code=items,
-    #     amount_claimed=sum(item.cost for item in input_data.claimable_items),
-    #     claim_date=input_data.visit_date,
-    #     status="pending",
-    #     prevalidation_result=local,
-    #     enterer_reference=input_data.enterer_reference,
-    #     facility_reference=input_data.facility_reference,
-    #     doctor_nmc=input_data.doctor_nmc,
-    # )
-
-    # db.add(claim)
-    # try:
-    #     db.commit()
-    #     db.refresh(claim)
-    # except Exception as e:
-    #     db.rollback()
-    #     print("CLAIM SAVE ERROR:", e)
-    #     raise HTTPException(status_code=500, detail=str(e))
-
-
-
 
 
 @router.post("/submit_claim/{claim_id}")
@@ -256,18 +147,8 @@ async def submit_claim_endpoint(
     password:str,
     request:Request,
     db: Session = Depends(get_db),
+    api_key: str = Depends(get_api_key)
 ):
-    
-    patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input.patient_id).first())
-    allowed_money=patient.allowed_money
-    used_money=patient.used_money    
-    #here we perform the local validation
-    local = prevalidate_claim(input, db, allowed_money=allowed_money, used_money=used_money)
-
-    # session_obj = db.query(IMISSession).filter(IMISSession.username == username).first()
-    # if not session_obj:
-    #     raise HTTPException(status_code=401, detail="Invalid username or no active IMIS session found")
-    # session = get_imis_session(db, username)
 
     patient = db.query(PatientInformation).filter(PatientInformation.patient_code == input.patient_id).first()
     if not patient:
@@ -281,7 +162,7 @@ async def submit_claim_endpoint(
     service_type_mapped = {"OPD": "O", "ER": "E", "IPD": "O", "Referral": "R"}
     if input.service_type in ["OPD", "ER"]:
         type_field = [{"text": service_type_mapped.get(input.service_type, "O")}]
-    else:  # for IPD, Referral, etc.
+    else:
         type_field = {"text": service_type_mapped.get(input.service_type, "O")}
 
     icd_codes = json.loads(input.icd_codes) if isinstance(input.icd_codes, str) else input.icd_codes
@@ -293,7 +174,6 @@ async def submit_claim_endpoint(
         },
         "created": datetime.utcnow().isoformat(),
         "patient": {"reference": f"Patient/{patient_uuid}"},
-        #"id":imis_claim_code, # works fine without id as well, will uncomment when required
 
         "identifier": [
             {
@@ -387,6 +267,17 @@ async def submit_claim_endpoint(
     }
     for item in input.claimable_items
 ]
+    items_list = [
+    {
+        "item_code": item.item_code,
+        "name": item.name,
+        "qty": item.quantity,
+        "cost": item.cost,
+        "category": item.category,
+        "type": item.type
+    }
+    for item in input.claimable_items
+]
     imis_record = ImisResponse(
         patient_id=input.patient_id,
         claim_code=claim_code,
@@ -399,6 +290,9 @@ async def submit_claim_endpoint(
         service_code=input.service_code,
         item_code=items_list,
         department=input.department
+        service_code=input.service_code,
+        item_code=items_list,
+        department=input.department
 
     )
     db.add(imis_record)
@@ -408,16 +302,14 @@ async def submit_claim_endpoint(
         user_agent = request.headers.get("User-Agent", "").lower()
         ip = request.client.host
 
-        # Custom header (if systems use it)
+
         if "x-system-source" in request.headers:
             return request.headers["x-system-source"]
 
-        # Detect via user-agent
         if "hmis" in user_agent:
             return "HMIS"
         if "ehr" in user_agent:
             return "EHR"
-
 
         if ip.startswith("10."):
             return "HMIS-network"
@@ -447,19 +339,17 @@ async def submit_claim_endpoint(
     }
 
 
-
-# Get all claims
 @router.get("/claims/all")
-def get_all_claims(db: Session = Depends(get_db)):
+def get_all_claims(db: Session = Depends(get_db),    api_key: str = Depends(get_api_key)):
     claims = db.query(ImisResponse).order_by(ImisResponse.claim_code.desc()).all()
     return {
         "count": len(claims),
         "results": claims
     }
 
-# Get claims by patient UUID
+
 @router.get("/claims/patient/{patient_uuid}")
-def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
+def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db),    api_key: str = Depends(get_api_key)):
     patient = db.query(PatientInformation).filter(PatientInformation.patient_uuid == patient_uuid).first()
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
@@ -472,21 +362,28 @@ def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
     }
 
 
+@router.get("/items")
+def list_items(    api_key: str = Depends(get_api_key)):
+    return get_items_response()
 
 
-@router.get("/medicines")
-def list_medicines():
-    """
-    Returns list of all medicines from rules.json
-    """
-    medicines = get_all_medicines()
-    return {"count": len(medicines), "medicines": medicines}
+@router.get("/services")
+def list_services(    api_key: str = Depends(get_api_key)):
+    return get_services_response()
+
+# @router.get("/items")
+# def list_items():
+#     """
+#     Returns list of all medicines from rules.json
+#     """
+#     medicines = get_all_items()
+#     return {"count": len(medicines), "medicines": medicines}
 
 
-@router.get("/packages")
-def list_packages():
-    """
-    Returns list of all medical packages from rules.json
-    """
-    packages = get_all_packages()
-    return {"count": len(packages), "packages": packages}
+# @router.get("/services")
+# def list_services():
+#     """
+#     Returns list of all medical packages from rules.json
+#     """
+#     packages = get_all_services()
+#     return {"count": len(packages), "packages": packages}

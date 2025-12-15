@@ -3,61 +3,23 @@ from datetime import timedelta
 from typing import Dict, List, Any
 from decimal import Decimal
 from model import ClaimInput
-from rule_loader import get_rules, get_med, get_package
+from rule_loader import get_rules, get_items,get_services
 from sqlalchemy.orm import Session
 from insurance_database import  PatientInformation,ImisResponse
 from collections import defaultdict
 from fastapi import HTTPException
-import random
-import string
+import decimal
 
 def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[ImisResponse]:
-#latest claims first
     return (
         db.query(ImisResponse)
         .join(PatientInformation)
         .filter(PatientInformation.patient_code == patient_imis_id)
         .filter(ImisResponse.status.notin_(["rejected", "unknown"]))
+        .filter(ImisResponse.status.notin_(["rejected", "unknown"]))
         .order_by(ImisResponse.fetched_at.desc())
         .all()
     )
-
-#claim code generation
-# def _generate_claim_code():
-#     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-
-
-# def _generate_or_reuse_claim_code(patient, claim_date, service_type, service_code, db):
-#     # Always generate new code for IPD/Emergency
-#     if service_type in {"IPD", "ER"}:
-#         return _generate_claim_code()
-
-#     # OPD logic
-#     seven_days_ago = claim_date - timedelta(days=7)
-
-#     last_claim = (
-#         db.query(ImisResponse)
-#         .filter(
-#             ImisResponse.patient_id == patient.id,
-#             ImisResponse.created_at >= seven_days_ago,
-#             ImisResponse.created_at <= claim_date,
-#         )# ImisResponse.service_type == "OPD",
-#         .order_by(ImisResponse.created_at.desc())
-#         .first()
-#     )
-
-
-#     if not last_claim:
-#         return _generate_claim_code()
-
-#     same_service = last_claim.service_code == service_code
-#     ticket_valid = (claim_date - last_claim.claim_date).days < 7
-
-
-#     if same_service and ticket_valid:
-#         return last_claim.claim_code
-#     return _generate_claim_code()
-
 
 
 def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None, used_money:Decimal= None) -> Dict[str, Any]:#, claim_code:str=None
@@ -71,40 +33,53 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
     total_approved_local = Decimal("0")
     total_copay = Decimal("0")
 
-#to load previous claims
-    previous_claims = _get_previous_claims_for_patient(db, claim.patient_id)
-
     patient = db.query(PatientInformation).filter(PatientInformation.patient_code == claim.patient_id).first()
-#rules according to category
-    category = claim.service_type  # "OPD", "IPD", "Emergency"
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found in insurance database")
+
+    if allowed_money is None or used_money is None:
+        allowed_money = Decimal(str(patient.allowed_money or 0))
+        used_money = Decimal(str(patient.used_money or 0))
+
+    available_money = allowed_money - used_money
+    if available_money <= 0:
+            raise HTTPException(
+                status_code=400, detail="This patient has no remaining balance")
+    category = claim.service_type
     cat_rules = rules["claim_categories"].get(category, {}).get("rules", {})
+
+    previous_claims = _get_previous_claims_for_patient(db, claim.patient_id)
 
 
     if category == "OPD":
-        # Load category-specific rules
         ticket_days = cat_rules.get("ticket_valid_days", 7)
         use_same_claim_code = cat_rules.get("use_same_claim_code_within_validity", True)
         require_same_day_submit = cat_rules.get("submit_daily_after_service", True)
         require_referral = cat_rules.get("require_referral_for_inter_department", True)
+        require_referral = cat_rules.get("require_referral_for_inter_department", True)
         cutoff = claim.visit_date - timedelta(days=ticket_days)
 
-        # Get the last OPD claim within ticket window
+
         last_opd_claim = (
             db.query(ImisResponse)
             .filter(ImisResponse.patient_id == claim.patient_id)
             .filter(ImisResponse.service_type == "OPD")
-            # .filter(ImisResponse.created_at >= cutoff)
             .filter(ImisResponse.status.notin_(["rejected", "unknown"]))
             .order_by(ImisResponse.created_at.asc())
             .first()
         )
        
-#default
+
         new_ticket_required = True 
 
         if not last_opd_claim:
             new_ticket_required = False  
+            new_ticket_required = False  
         else:
+            days_diff = (claim.visit_date - last_opd_claim.created_at.date()).days
+            # Case 1: Same service code, ticket still valid → no new ticket
+            if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_code:
+                new_ticket_required = False
             days_diff = (claim.visit_date - last_opd_claim.created_at.date()).days
             # Case 1: Same service code, ticket still valid → no new ticket
             if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_code:
@@ -115,11 +90,22 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
                 new_ticket_required = False
                 warnings.append(
                     "Previous OPD ticket still valid. No new ticket needed for a different service. Claim code shall remain the same.")
+            # Case 2: Different service code, ticket still valid → warn, no new ticket
+            elif 0 <= days_diff < ticket_days and claim.service_code != last_opd_claim.service_code:
+                new_ticket_required = False
+                warnings.append(
+                    "Previous OPD ticket still valid. No new ticket needed for a different service. Claim code shall remain the same.")
 
             # Case 3: Different service code, ticket expired → valid new service, no warning
             elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
                 new_ticket_required = False
+            # Case 3: Different service code, ticket expired → valid new service, no warning
+            elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
+                new_ticket_required = False
 
+            # Case 4: Same service code, ticket expired → new ticket required
+            elif days_diff >= ticket_days and claim.service_code == last_opd_claim.service_code:
+                new_ticket_required = True
             # Case 4: Same service code, ticket expired → new ticket required
             elif days_diff >= ticket_days and claim.service_code == last_opd_claim.service_code:
                 new_ticket_required = True
@@ -136,48 +122,31 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
 
 #same day submission
             if require_same_day_submit:
-                if claim.visit_date != getattr(claim, "submit_date", claim.visit_date):
-                    warnings.append("OPD claims must be submitted on the same date of service.")
+                submit_date = getattr(claim, "submit_date", claim.visit_date)
+                if submit_date != claim.visit_date:
+                    warnings.append("OPD claims should ideally be submitted on the same date as the visit.")
+
         if new_ticket_required:
                     warnings.append("OPD ticket expired. New ticket required.")
 
 
-#IPD and emergency rules implementation
+
     if category in ("ER", "IPD"):
         submit_at_discharge = cat_rules.get("submit_at_discharge", True)
 
+
         if submit_at_discharge and claim.claim_time != "discharge":
             warnings.append(f"{category} claims must be submitted at discharge.")
-    # if category == "IPD" and cat_rules.get("package_based_claim_only", True):
-    #     if not claim.is_package:
-    #             warnings.append("IPD claims must be package based according to IMIS rules.")
 
-        # Fetch latest eligibility cache entry for the patient_uuid
-    if allowed_money is None or used_money is None:
-        elig_cache = (
-                db.query(PatientInformation)
-                .filter(PatientInformation.patient_uuid == patient.patient_uuid)
-                .order_by(PatientInformation.id.desc())
-                .first()
-        )
-        available_money = Decimal("0")
-        # fallback to zero if cache doesn't exist
-        allowed_money = Decimal(str(elig_cache.allowed_money)) if elig_cache and elig_cache.allowed_money else Decimal("0")
-        used_money = Decimal(str(elig_cache.used_money)) if elig_cache and elig_cache.used_money else Decimal("0")
-    available_money = allowed_money - used_money
-# now we will stop the claim if this condition is met instead of just giving a warning.
-    if available_money <= 0:
-            raise HTTPException(
-                status_code=400, detail="This patient has no remaining balance")
             
     seen_surgery_packages = set()
-    surgery_disease_count = defaultdict(int)  # disease → count of surgery claims
-    medical_disease_count=defaultdict(int)
+    surgery_disease_count = defaultdict(int)  
+    medical_disease_count = defaultdict(int)
     for item in claim.claimable_items:
         approved_amount = Decimal("0")  
         copay_amount = Decimal("0")   
-        med = get_med(item.item_code)
-        pkg = get_package(item.item_code)
+        med = get_items(item.item_code)
+        pkg = get_services(item.item_code)
         data = med or pkg
 
         item_result = {
@@ -224,79 +193,86 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
         # Capping 
         capping = data.get("capping", {})
         max_per_visit = capping.get("max_per_visit")
-        qty = Decimal(str(max_per_visit))
-        if max_per_visit is not None and qty > max_per_visit:
-            item_result["warnings"].append(
-                f"Quantity exceeds max per visit ({max_per_visit}). Capped."
-            )
-            raw_amount = rate * qty
+
+        if max_per_visit is not None:
+            try:
+                qty = Decimal(str(max_per_visit))
+            except (ValueError, decimal.InvalidOperation):
+                qty = Decimal("0")  
+            if qty > Decimal(str(max_per_visit)):
+                item_result["warnings"].append(
+                    f"Quantity exceeds max per visit ({max_per_visit}). Capped."
+                )
+                raw_amount = rate * qty
+        else:
+            qty = Decimal("0") 
+
 
 # Time-based capping 
+        capping = data.get("capping", {})
         max_units_in_window = capping.get("max_per_visit")  # maximum units allowed
         window_days = capping.get("max_days")  # time window in days
 
-        if window_days and max_units_in_window:
-
+        if max_units_in_window and window_days:
             visit_date = claim.visit_date
             start_date = visit_date - timedelta(days=window_days)
 
-            # total used quantity for THIS item_code in the time window
+            # total used quantity for this item in the window
             used_qty = Decimal("0")
-
-            # 1. SUM all previous quantities for this item in the window
             for prev_claim in previous_claims:
                 prev_date = prev_claim.fetched_at.date()
+                if start_date <= prev_date <= visit_date:
+                    for x in prev_claim.item_code or []:
+                        if x["item_code"] == item.item_code:
+                            used_qty += Decimal(str(x["qty"]))
 
-                # skip if outside the window
-                if not (start_date <= prev_date <= visit_date):
-                    continue
-
-                prev_items = prev_claim.item_code or []
-                for x in prev_items:
-                    if x["item_code"] == item.item_code:
-                        used_qty += Decimal(str(x["qty"]))
-
-            # remaining units available
             available_qty = Decimal(str(max_units_in_window)) - used_qty
 
             if available_qty <= 0:
                 raise HTTPException(
                     status_code=400,
-                    detail=f"No remaining units for {item.item_code}. "
-                        f"Already fully used in the last {window_days}-day window."
+                    detail=f"No remaining units for {item.item_code}. Already fully used in the last {window_days}-day window."
                 )
 
-            # requested quantity
-            qty = Decimal(str(item.quantity))
-
-            if qty > available_qty:
+            requested_qty = Decimal(str(item.quantity))
+            if requested_qty > available_qty:
                 item_result["warnings"].append(
-                    f"Only {available_qty} units can be claimed in {window_days}-day window for {item.item_code}. Remaining {qty-available_qty} number of {item.item_code} cannot be claimed."
+                    f"Only {available_qty} units can be claimed in {window_days}-day window for {item.item_code}. "
+                    f"Remaining {requested_qty - available_qty} cannot be claimed."
                 )
-                qty = available_qty  # cap quantity
+                requested_qty = available_qty
 
-            # calculate amount
+            qty = requested_qty
             raw_amount = rate * qty
             approved_amount = raw_amount
-
-
 
 
         # Surgery & Medical Management  
         if data["type"] == "surgery":
             disease = tuple(claim.icd_codes) if claim.icd_codes else ("UNKNOWN",)
 
+            disease = tuple(claim.icd_codes) if claim.icd_codes else ("UNKNOWN",)
+
             surgery_disease_count[disease] += 1
             order = surgery_disease_count[disease]
+
 
             pct = rules["general_rules"]["surgery"]["claim_percentage"]
             multiplier = Decimal(str(
                 pct["first_disease"] if order == 1 else pct.get("second_disease", 50)
             )) / 100
 
+            multiplier = Decimal(str(
+                pct["first_disease"] if order == 1 else pct.get("second_disease", 50)
+            )) / 100
+
             approved_amount = raw_amount * multiplier
 
+
             if multiplier < 1:
+                item_result["warnings"].append(
+                    f"Surgery #{order}: {int(multiplier*100)}% claimable."
+                )
                 item_result["warnings"].append(
                     f"Surgery #{order}: {int(multiplier*100)}% claimable."
                 )
@@ -307,14 +283,27 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
             medical_disease_count[disease] += 1
             order = medical_disease_count[disease]
 
+            disease = tuple(claim.icd_codes) if claim.icd_codes else ("UNKNOWN",)
+
+            medical_disease_count[disease] += 1
+            order = medical_disease_count[disease]
+
             pct = rules["general_rules"]["medical_management"]["claim_percentage"]
+            multiplier = Decimal(str(
+                pct["first_disease"] if order == 1 else pct.get("second_disease", 50)
+            )) / 100
+
             multiplier = Decimal(str(
                 pct["first_disease"] if order == 1 else pct.get("second_disease", 50)
             )) / 100
 
             approved_amount = raw_amount * multiplier
 
+
             if multiplier < 1:
+                item_result["warnings"].append(
+                    f"Medical mgmt #{order}: {int(multiplier*100)}% claimable."
+                )
                 item_result["warnings"].append(
                     f"Medical mgmt #{order}: {int(multiplier*100)}% claimable."
                 )
