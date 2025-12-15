@@ -50,6 +50,7 @@ async def get_patient_and_eligibility(
     used_money = Decimal(str(parsed.get("used_money") or "0"))
 
     birth_date_str = resource.get("birthDate") 
+    birth_date_str = resource.get("birthDate") 
     birth_date_obj = None
 
     if birth_date_str:
@@ -110,6 +111,7 @@ async def get_patient_and_eligibility(
         "eligibility": record.eligibility_raw
     }
 
+@router.post("/prevalidation", response_model=FullClaimValidationResponse)
 @router.post("/prevalidation", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
     input_data: ClaimInput, username: str,password:str,
@@ -265,6 +267,17 @@ async def submit_claim_endpoint(
     }
     for item in input.claimable_items
 ]
+    items_list = [
+    {
+        "item_code": item.item_code,
+        "name": item.name,
+        "qty": item.quantity,
+        "cost": item.cost,
+        "category": item.category,
+        "type": item.type
+    }
+    for item in input.claimable_items
+]
     imis_record = ImisResponse(
         patient_id=input.patient_id,
         claim_code=claim_code,
@@ -274,6 +287,9 @@ async def submit_claim_endpoint(
         raw_response=imis_json,
         fetched_at=datetime.utcnow(),
         service_type=input.service_type,
+        service_code=input.service_code,
+        item_code=items_list,
+        department=input.department
         service_code=input.service_code,
         item_code=items_list,
         department=input.department
@@ -317,7 +333,9 @@ async def submit_claim_endpoint(
         "items": items_info,
         "IMIS_response":imis_json,
         "payload":fhir_claim_payload,
-        "system_info":system_info
+        "system_info":system_info,
+        "prevalidation_summary":local,
+        "warnings": local.get("warnings", []),
     }
 
 

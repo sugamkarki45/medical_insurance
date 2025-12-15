@@ -14,3 +14,4 @@ def get_api_key(api_key: str = Header(..., alias="X-API-Key")) -> str:
             detail="Invalid API key"
         )
     return api_key
+
