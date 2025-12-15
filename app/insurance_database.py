@@ -22,21 +22,14 @@ class PatientInformation(Base):
     imis_full_response = Column(JSON)
     eligibility_raw = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
-
-   # claims = relationship("Claim", back_populates="patient")
-    imis_responses = relationship("ImisResponse", back_populates="patient")
-
-
-
-
+    imis_responses = relationship("ImisResponse",    cascade="all, delete-orphan",passive_deletes=True,back_populates="patient")
 
 
 class ImisResponse(Base):
     __tablename__ = "imis_responses"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    patient_id = Column(String(50), ForeignKey("patient_information.patient_code"), nullable=False)
-
+    patient_id = Column(String(50), ForeignKey("patient_information.patient_code",ondelete="CASCADE"), nullable=False)
     claim_code = Column(String(50), nullable=False)  
     status = Column(String(50))                   
     created_at = Column(DateTime)              

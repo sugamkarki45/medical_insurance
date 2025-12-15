@@ -1,40 +1,108 @@
-from fastapi import FastAPI
-from app.router.claim import router as claim_router
-from app.router.documents import router as documents
-from fastapi import Request
+import asyncio
+import re
+import contextlib
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
+
+from app.router.claim import router as claim_router
+from app.router.documents import router as documents_router
 from app.tasks import prune_old_patients
-from app.insurance_database import SessionLocal
-import asyncio,re
+
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Starts the prune_old_patients task on startup and cancels it on shutdown.
+    """
+    task = asyncio.create_task(prune_old_patients())
+    try:
+        yield
+    finally:
+        task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await task
 
 
-app = FastAPI(title="Insurance Claim Validation API")
+app = FastAPI(
+    title="Insurance Claim Validation API",
+    lifespan=lifespan,
+)
+
+
 app.include_router(claim_router, prefix="/api")
-app.include_router(documents,prefix="/docs")
+app.include_router(documents_router, prefix="/docs")
 
 
 @app.middleware("http")
 async def fix_invalid_json_backslashes(request: Request, call_next):
-    if request.headers.get("content-type") != "application/json":
+    # Only apply to JSON requests
+    content_type = request.headers.get("content-type", "")
+    if "application/json" not in content_type:
         return await call_next(request)
 
     body = await request.body()
-    raw = body.decode("utf-8")
-    fixed = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', raw)
+    if not body:
+        return await call_next(request)
 
     try:
-        request._body = fixed.encode("utf-8")
-    except Exception as e:
-        return JSONResponse({"error": "Failed to repair JSON", "details": str(e)}, status_code=400)
+        raw = body.decode("utf-8")
+    except UnicodeDecodeError:
+        return JSONResponse(
+            {"error": "Invalid UTF-8 JSON payload"},
+            status_code=400,
+        )
+
+
+    fixed = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', raw)
+
+
+    request._body = fixed.encode("utf-8")
 
     return await call_next(request)
 
 
-@app.on_event("startup")
-async def startup_event():
-    db = SessionLocal()
-    asyncio.create_task(prune_old_patients(db))
+
+
+
+
+
+
+# from fastapi import FastAPI
+# from app.router.claim import router as claim_router
+# from app.router.documents import router as documents
+# from fastapi import Request
+# from fastapi.responses import JSONResponse
+# from fastapi.staticfiles import StaticFiles
+# from app.tasks import prune_old_patients
+# from app.insurance_database import SessionLocal
+# import asyncio,re
+
+
+# app = FastAPI(title="Insurance Claim Validation API")
+# app.include_router(claim_router, prefix="/api")
+# app.include_router(documents,prefix="/docs")
+
+
+# @app.middleware("http")
+# async def fix_invalid_json_backslashes(request: Request, call_next):
+#     if request.headers.get("content-type") != "application/json":
+#         return await call_next(request)
+
+#     body = await request.body()
+#     raw = body.decode("utf-8")
+#     fixed = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', raw)
+
+#     try:
+#         request._body = fixed.encode("utf-8")
+#     except Exception as e:
+#         return JSONResponse({"error": "Failed to repair JSON", "details": str(e)}, status_code=400)
+
+#     return await call_next(request)
+
+
+# @app.on_event("startup")
+# async def startup_event():
+#     db = SessionLocal()
+#     asyncio.create_task(prune_old_patients())
 
 
 

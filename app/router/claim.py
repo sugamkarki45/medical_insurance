@@ -10,6 +10,7 @@ from decimal import Decimal
 from datetime import datetime
 import logging,uuid,json
 from app.rule_loader import get_items_response, get_services_response
+from app.dependencies import get_api_key
 
 
 
@@ -24,7 +25,8 @@ async def get_patient_and_eligibility(
     identifier: str,
     username: str,
     password: str,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    api_key: str = Depends(get_api_key)
 ):
 
     patient_info = await imis_services.get_patient_info(identifier, username, password)
@@ -112,9 +114,12 @@ async def get_patient_and_eligibility(
 async def eligibility_check_endpoint(
     input_data: ClaimInput, username: str,password:str,
     db: Session = Depends(get_db), 
-    #api_key: str = Depends(get_api_key),
+    api_key: str = Depends(get_api_key)
 ):
     patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input_data.patient_id).first())
+    if not patient:
+     raise HTTPException(status_code=404, detail="Patient not found")
+
     allowed_money=patient.allowed_money
     used_money=patient.used_money
     local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)#, claim_code=claim_code
@@ -134,6 +139,7 @@ async def submit_claim_endpoint(
     password:str,
     request:Request,
     db: Session = Depends(get_db),
+    api_key: str = Depends(get_api_key)
 ):
 
     patient = db.query(PatientInformation).filter(PatientInformation.patient_code == input.patient_id).first()
@@ -310,7 +316,7 @@ async def submit_claim_endpoint(
 
 
 @router.get("/claims/all")
-def get_all_claims(db: Session = Depends(get_db)):
+def get_all_claims(db: Session = Depends(get_db),    api_key: str = Depends(get_api_key)):
     claims = db.query(ImisResponse).order_by(ImisResponse.claim_code.desc()).all()
     return {
         "count": len(claims),
@@ -319,7 +325,7 @@ def get_all_claims(db: Session = Depends(get_db)):
 
 
 @router.get("/claims/patient/{patient_uuid}")
-def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
+def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db),    api_key: str = Depends(get_api_key)):
     patient = db.query(PatientInformation).filter(PatientInformation.patient_uuid == patient_uuid).first()
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
@@ -333,12 +339,12 @@ def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db)):
 
 
 @router.get("/items")
-def list_items():
+def list_items(    api_key: str = Depends(get_api_key)):
     return get_items_response()
 
 
 @router.get("/services")
-def list_services():
+def list_services(    api_key: str = Depends(get_api_key)):
     return get_services_response()
 
 # @router.get("/items")
