@@ -11,7 +11,7 @@ from datetime import datetime
 import logging,uuid,json
 from app.rule_loader import get_items_response, get_services_response
 from app.dependencies import get_api_key
-
+from fastapi.concurrency import run_in_threadpool
 
 
 router = APIRouter(tags=["Claims"])
@@ -122,8 +122,14 @@ async def eligibility_check_endpoint(
 
     allowed_money=patient.allowed_money
     used_money=patient.used_money
-    local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)#, claim_code=claim_code
-
+    # local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)#, claim_code=claim_code
+    local = await run_in_threadpool(
+    prevalidate_claim,
+    input_data,
+    db,
+    allowed_money=allowed_money,
+    used_money=used_money
+)
     return {
         "local_validation": local,
         "imis_patient": patient.imis_full_response,
