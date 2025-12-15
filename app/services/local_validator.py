@@ -2,10 +2,10 @@
 from datetime import timedelta
 from typing import Dict, List, Any
 from decimal import Decimal
-from app.model import ClaimInput
-from app.rule_loader import get_rules, get_items,get_services
+from model import ClaimInput
+from rule_loader import get_rules, get_items,get_services
 from sqlalchemy.orm import Session
-from app.insurance_database import  PatientInformation,ImisResponse
+from insurance_database import  PatientInformation,ImisResponse
 from collections import defaultdict
 from fastapi import HTTPException
 import decimal

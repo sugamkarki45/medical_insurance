@@ -1,7 +1,7 @@
 import asyncio
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-from app.insurance_database import SessionLocal,PatientInformation
+from insurance_database import SessionLocal,PatientInformation
 
 async def prune_old_patients():
     while True:
