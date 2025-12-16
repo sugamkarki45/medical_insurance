@@ -80,16 +80,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
             # Case 1: Same service code, ticket still valid → no new ticket
             if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_code:
                 new_ticket_required = False
-            days_diff = (claim.visit_date - last_opd_claim.created_at.date()).days
-            # Case 1: Same service code, ticket still valid → no new ticket
-            if 0 <= days_diff < ticket_days and claim.service_code == last_opd_claim.service_code:
-                new_ticket_required = False
 
-            # Case 2: Different service code, ticket still valid → warn, no new ticket
-            elif 0 <= days_diff < ticket_days and claim.service_code != last_opd_claim.service_code:
-                new_ticket_required = False
-                warnings.append(
-                    "Previous OPD ticket still valid. No new ticket needed for a different service. Claim code shall remain the same.")
             # Case 2: Different service code, ticket still valid → warn, no new ticket
             elif 0 <= days_diff < ticket_days and claim.service_code != last_opd_claim.service_code:
                 new_ticket_required = False
@@ -99,13 +90,7 @@ def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None,
             # Case 3: Different service code, ticket expired → valid new service, no warning
             elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
                 new_ticket_required = False
-            # Case 3: Different service code, ticket expired → valid new service, no warning
-            elif days_diff >= ticket_days and claim.service_code != last_opd_claim.service_code:
-                new_ticket_required = False
 
-            # Case 4: Same service code, ticket expired → new ticket required
-            elif days_diff >= ticket_days and claim.service_code == last_opd_claim.service_code:
-                new_ticket_required = True
             # Case 4: Same service code, ticket expired → new ticket required
             elif days_diff >= ticket_days and claim.service_code == last_opd_claim.service_code:
                 new_ticket_required = True
