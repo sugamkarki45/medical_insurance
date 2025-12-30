@@ -50,33 +50,34 @@ app.include_router(documents_router, prefix="/docs")
 
 
 
-@app.middleware("http")
-async def fix_invalid_json_backslashes(request: Request, call_next):
-    print("Request Method:", request.method)
-    # Only apply to JSON requests
-    content_type = request.headers.get("content-type", "")
-    if "application/json" not in content_type:
-        return await call_next(request)
+# @app.middleware("http")
+# async def fix_invalid_json_backslashes(request: Request, call_next):
+#     print("Request Method:", request.method)
+#     # Only apply to JSON requests
+#     content_type = request.headers.get("content-type", "")
+#     if "application/json" not in content_type:
+#         return await call_next(request)
 
-    body = await request.body()
-    if not body:
-        return await call_next(request)
+#     body = await request.body()
+#     if not body:
+#         return await call_next(request)
+#     print("--------------------")
 
-    try:
-        raw = body.decode("utf-8")
-    except UnicodeDecodeError:
-        return JSONResponse(
-            {"error": "Invalid UTF-8 JSON payload"},
-            status_code=400,
-        )
-
-
-    fixed = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', raw)
+#     try:
+#         raw = body.decode("utf-8");breakpoint()
+#     except UnicodeDecodeError:
+#         return JSONResponse(
+#             {"error": "Invalid UTF-8 JSON payload"},
+#             status_code=400,
+#         )
 
 
-    request._body = fixed.encode("utf-8")
+#     fixed = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', raw)
 
-    return await call_next(request)
+
+#     request._body = fixed.encode("utf-8")
+
+#     return await call_next(request)
 
 
 

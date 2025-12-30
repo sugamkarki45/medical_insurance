@@ -141,7 +141,7 @@ async def get_patient_and_eligibility(
         "eligibility": record.eligibility_raw
     }
 
-# @router.post("/prevalidation", response_model=FullClaimValidationResponse)
+
 @router.post("/prevalidation", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
     identifier: PatientFullInfoRequest,

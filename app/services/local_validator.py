@@ -22,11 +22,7 @@ def _get_previous_claims_for_patient(db: Session, patient_imis_id: str) -> List[
     )
 
 
-def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None, used_money:Decimal= None) -> Dict[str, Any]:#, claim_code:str=None
-    """
-    Fully validate a claim against the HIB rule JSON.
-    Returns a rich validation dict.
-    """
+def prevalidate_claim(claim: ClaimInput, db: Session,allowed_money:Decimal=None, used_money:Decimal= None) -> Dict[str, Any]:
     rules = get_rules()
     warnings: List[str] = []
     items_output: List[Dict] = []
