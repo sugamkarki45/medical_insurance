@@ -1,6 +1,6 @@
 
 
-**Endpoint:** `POST /submit_claim`
+**Endpoint:** `POST /submit_claim/{claim_id}`
 
 ### Header
 ```json

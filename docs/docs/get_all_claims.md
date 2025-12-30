@@ -1,6 +1,6 @@
 
 
-**Endpoint:** `GET /patients`
+**Endpoint:** `GET /claims/all`
 
 ### Response Example
 

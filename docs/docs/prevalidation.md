@@ -1,6 +1,6 @@
 
 
-**Endpoint:** `POST /prevalidate`
+**Endpoint:** `POST /prevalidation`
 
 ### Header
 ```json

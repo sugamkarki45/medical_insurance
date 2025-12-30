@@ -1,6 +1,6 @@
 
 
-**Endpoint:** `GET /patients/{uuid}`
+**Endpoint:** `GET /claims/patients/{patiend_uuid}`
 ### Header
 ```json
 {

@@ -1,5 +1,5 @@
 
-**Endpoint:** `POST /patient_info_and_eligiblity_check`
+**Endpoint:** `POST /patient/full-info`
 
 ### Request Body
 ### Header Requirement
