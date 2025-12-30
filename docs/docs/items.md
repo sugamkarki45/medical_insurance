@@ -1,7 +1,12 @@
 
 
 **Endpoint:** `GET /items`
-
+### header
+``` json
+{
+  "X-API-Key":"API key" 
+}
+```
 ### Response Example
 
 ```json

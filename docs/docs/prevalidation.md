@@ -5,12 +5,19 @@
 ### Header
 ```json
 {
-  "username":"username",
-  "password":"password"
+  "X-API-Key":"API key" 
 }
+
 ```
 ### Request Body
 ```json
+identifier:
+{
+  "patient_identifier": "string",
+  "username": "string",
+  "password": "string"
+},
+Input data:
 {
   "patient_id": "740500036",  // patient inusrance number
   "visit_date": "2025-12-09",

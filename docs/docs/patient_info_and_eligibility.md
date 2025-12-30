@@ -1,19 +1,25 @@
 
 **Endpoint:** `POST /patient/full-info`
 
-### Request Body
 ### Header Requirement
 ```json
 {
-  "patient_identifier": "string", // Insurance Number of the patient
-  "username": "Username",
-  "password":"User password"
+  "X-API-Key":"API key" 
 }
+
 ```
+### Request Body
+``` json
+{
+  "patient_identifier": "string",
+  "username": "string",
+  "password": "string"
+}```
 
 ### Response Example
 
 ```json
+
 {
   "patient_code": "740500036",      
   "uuid": "C335B6A2-738C-4373-AFF4-DAD1B8B09645",  

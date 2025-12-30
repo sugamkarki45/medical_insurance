@@ -1,7 +1,12 @@
 
 
 **Endpoint:** `GET /claims/all`
-
+### header
+``` json
+{
+  "X-API-Key":"API key" 
+}
+```
 ### Response Example
 
 ```json

@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#request-body" class="md-skip">
+        <a href="#header-requirement" class="md-skip">
           Skip to content
         </a>
       
@@ -355,17 +355,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#request-body" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Request Body
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#header-requirement" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -377,10 +366,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#response-example" class="md-nav__link">
+  <a href="#request-body" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Response Example
+        Request Body
       
     </span>
   </a>
@@ -596,17 +585,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#request-body" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Request Body
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#header-requirement" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -618,10 +596,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#response-example" class="md-nav__link">
+  <a href="#request-body" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Response Example
+        Request Body
       
     </span>
   </a>
@@ -648,16 +626,24 @@
   <h1>Patient Info & Eligibility</h1>
 
 <p><strong>Endpoint:</strong> <code>POST /patient/full-info</code></p>
-<h3 id="request-body">Request Body</h3>
 <h3 id="header-requirement">Header Requirement</h3>
 <pre><code class="language-json">{
-  &quot;patient_identifier&quot;: &quot;string&quot;, // Insurance Number of the patient
-  &quot;username&quot;: &quot;Username&quot;,
-  &quot;password&quot;:&quot;User password&quot;
+  &quot;X-API-Key&quot;:&quot;API key&quot; 
 }
+
 </code></pre>
-<h3 id="response-example">Response Example</h3>
+<h3 id="request-body">Request Body</h3>
 <pre><code class="language-json">{
+  &quot;patient_identifier&quot;: &quot;string&quot;,
+  &quot;username&quot;: &quot;string&quot;,
+  &quot;password&quot;: &quot;string&quot;
+}```
+
+### Response Example
+
+```json
+
+{
   &quot;patient_code&quot;: &quot;740500036&quot;,      
   &quot;uuid&quot;: &quot;C335B6A2-738C-4373-AFF4-DAD1B8B09645&quot;,  
   &quot;name&quot;: &quot;Test Bima &quot;,              

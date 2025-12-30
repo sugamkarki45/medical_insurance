@@ -4,7 +4,9 @@
 ### Header
 ```json
 {
-  "patient_id":"patient_uuid"
+  "patient_id":"patient_uuid",
+  "X-API-Key":"API key" 
+
 }
 ```
 ### Response Example
