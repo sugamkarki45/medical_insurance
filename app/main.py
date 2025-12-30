@@ -3,6 +3,8 @@ import re
 import contextlib
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 
 from router.claim import router as claim_router
 from router.documents import router as documents_router
@@ -27,13 +29,30 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Define allowed origins
+origins = [
+    "*"
+   
+]
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,      # Allow specific origins
+    allow_credentials=True,
+    allow_methods=["*"],        # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],        # Allow all headers
+)
+
 
 app.include_router(claim_router, prefix="/api")
 app.include_router(documents_router, prefix="/docs")
 
 
+
 @app.middleware("http")
 async def fix_invalid_json_backslashes(request: Request, call_next):
+    print("Request Method:", request.method)
     # Only apply to JSON requests
     content_type = request.headers.get("content-type", "")
     if "application/json" not in content_type:

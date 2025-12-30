@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException,Request
 from sqlalchemy.orm import Session
-from services.imis_services import get_patient_info, extract_copayment
+from services.imis_services import extract_copayment
 from model import ClaimInput, FullClaimValidationResponse 
 from services.local_validator import prevalidate_claim
 from services import imis_services
@@ -9,17 +9,48 @@ from services.imis_parser import parse_eligibility_response
 from decimal import Decimal 
 from datetime import datetime
 import logging,uuid,json
-from rule_loader import get_items_response, get_services_response
+from rule_loader import get_all_items,get_all_services
 from dependencies import get_api_key
-from fastapi.concurrency import run_in_threadpool
+from typing import  Optional
+from fastapi import Query
+
 
 
 router = APIRouter(tags=["Claims"])
-IMIS_LOGIN_URL = "http://imislegacy.hib.gov.np"
+IMIS_LOGIN_URL = "https://imis.hib.gov.np"
 BASE_URL = "https://ourdomaintostorethefiles.com/uploads/claims/"
 
 
 
+
+# @router.post("/imis-login-check")
+# async def check_imis_login(
+#     username: str,
+#     password: str,
+#     api_key: str = Depends(get_api_key)
+# ):
+#     url = f"{IMIS_BASE_URL}/"  
+#     headers = get_auth_header(username, password)
+
+#     try:
+#         async with httpx.AsyncClient(timeout=15.0) as client:
+#             response = await client.get(url, headers=headers)
+
+#         if response.status_code == 200:
+#             return {"status": "success", "message": "IMIS login successful"}
+
+#         if response.status_code in (401, 403,500,404):
+#             raise HTTPException(status_code=401, detail="Invalid IMIS credentials")
+
+#         raise HTTPException(
+#             status_code=502,
+#             detail=f"IMIS returned {response.status_code}"
+#         )
+
+#     except httpx.RequestError as e:
+#         raise HTTPException(status_code=502, detail=str(e))
+
+    
 @router.post("/patient/full-info")
 async def get_patient_and_eligibility(
     identifier: str,
@@ -49,7 +80,6 @@ async def get_patient_and_eligibility(
     allowed_money = Decimal(str(parsed.get("allowed_money") or "0"))
     used_money = Decimal(str(parsed.get("used_money") or "0"))
 
-    birth_date_str = resource.get("birthDate") 
     birth_date_str = resource.get("birthDate") 
     birth_date_obj = None
 
@@ -111,7 +141,7 @@ async def get_patient_and_eligibility(
         "eligibility": record.eligibility_raw
     }
 
-@router.post("/prevalidation", response_model=FullClaimValidationResponse)
+# @router.post("/prevalidation", response_model=FullClaimValidationResponse)
 @router.post("/prevalidation", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
     input_data: ClaimInput, username: str,password:str,
@@ -348,12 +378,52 @@ def get_claims_by_patient(patient_uuid: str, db: Session = Depends(get_db),    a
         "results": claims
     }
 
-
 @router.get("/items")
-def list_items(    api_key: str = Depends(get_api_key)):
-    return get_items_response()
+def list_items(
+    api_key: str = Depends(get_api_key),
+    q: Optional[str] = Query(None, min_length=2, description="Search term for medicine names"),
+    limit: Optional[int] = Query(15, ge=1, le=100),
+) -> dict:
+    # Always work with raw data
+    all_items = get_all_items()  # This uses your cached _cached_meds_list
+
+    if not q:
+        # Return full list as dict (FastAPI will convert to JSON)
+        return {"count": len(all_items), "medicines": all_items}
+
+    # Search mode
+    query = q.strip().lower()
+    filtered = [
+        item for item in all_items
+        if query in item.get("name", "").lower()
+    ][:limit]
+
+    return {"count": len(filtered), "medicines": filtered}
 
 
 @router.get("/services")
-def list_services(    api_key: str = Depends(get_api_key)):
-    return get_services_response()
+def list_services(
+    api_key: str = Depends(get_api_key),
+    q: Optional[str] = Query(None, min_length=2, description="Search term for service names"),
+    limit: Optional[int] = Query(15, ge=1, le=100),
+) -> dict:
+    all_services = get_all_services()
+
+    if not q:
+        return {"count": len(all_services), "packages": all_services}
+
+    query = q.strip().lower()
+    filtered = [
+        service for service in all_services
+        if query in service.get("name", "").lower()
+    ][:limit]
+
+    return {"count": len(filtered), "packages": filtered}
+# @router.get("/items")
+# def list_items(    api_key: str = Depends(get_api_key)):
+#     return get_items_response()
+
+
+# @router.get("/services")
+# def list_services(    api_key: str = Depends(get_api_key)):
+#     return get_services_response()
