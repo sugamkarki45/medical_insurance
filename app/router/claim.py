@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException,Request
 from sqlalchemy.orm import Session
 from services.imis_services import extract_copayment
-from model import ClaimInput, FullClaimValidationResponse 
+from model import ClaimInput, FullClaimValidationResponse ,PatientFullInfoRequest
 from services.local_validator import prevalidate_claim
 from services import imis_services
 from insurance_database import get_db, ImisResponse, PatientInformation
@@ -53,14 +53,14 @@ BASE_URL = "https://ourdomaintostorethefiles.com/uploads/claims/"
     
 @router.post("/patient/full-info")
 async def get_patient_and_eligibility(
-    identifier: str,
-    username: str,
-    password: str,
+    identifier: PatientFullInfoRequest,
     db: Session = Depends(get_db),
     api_key: str = Depends(get_api_key)
 ):
-
-    patient_info = await imis_services.get_patient_info(identifier, username, password)
+    patient_identifier = identifier.patient_identifier
+    username=identifier.username
+    password=identifier.password
+    patient_info = await imis_services.get_patient_info(patient_identifier, username, password)
     data = patient_info.get("data") or {}
     entries = data.get("entry") or []
 
@@ -70,7 +70,7 @@ async def get_patient_and_eligibility(
     resource = entries[0]["resource"]
     patient_uuid = resource.get("id")
 
-    eligibility_raw = await imis_services.check_eligibility(identifier, username, password)
+    eligibility_raw = await imis_services.check_eligibility(patient_identifier, username, password)
     if not eligibility_raw.get("success"):
         raise HTTPException(status_code=eligibility_raw.get("status", 500),
                             detail="Eligibility request failed in IMIS")
@@ -86,10 +86,10 @@ async def get_patient_and_eligibility(
     if birth_date_str:
         birth_date_obj = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
 
-    record = db.query(PatientInformation).filter_by(patient_code=identifier).first()
+    record = db.query(PatientInformation).filter_by(patient_code=patient_identifier).first()
     if not record:
         record = PatientInformation(
-            patient_code=identifier,
+            patient_code=patient_identifier,
             patient_uuid=patient_uuid,
             name=" ".join(resource.get("name", [{}])[0].get("given", [])),
             birth_date=birth_date_obj,
@@ -144,10 +144,12 @@ async def get_patient_and_eligibility(
 # @router.post("/prevalidation", response_model=FullClaimValidationResponse)
 @router.post("/prevalidation", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
-    input_data: ClaimInput, username: str,password:str,
+    identifier: PatientFullInfoRequest,
+    input_data: ClaimInput, 
     db: Session = Depends(get_db), 
     api_key: str = Depends(get_api_key)
 ):
+    
     patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input_data.patient_id).first())
     if not patient:
      raise HTTPException(status_code=404, detail="Patient not found")
@@ -164,15 +166,15 @@ async def eligibility_check_endpoint(
 
 @router.post("/submit_claim/{claim_id}")
 async def submit_claim_endpoint(
+    identifier: PatientFullInfoRequest,
     input:ClaimInput,
     claim_id: str,
-    username: str,
-    password:str,
     request:Request,
     db: Session = Depends(get_db),
     api_key: str = Depends(get_api_key)
 ):
-
+    username=identifier.username
+    password=identifier.password
     patient = db.query(PatientInformation).filter(PatientInformation.patient_code == input.patient_id).first()
     if not patient:
         raise HTTPException(status_code=500, detail="Claim has no linked patient")

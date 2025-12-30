@@ -129,3 +129,7 @@ class LoginInput(BaseModel):
     username: str
     password: str
 
+class PatientFullInfoRequest(BaseModel):
+    patient_identifier: str
+    username: str
+    password: str
