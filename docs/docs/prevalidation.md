@@ -12,7 +12,7 @@
 ### Request Body
 ```json
 {
-    "username": "string",
+  "username": "string",
   "password": "string",
   "patient_id": "740500036",  // patient inusrance number
   "visit_date": "2025-12-09",
