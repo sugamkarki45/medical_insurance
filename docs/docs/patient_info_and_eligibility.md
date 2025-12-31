@@ -14,7 +14,8 @@
   "patient_identifier": "string",
   "username": "string",
   "password": "string"
-}```
+}
+```
 
 ### Response Example
 

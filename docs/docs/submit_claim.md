@@ -12,14 +12,9 @@
 ```
 ### Request Body
 ```json
-identifier:
 {
-  "patient_identifier": "string",
-  "username": "string",
-  "password": "string"
-},
-Input data:
-{
+    "username": "string",
+  "password": "string",
   "patient_id": "740500036",  // patient inusrance number
   "visit_date": "2025-12-09",
   "service_type": "OPD",      // service taken by the patient OPD, IPD, ER
