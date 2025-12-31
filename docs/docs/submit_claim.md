@@ -5,7 +5,6 @@
 ### Header
 ```json
 {
-  "Claim_id":"claim_id of the respective claim",
   "X-API-Key":"API key" 
 }
 
@@ -13,7 +12,7 @@
 ### Request Body
 ```json
 {
-    "username": "string",
+  "username": "string",
   "password": "string",
   "patient_id": "740500036",  // patient inusrance number
   "visit_date": "2025-12-09",
