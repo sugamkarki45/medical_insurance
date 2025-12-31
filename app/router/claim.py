@@ -251,7 +251,7 @@ async def submit_claim_endpoint(
     try:
         imis_response = await imis_services.submit_claim(fhir_claim_payload, username,password)
     except Exception as exc:
-        logging.error(f"IMIS submission failed for claim {claim_id}: {exc}")
+        logging.error(f"IMIS submission failed for claim {input.claim_code}: {exc}")
         raise HTTPException(status_code=500, detail=f"IMIS submission failed: {str(exc)}") from exc
 
     imis_json_str = imis_response.get("response")
