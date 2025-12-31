@@ -65,6 +65,8 @@ class HospitalType(str, Enum):
 
 
 class ClaimInput(BaseModel):
+    username: str
+    password: str
     patient_id: str
     visit_date: date
     service_type: Literal['OPD','IPD','ER','Referral']

@@ -144,7 +144,6 @@ async def get_patient_and_eligibility(
 
 @router.post("/prevalidation", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
-    identifier: PatientFullInfoRequest,
     input_data: ClaimInput, 
     db: Session = Depends(get_db), 
     api_key: str = Depends(get_api_key)
@@ -166,15 +165,14 @@ async def eligibility_check_endpoint(
 
 @router.post("/submit_claim/{claim_id}")
 async def submit_claim_endpoint(
-    identifier: PatientFullInfoRequest,
     input:ClaimInput,
     claim_id: str,
     request:Request,
     db: Session = Depends(get_db),
     api_key: str = Depends(get_api_key)
 ):
-    username=identifier.username
-    password=identifier.password
+    username=input.username
+    password=input.password
     patient = db.query(PatientInformation).filter(PatientInformation.patient_code == input.patient_id).first()
     if not patient:
         raise HTTPException(status_code=500, detail="Claim has no linked patient")
