@@ -163,10 +163,18 @@ async def eligibility_check_endpoint(
     }
 
 
-@router.post("/submit_claim/{claim_id}")
+# @router.post("/submit_claim/{claim_id}")
+# async def submit_claim_endpoint(
+#     input:ClaimInput,
+#     claim_id: str,
+#     request:Request,
+#     db: Session = Depends(get_db),
+#     api_key: str = Depends(get_api_key)
+# ):
+@router.post("/submit_claim")
 async def submit_claim_endpoint(
     input:ClaimInput,
-    claim_id: str,
+    #claim_id: str,
     request:Request,
     db: Session = Depends(get_db),
     api_key: str = Depends(get_api_key)
