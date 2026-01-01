@@ -73,7 +73,7 @@ class ClaimInput(BaseModel):
     service_code: Optional[str] = None
     doctor_nmc: Optional[str] = None
     diagnosis: Diagnosis
-    icd_codes: List[str] = Field(default_factory=list,min_length=1)
+    icd_codes: List[str] 
     claimable_items: List[ClaimableItem]
     hospital_type: HospitalType = Field(..., description="Type of health facility (phc, government, private)")
     enterer_reference: Optional[str] = None  # who is entering the claim

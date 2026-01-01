@@ -13,6 +13,8 @@ from rule_loader import get_all_items,get_all_services
 from dependencies import get_api_key
 from typing import  Optional
 from fastapi import Query
+from fastapi.responses import JSONResponse
+from fastapi import status
 
 
 
@@ -144,23 +146,69 @@ async def get_patient_and_eligibility(
 
 @router.post("/prevalidation", response_model=FullClaimValidationResponse)
 async def eligibility_check_endpoint(
-    input_data: ClaimInput, 
-    db: Session = Depends(get_db), 
+    input_data: ClaimInput,
+    db: Session = Depends(get_db),
     api_key: str = Depends(get_api_key)
 ):
-    
-    patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input_data.patient_id).first())
-    if not patient:
-     raise HTTPException(status_code=404, detail="Patient not found")
+    # Patient lookup
+    patient = db.query(PatientInformation).filter(
+        PatientInformation.patient_code == input_data.patient_id
+    ).first()
 
-    allowed_money=patient.allowed_money
-    used_money=patient.used_money
-    local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)
-    return {
-        "local_validation": local,
-        "imis_patient": patient.imis_full_response,
-        "eligibility":patient.eligibility_raw
-    }
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    # Extract balance info
+    allowed_money = patient.allowed_money or 0
+    used_money = patient.used_money or 0
+
+    # Run local prevalidation (collects all warnings, no exceptions)
+    local_validation_result = prevalidate_claim(
+        claim=input_data,
+        db=db,
+        allowed_money=Decimal(str(allowed_money)),
+        used_money=Decimal(str(used_money))
+    )
+
+    # Return appropriate status code
+    if local_validation_result["is_locally_valid"]:
+        return JSONResponse(
+            content=local_validation_result,
+            status_code=status.HTTP_200_OK
+        )
+    else:
+        return JSONResponse(
+            content=local_validation_result,
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
+        )
+
+# @router.post("/prevalidation", response_model=FullClaimValidationResponse)
+# async def eligibility_check_endpoint(
+#     input_data: ClaimInput, 
+#     db: Session = Depends(get_db), 
+#     api_key: str = Depends(get_api_key)
+# ):
+    
+#     patient = (db.query(PatientInformation).filter(PatientInformation.patient_code == input_data.patient_id).first())
+#     if not patient:
+#      raise HTTPException(status_code=404, detail="Patient not found")
+
+#     allowed_money=patient.allowed_money
+#     used_money=patient.used_money
+#     local = prevalidate_claim(input_data, db, allowed_money=allowed_money, used_money=used_money)
+#     if local["is_locally_valid"]:
+#         return JSONResponse(content=local, status_code=status.HTTP_200_OK)
+#     else:
+#         # Return 422 with all the collected warnings/errors
+#         return JSONResponse(
+#             content=local,
+#             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
+#         )
+#     # return {
+#     #     "local_validation": local,
+#     #     "imis_patient": patient.imis_full_response,
+#     #     "eligibility":patient.eligibility_raw
+#     # }
 
 
 # @router.post("/submit_claim/{claim_id}")
@@ -254,8 +302,15 @@ async def submit_claim_endpoint(
         logging.error(f"IMIS submission failed for claim {input.claim_code}: {exc}")
         raise HTTPException(status_code=500, detail=f"IMIS submission failed: {str(exc)}") from exc
 
-    imis_json_str = imis_response.get("response")
-    imis_json = json.loads(imis_json_str) if imis_json_str else {}
+    imis_json_str = (imis_response.get("response") or "").strip()
+    try:
+        imis_json = json.loads(imis_json_str) if imis_json_str else {}
+    except json.JSONDecodeError:
+        logging.error(f"IMIS returned invalid JSON: {imis_json_str!r}")
+        imis_json = {}
+
+
+    #imis_json = json.loads(imis_json_str) if imis_json_str else {}
 
     claim_code = "UNKNOWN_CLAIM_CODE"
     for ident in imis_json.get("identifier", []):
